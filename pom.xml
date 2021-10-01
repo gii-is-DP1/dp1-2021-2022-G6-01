@@ -32,6 +32,38 @@
 
     </properties>
 
+    
+    <developers>
+ <developer>
+ <id>mariorey</id>
+ <name>Mario Rey</name>
+ <email>marioreymario@gmail.com</email>
+ <url>http://www.tmht.com/mario</url>
+ <roles>
+ <role>leader</role>
+ </roles>
+ <properties>
+ <picUrl>
+https://pbs.twimg.com/profile_images/3628079358/92f4c3d5f9819d7228ebe21c7479e828_400x400.jpeg
+</picUrl>
+ </properties>
+ </developer>
+<developer>
+ <id>josperrod9</id>
+ <name>Jose Perez</name>
+ <email>pepe17701@gmail.com</email>
+ <url>pepin.com</url>
+ <roles>
+ <role>tech master</role>
+ </roles>
+ <properties>
+ <picUrl>
+https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfl-G_QBnbCOsZZbPWzg2wHARZfLhus1T52A&usqp=CAU
+</picUrl>
+ </properties>
+ </developer>
+ <!-- More developers ...-->
+</developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
