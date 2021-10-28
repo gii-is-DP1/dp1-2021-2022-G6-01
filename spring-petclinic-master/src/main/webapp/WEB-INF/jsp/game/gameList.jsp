@@ -15,13 +15,14 @@
         <tr>
             <th style="width: 150px;">Name</th>
             <th style="width: 200px;">Review</th>
-            <th>City</th>
+          
             <th style="width: 120px">InGame</th>
+            <th style="width: 120px">Actions</th>
            
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${games}" var="game">
+        <c:forEach items="${game}" var="game">
             <tr>
                 <td>
                     
@@ -35,6 +36,12 @@
                 </td>
                 <td>
                     <c:out value="${game.teamMatch}"/>
+                </td>
+                 <td>
+                 <spring:url value="/game/delete/{gameId}" var="gameUrl">
+                        <spring:param name="gameId" value="${game.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(gameUrl)}"> Delete </a>
                 </td>
                
                 

@@ -12,9 +12,9 @@ public class Game extends NamedEntity {
 
 	private Integer review;
 	
-	private Boolean inGame;
+	private Integer inGame;
 	
-	private Boolean teamMatch;
+	private Integer teamMatch;
 	
 	
 	
