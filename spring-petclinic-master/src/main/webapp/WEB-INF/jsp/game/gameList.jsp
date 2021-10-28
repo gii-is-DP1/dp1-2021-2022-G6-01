@@ -15,8 +15,8 @@
         <tr>
             <th style="width: 150px;">Name</th>
             <th style="width: 200px;">Review</th>
-          
-            <th style="width: 120px">InGame</th>
+          <th style="width: 200px">InGame</th>
+            <th style="width: 120px">TeamMatch</th>
             <th style="width: 120px">Actions</th>
            
         </tr>

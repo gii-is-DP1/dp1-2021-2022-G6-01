@@ -12,9 +12,9 @@ public class Game extends NamedEntity {
 
 	private Integer review;
 	
-	private Integer inGame;
+	private boolean inGame = Boolean.FALSE;
 	
-	private Integer teamMatch;
+	private boolean teamMatch = Boolean.FALSE;
 	
 	
 	
