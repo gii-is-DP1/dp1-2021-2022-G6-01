@@ -15,19 +15,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Game extends NamedEntity {
-	@NotNull
-	private Integer reward;
-	
-	private Boolean inGame;
-	@NotNull
-	@DecimalMax(value="4", inclusive=true)
-	@DecimalMin(value="2", inclusive=true)
-	private Integer players;
-	@NotNull
-	private String gameMode;
-
-	
+public class Dices extends NamedEntity {
+	@DecimalMax(value="6", inclusive=true)
+	@DecimalMin(value="1", inclusive=true)
+	private Integer value1;
+	@DecimalMax(value="6", inclusive=true)
+	@DecimalMin(value="1", inclusive=true)
+	private Integer value2;
 	
 	
 }

@@ -16,8 +16,14 @@
             <div class="form-group has-feedback">
          	  <petclinic:inputField label="Name" name="name"/>
                 <petclinic:inputField label="Reward" name="reward"/>
-                <petclinic:inputField label="In Game" name="inGame"/>
-                 <petclinic:inputField label="Team Match" name="teamMatch"/>
+                <petclinic:inputField label="Players(min 2,max 4)" name="players"/>
+             
+                <form:select path="gameMode">
+              <form:option value="oca" label="oca"/>
+              <form:option value="parchis" label="parchis"/>
+      
+            </form:select>
+                
             </div>
 
             <div class="form-group">
