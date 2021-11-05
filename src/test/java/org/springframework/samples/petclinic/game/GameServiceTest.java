@@ -16,11 +16,11 @@ public class GameServiceTest {
 	
 	private GameService gameService;
 	
-	@Test
-	public void testCountInitialData() {
-		int count = gameService.gameCount();
-		assertEquals(count, 0);
-	}
+//	@Test
+//	public void testCountInitialData() {
+//		int count = gameService.gameCount();
+//		assertEquals(count, 0);
+//	}
 	
 	
 }

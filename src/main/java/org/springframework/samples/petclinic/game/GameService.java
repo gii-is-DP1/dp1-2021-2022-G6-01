@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.samples.petclinic.model.Game;
+import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,10 +18,7 @@ public class GameService {
 	private  GameRepository gameRepo;
 	
 	
-	@Transactional
-	public int gameCount() {
-		return (int) gameRepo.count();
-	}
+
 	
 	@Transactional
 	public Iterable<Game> findAll(){
@@ -28,15 +26,14 @@ public class GameService {
 	}
 	
 	@Transactional
-	public Optional<Game> findGameById(int id){
+	public Game findGameById(int id){
 		return gameRepo.findById(id);
 	}
 	@Transactional
 	public void save(Game game){
 		gameRepo.save(game);
 	}
-	@Transactional
-	public void delete(Game game){
-		gameRepo.delete(game);
-	}
+
+
+
 }
