@@ -100,10 +100,10 @@ public class PlayerController {
 			result.rejectValue("username", "notFound", "not found");
 			return "player/findPlayers";
 		}
-//			else if(results.size()==1) {
-//			player = results.iterator().next();
-//			return "redirect:/players/"+player.getId();
-//		}
+			else if(results.size()==1) {
+			player = results.iterator().next();
+			return "redirect:/players/"+player.getId();
+		}
 		else {
 			modelMap.addAttribute("players",results);
 			return vista;
