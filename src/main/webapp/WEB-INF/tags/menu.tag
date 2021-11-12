@@ -28,10 +28,10 @@
 					<span>Home</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
+				<petclinic:menuItem active="${name eq 'players'}" url="/players/find"
+					title="find players">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
+					<span>Find players</span>
 				</petclinic:menuItem>
 				
 				<petclinic:menuItem active="${name eq 'games'}" url="/games"
@@ -39,28 +39,18 @@
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Find games</span>
 				</petclinic:menuItem>
-
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
+				<petclinic:menuItem active="${name eq 'games2'}" url="/games/new"
+					title="trigger a RuntimeException to see how it is handled">
+					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+					<span>New Game</span>
 				</petclinic:menuItem>
+
+				
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
-				</petclinic:menuItem>
-				
-				<petclinic:menuItem active="${name eq 'games'}" url="/games"
-					title="trigger a RuntimeException to see how it is handled">
-					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-					<span>Join Game</span>
-				</petclinic:menuItem>
-				<petclinic:menuItem active="${name eq 'games2'}" url="/games/new"
-					title="trigger a RuntimeException to see how it is handled">
-					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-					<span>New Game</span>
 				</petclinic:menuItem>
 
 			</ul>
@@ -75,7 +65,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> 
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> 
 							<strong><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>
