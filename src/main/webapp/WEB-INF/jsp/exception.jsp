@@ -4,8 +4,11 @@
 
 <petclinic:layout pageName="error">
 
-	<img class="oops-img" src="resources/images/ups.png">
+    <spring:url value="/resources/images/pets.png" var="petsImage"/>
+    <img src="${petsImage}"/>
 
-    <h2>¡Vaya! Parece que ha habido un error, pulse <a href="/" style="color: #6166B3;">aquí</a> para volver a la página principal</h2>
+    <h2>Something happened...</h2>
+
+    <p>${exception.message}</p>
 
 </petclinic:layout>
