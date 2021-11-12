@@ -56,4 +56,11 @@
         </c:forEach>
         </tbody>
     </table>
+
+    </div>
+    <div class="col-md-2">
+    <a href="/games/new" class="btn btn-primary" id="creacion">�Crea una nueva partida!</a>
+    
+	</div>    
+
 </petclinic:layout>

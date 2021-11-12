@@ -13,11 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-<<<<<<< HEAD:src/main/java/org/springframework/samples/ocayparchis/owner/OwnerService.java
-package org.springframework.samples.ocayparchis.owner;
-=======
 package org.springframework.samples.ocayparchis.player;
->>>>>>> master:src/main/java/org/springframework/samples/ocayparchis/player/PlayerService.java
 
 import java.util.Collection;
 
@@ -35,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  */
 @Service
+
 public class PlayerService {
 
 	private PlayerRepository playerRepository;	
@@ -46,6 +43,7 @@ public class PlayerService {
 	private AuthoritiesService authoritiesService;
 
 	@Autowired
+
 	public PlayerService(PlayerRepository playerRepository) {
 		this.playerRepository = playerRepository;
 	}
