@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.samples.ocayparchis.model.Game;
-import org.springframework.samples.ocayparchis.owner.Owner;
 import org.springframework.stereotype.Service;
 
 @Service
