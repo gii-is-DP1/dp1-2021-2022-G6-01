@@ -17,7 +17,7 @@
          	  <petclinic:inputField label="Name" name="name"/>
                 <petclinic:inputField label="Reward" name="reward"/>
                 <petclinic:inputField label="Players(min 2,max 4)" name="players"/>
-             
+   
                 <form:select path="gameMode">
               <form:option value="oca" label="oca"/>
               <form:option value="parchis" label="parchis"/>
