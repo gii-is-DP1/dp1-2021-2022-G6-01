@@ -50,9 +50,8 @@
         </tbody>
     </table>
     </div>
+    <div class="col-md-2">
+    <a href="/games/new" class="btn btn-primary" id="creacion">¡Crea una nueva partida!</a>
     
-    <a href="/games/new"><button type="button" class="btn btn-default"><p>Crear nueva partida</p></button></a>
-    
-    
-    
+	</div>    
 </petclinic:layout>
