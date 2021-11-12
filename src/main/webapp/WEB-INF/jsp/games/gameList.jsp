@@ -15,9 +15,10 @@
         <tr>
             <th style="width: 150px;">Name</th>
             <th style="width: 200px;">Reward</th>
-            <th>InGame</th>
-            <th style="width: 120px">TeamMatch</th>
+            <th style="width: 200px;">Players</th>
+            <th style="width: 200px;">Game Mode</th>
              <th style="width: 120px">Actions</th>
+              
            
         </tr>
         </thead>
@@ -31,19 +32,26 @@
                 <td>
                     <c:out value="${game.reward}"/>
                 </td>
-                <td>
-                    <c:out value="${game.inGame}"/>
-                </td>
-                <td>
-                    <c:out value="${game.teamMatch}"/>
-                </td>
-                <td>
-                 <spring:url value="/games/delete/{gameId}" var="gameUrl">
-                        <spring:param name="gameId" value="${game.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(gameUrl)}">Delete</a>
+           
+                  <td>
+                    <c:out value="${game.players}"/>
                 </td>
                 
+                    <td>
+                    <c:out value="${game.gameMode}"/>
+                </td>
+                 <td>
+                 <spring:url value="/games/{gameId}/edit" var="editUrl">
+                        <spring:param name="gameId" value="${game.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(editUrl)}">Edit</a>
+                </td>
+                 <td>
+                 <spring:url value="/games/{gameId}" var="joinUrl">
+                        <spring:param name="gameId" value="${game.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(joinUrl)}">JOIN</a>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
