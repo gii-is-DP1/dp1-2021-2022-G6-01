@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.ocayparchis.owner;
+package org.springframework.samples.ocayparchis.player;
 
 import java.util.Collection;
 
@@ -31,9 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  */
 @Service
-public class OwnerService {
+public class PlayerService {
 
-	private OwnerRepository ownerRepository;	
+	private PlayerRepository playerRepository;	
 	
 	@Autowired
 	private UserService userService;
@@ -42,28 +42,32 @@ public class OwnerService {
 	private AuthoritiesService authoritiesService;
 
 	@Autowired
-	public OwnerService(OwnerRepository ownerRepository) {
-		this.ownerRepository = ownerRepository;
-	}	
-
-	@Transactional(readOnly = true)
-	public Owner findOwnerById(int id) throws DataAccessException {
-		return ownerRepository.findById(id);
+	public PlayerService(PlayerRepository playerRepository) {
+		this.playerRepository = playerRepository;
+	}
+	
+	public Iterable<Player> findAll() {
+		return playerRepository.findAll();
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException {
-		return ownerRepository.findByLastName(lastName);
+	public Player findPlayerById(int id) throws DataAccessException {
+		return playerRepository.findById(id).get();
+	}
+
+	@Transactional(readOnly = true)
+	public Collection<Player> findPlayerByUsername(String username) throws DataAccessException {
+		return playerRepository.findByUserName(username);
 	}
 
 	@Transactional
-	public void saveOwner(Owner owner) throws DataAccessException {
+	public void savePlayer(Player player) throws DataAccessException {
 		//creating owner
-		ownerRepository.save(owner);		
+		playerRepository.save(player);		
 		//creating user
-		userService.saveUser(owner.getUser());
+		userService.saveUser(player.getUser());
 		//creating authorities
-		authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
+		authoritiesService.saveAuthorities(player.getUser().getUsername(), "player");
 	}		
 
 }

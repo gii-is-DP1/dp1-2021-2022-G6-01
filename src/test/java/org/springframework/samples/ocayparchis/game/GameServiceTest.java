@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.game;
+package org.springframework.samples.ocayparchis.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
