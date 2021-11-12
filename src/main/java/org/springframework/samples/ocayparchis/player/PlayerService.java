@@ -31,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  */
 @Service
-
 public class PlayerService {
 
 	private PlayerRepository playerRepository;	
@@ -43,7 +42,6 @@ public class PlayerService {
 	private AuthoritiesService authoritiesService;
 
 	@Autowired
-
 	public PlayerService(PlayerRepository playerRepository) {
 		this.playerRepository = playerRepository;
 	}

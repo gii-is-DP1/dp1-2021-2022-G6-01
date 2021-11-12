@@ -8,50 +8,59 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="games">
-    <h2>JUEGOS</h2>
+    <h2>Games</h2>
 
-<div class="wrap-table">
-    <table id="gamesTable" class="table table-hover ">
+    <table id="gamesTable" class="table table-striped">
         <thead>
-        <tr class="row table-header">
-            <th style="padding-left: 25px;">Nombre</th>
-            <th>Recompensa</th>
-            <th>En juego</th>
-            <th>Partida por equipos</th>
-             <th>Acciones</th>
+        <tr>
+            <th style="width: 150px;">Name</th>
+            <th style="width: 200px;">Reward</th>
+            <th style="width: 200px;">Players</th>
+            <th style="width: 200px;">Game Mode</th>
+             <th style="width: 120px">Actions</th>
+              
            
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${games}" var="game">
-            <tr class="row">
-                <td style="padding-left: 25px;">
+            <tr>
+                <td>
                    
                    <c:out value="${game.name}"/>
                 </td>
                 <td>
                     <c:out value="${game.reward}"/>
                 </td>
-                <td>
-                    <c:out value="${game.inGame}"/>
-                </td>
-                <td>
-                    <c:out value="${game.teamMatch}"/>
-                </td>
-                <td>
-                 <spring:url value="/games/delete/{gameId}" var="gameUrl">
-                        <spring:param name="gameId" value="${game.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(gameUrl)}">Delete</a>
+           
+                  <td>
+                    <c:out value="${game.players}"/>
                 </td>
                 
+                    <td>
+                    <c:out value="${game.gameMode}"/>
+                </td>
+                 <td>
+                 <spring:url value="/games/{gameId}/edit" var="editUrl">
+                        <spring:param name="gameId" value="${game.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(editUrl)}">Edit</a>
+                </td>
+                 <td>
+                 <spring:url value="/games/{gameId}" var="joinUrl">
+                        <spring:param name="gameId" value="${game.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(joinUrl)}">JOIN</a>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+
     </div>
     <div class="col-md-2">
-    <a href="/games/new" class="btn btn-primary" id="creacion">¡Crea una nueva partida!</a>
+    <a href="/games/new" class="btn btn-primary" id="creacion">ï¿½Crea una nueva partida!</a>
     
 	</div>    
+
 </petclinic:layout>
