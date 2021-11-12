@@ -26,7 +26,7 @@ public class GameService {
 	
 	@Transactional
 	public Game findGameById(int id){
-		return gameRepo.findById(id);
+		return gameRepo.findById(id).get();
 	}
 	@Transactional
 	public void save(Game game){
