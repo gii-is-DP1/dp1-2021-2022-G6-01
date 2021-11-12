@@ -8,24 +8,24 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="games">
-    <h2>Games</h2>
+    <h2>JUEGOS</h2>
 
-    <table id="gamesTable" class="table table-striped">
+<div class="wrap-table">
+    <table id="gamesTable" class="table table-hover ">
         <thead>
-        <tr>
-            <th style="width: 150px;">Name</th>
-            <th style="width: 200px;">Reward</th>
-            <th style="width: 200px;">Players</th>
-            <th style="width: 200px;">Game Mode</th>
-             <th style="width: 120px">Actions</th>
-              
+        <tr class="row table-header">
+            <th style="padding-left: 25px;">Nombre</th>
+            <th>Recompensa</th>
+            <th>En juego</th>
+            <th>Partida por equipos</th>
+             <th>Acciones</th>
            
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${games}" var="game">
-            <tr>
-                <td>
+            <tr class="row">
+                <td style="padding-left: 25px;">
                    
                    <c:out value="${game.name}"/>
                 </td>
@@ -56,4 +56,10 @@
         </c:forEach>
         </tbody>
     </table>
+    </div>
+    
+    <a href="/games/new"><button type="button" class="btn btn-default"><p>Crear nueva partida</p></button></a>
+    
+    
+    
 </petclinic:layout>
