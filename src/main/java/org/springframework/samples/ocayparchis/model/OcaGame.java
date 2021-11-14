@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Game extends NamedEntity {
+public class OcaGame extends NamedEntity {
 	@NotNull
 	private Integer reward;
 	
@@ -22,8 +22,6 @@ public class Game extends NamedEntity {
 	@DecimalMax(value="4", inclusive=true)
 	@DecimalMin(value="2", inclusive=true)
 	private Integer players;
-	@NotNull
-	private String gameMode;
 
 	
 	

@@ -58,7 +58,7 @@
 				<div class="card">
 
 					<div class="inner">
-						<a href="/games"><img class="card-img-top" src="resources/images/tablero_oca.jpg"
+						<a href="/ocaGames"><img class="card-img-top" src="resources/images/tablero_oca.jpg"
 							alt="Dubai"></a>
 					</div>
 
@@ -68,7 +68,7 @@
 							ella. Pueden jugar hasta 4 jugadores lanzando el dado al azar, y
 							avanzando en las diferentes casillas, que tienen premios o
 							castigos.</h3>
-						<a href="/games" class="btn btn-success">¡JUEGA AHORA!</a>
+						<a href="/ocaGames" class="btn btn-success">¡JUEGA AHORA!</a>
 					</div>
 				</div>
 			</section>

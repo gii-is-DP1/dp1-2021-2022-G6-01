@@ -6,30 +6,30 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.samples.ocayparchis.model.Game;
+import org.springframework.samples.ocayparchis.model.OcaGame;
 import org.springframework.stereotype.Service;
 
 @Service
 
-public class GameService {
+public class OcaGameService {
 
 	@Autowired
-	private  GameRepository gameRepo;
+	private  OcaGameRepository gameRepo;
 	
 	
 
 	
 	@Transactional
-	public Iterable<Game> findAll(){
+	public Iterable<OcaGame> findAll(){
 		return gameRepo.findAll();
 	}
 	
 	@Transactional
-	public Game findGameById(int id){
+	public OcaGame findGameById(int id){
 		return gameRepo.findById(id).get();
 	}
 	@Transactional
-	public void save(Game game){
+	public void save(OcaGame game){
 		gameRepo.save(game);
 	}
 
