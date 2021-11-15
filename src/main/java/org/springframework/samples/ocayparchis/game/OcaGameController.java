@@ -95,8 +95,9 @@ public class OcaGameController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if(auth!=null) {
 			if (auth.isAuthenticated()) {
-				User currentuser = (User) auth.getPrincipal();
-				System.out.println(currentuser.getUsername());
+				String username = auth.getName();
+				Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
+				currentPlayer.setOcaGame(this.ocaGameService.findGameById(ocaGameId));
 			}
 		}
 		mav.addObject(this.ocaGameService.findGameById(ocaGameId));
