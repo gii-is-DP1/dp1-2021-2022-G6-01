@@ -30,5 +30,8 @@
 							alt="Dubai"></td>
         </tr>
     </table>
+    <form:form action="${pageContext.request.contextPath}/myservlet" method="get">  
+      <button type="submit" name="btn1" value="${ocaTurn.id}">Button 1</button>
+</form:form>  
 
 </petclinic:layout>
