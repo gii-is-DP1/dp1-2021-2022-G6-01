@@ -1,12 +1,15 @@
 package org.springframework.samples.ocayparchis.game;
 
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.ocayparchis.board.OcaBoard;
 import org.springframework.samples.ocayparchis.board.OcaBoardService;
 import org.springframework.samples.ocayparchis.model.OcaGame;
+import org.springframework.samples.ocayparchis.model.OcaTurn;
 import org.springframework.samples.ocayparchis.player.Player;
 import org.springframework.samples.ocayparchis.player.PlayerService;
 import org.springframework.samples.ocayparchis.user.User;
@@ -18,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,6 +37,8 @@ public class OcaGameController {
 	private OcaBoardService ocaBoardService;
 	@Autowired
 	private PlayerService playerService;
+	@Autowired
+	private OcaTurnService ocaTurnService;
 	@GetMapping()
 	public String gameList(ModelMap modelMap){
 		String vista = "ocaGames/gameList";
@@ -50,7 +56,7 @@ public class OcaGameController {
 		
 	}
 	@PostMapping(path="/save")
-	public String saveGame(@Valid OcaGame game,@Valid OcaBoard board,BindingResult result,ModelMap modelMap){
+	public String saveGame(@Valid OcaGame game,@Valid OcaBoard board,@Valid OcaTurn turn,BindingResult result,ModelMap modelMap){
 		String view = "ocaGames/gameList";
 		if(result.hasErrors()) {
 			modelMap.addAttribute("game",game);
@@ -58,6 +64,7 @@ public class OcaGameController {
 			
 		}else
 		{
+			ocaTurnService.save(turn);
 			ocaBoardService.save(board);
 			ocaGameService.save(game);
 			modelMap.addAttribute("message","game successfully saved");
@@ -93,13 +100,20 @@ public class OcaGameController {
 	public ModelAndView showplayer(@PathVariable("ocaGameId") int ocaGameId) {
 		ModelAndView mav = new ModelAndView("ocaGames/ocaGameDetails");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
 		if(auth!=null) {
 			if (auth.isAuthenticated()) {
 				String username = auth.getName();
 				Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
 				currentPlayer.setOcaGame(this.ocaGameService.findGameById(ocaGameId));
+				List<Player> players = turn.getPlayers();
+				if(!(players.contains(currentPlayer))) {
+					players.add(currentPlayer);
+					currentPlayer.setOcaTurns(turn);
+				}
 			}
 		}
+		mav.addObject(turn);
 		mav.addObject(this.ocaGameService.findGameById(ocaGameId));
 		mav.addObject(this.ocaBoardService.findById(ocaGameId));
 		return mav;

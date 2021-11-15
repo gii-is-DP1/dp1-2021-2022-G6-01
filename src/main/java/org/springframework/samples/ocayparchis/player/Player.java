@@ -36,6 +36,7 @@ import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.ocayparchis.model.OcaGame;
+import org.springframework.samples.ocayparchis.model.OcaTurn;
 import org.springframework.samples.ocayparchis.model.Person;
 import org.springframework.samples.ocayparchis.user.User;
 
@@ -65,6 +66,8 @@ public class Player extends Person {
 	
 	@ManyToOne
 	private OcaGame ocaGame;
+	@ManyToOne
+	private OcaTurn ocaTurn;
 	//
 	
 
@@ -87,6 +90,14 @@ public class Player extends Person {
 	
 	public void setOcaGame(OcaGame ocaGame) {
 		this.ocaGame = ocaGame;
+	}
+	
+	public OcaTurn getOcaTurn() {
+		return ocaTurn;
+	}
+	
+	public void setOcaTurns(OcaTurn ocaTurn) {
+		this.ocaTurn = ocaTurn;
 	}
 	
 	public String getDescription() {
