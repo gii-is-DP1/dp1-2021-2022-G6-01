@@ -34,6 +34,7 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.samples.ocayparchis.model.OcaGame;
 import org.springframework.samples.ocayparchis.model.Person;
 import org.springframework.samples.ocayparchis.user.User;
 
@@ -60,6 +61,10 @@ public class Player extends Person {
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "name", referencedColumnName = "name")
+	private OcaGame ocaGame;
 	//
 	
 
@@ -75,7 +80,15 @@ public class Player extends Person {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
+	
+	public OcaGame getOcaGame() {
+		return ocaGame;
+	}
+	
+	public void setOcaGame(OcaGame ocaGame) {
+		this.ocaGame = ocaGame;
+	}
+	
 	public String getDescription() {
 		return description;
 	}

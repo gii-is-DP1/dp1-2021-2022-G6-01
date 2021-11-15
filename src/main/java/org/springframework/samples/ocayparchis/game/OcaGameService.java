@@ -14,23 +14,23 @@ import org.springframework.stereotype.Service;
 public class OcaGameService {
 
 	@Autowired
-	private  OcaGameRepository gameRepo;
+	private  OcaGameRepository ocaGameRepo;
 	
 	
 
 	
 	@Transactional
 	public Iterable<OcaGame> findAll(){
-		return gameRepo.findAll();
+		return ocaGameRepo.findAll();
 	}
 	
 	@Transactional
 	public OcaGame findGameById(int id){
-		return gameRepo.findById(id).get();
+		return ocaGameRepo.findById(id).get();
 	}
 	@Transactional
 	public void save(OcaGame game){
-		gameRepo.save(game);
+		ocaGameRepo.save(game);
 	}
 
 
