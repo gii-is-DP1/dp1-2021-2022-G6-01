@@ -113,9 +113,13 @@ public class OcaGameController {
 				}
 			}
 		}
+		String username = auth.getName();
+		Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
+		mav.addObject(currentPlayer);
 		mav.addObject(turn);
 		mav.addObject(this.ocaGameService.findGameById(ocaGameId));
 		mav.addObject(this.ocaBoardService.findById(ocaGameId));
 		return mav;
 	}
+
 }

@@ -11,14 +11,7 @@
 
 
     <table class="table table-striped">
-    <tr>
-            <th>Username</th>
-            <td><c:out value="${ocaGame.reward}"/></td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td><b><c:out value="${ocaGame.players }"/></b></td>
-        </tr>
+
         
         <tr>
             <th>Points</th>
@@ -29,9 +22,26 @@
             <td><img class="card-img-top" src="/resources/images/tablero_oca.jpg"
 							alt="Dubai"></td>
         </tr>
+         <tr>
+         <th>DICE</th>
+            <td><c:out value="${ocaTurn.dice}"/></td>
+     
+          </tr>
+                 <tr>
+            <th>TURN</th>
+            <td><c:out value="${ocaTurn.turn}"/></td>
+        </tr>
+        <tr>
+         <th>PLAYER</th>
+            <td><c:out value="${ocaTurn.player.user.username}"/></td>
+     
+          </tr>
+        
     </table>
-    <form:form action="${pageContext.request.contextPath}/myservlet" method="get">  
-      <button type="submit" name="btn1" value="${ocaTurn.id}">Button 1</button>
-</form:form>  
+      <spring:url value="/ocaTurn/{gameId}/{playerId}" var="joinUrl">
+                        <spring:param name="gameId" value="${ocaGame.id}"/>
+                          <spring:param name="playerId" value="${player.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(joinUrl)}">JOIN</a>
 
 </petclinic:layout>
