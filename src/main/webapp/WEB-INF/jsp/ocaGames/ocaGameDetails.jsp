@@ -36,12 +36,28 @@
             <td><c:out value="${ocaTurn.player.user.username}"/></td>
      
           </tr>
-        
+           <tr>
+         <th>Your Position</th>
+            <td><c:out value="${player.ocaPiece.position}"/></td>
+     
+          </tr>
+          
+          
     </table>
-      <spring:url value="/ocaTurn/{gameId}/{playerId}" var="joinUrl">
+    <div class="col-md-3">
+           <c:choose>
+                    <c:when test="${player.id==ocaTurn.player.id}">
+                        <spring:url value="/ocaTurn/{gameId}/{playerId}" var="joinUrl">
                         <spring:param name="gameId" value="${ocaGame.id}"/>
                           <spring:param name="playerId" value="${player.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(joinUrl)}">JOIN</a>
+                    <a class="btn btn-primary" href="${fn:escapeXml(joinUrl)}">ROLL IT MOTHER FUCKER</a>
+                    </c:when>
+                    <c:otherwise>
+                        <p> NO ES TU TURNO </p> 
+                    </c:otherwise>
+                </c:choose>
+        </div>
+      
 
 </petclinic:layout>

@@ -8,8 +8,11 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.ocayparchis.board.OcaBoard;
 import org.springframework.samples.ocayparchis.board.OcaBoardService;
+import org.springframework.samples.ocayparchis.model.Game;
 import org.springframework.samples.ocayparchis.model.OcaGame;
 import org.springframework.samples.ocayparchis.model.OcaTurn;
+import org.springframework.samples.ocayparchis.pieces.OcaPiece;
+import org.springframework.samples.ocayparchis.pieces.OcaPieceService;
 import org.springframework.samples.ocayparchis.player.Player;
 import org.springframework.samples.ocayparchis.player.PlayerService;
 import org.springframework.samples.ocayparchis.user.User;
@@ -39,12 +42,38 @@ public class OcaGameController {
 	private PlayerService playerService;
 	@Autowired
 	private OcaTurnService ocaTurnService;
+	@Autowired
+	private OcaPieceService ocaPieceService;
 	@GetMapping()
 	public String gameList(ModelMap modelMap){
 		String vista = "ocaGames/gameList";
 		Iterable<OcaGame> games=ocaGameService.findAll();
 		modelMap.addAttribute("games",games);
 		return vista;
+		
+	}
+	@GetMapping(path="/winner/{ocaGameId}/{playerId}")
+	public ModelAndView showWinner(@PathVariable("playerId") int playerId,@PathVariable("ocaGameId") int ocaGameId) {
+		ModelAndView mav = new ModelAndView("ocaGames/winner");
+		Player player = this.playerService.findPlayerById(playerId);
+		OcaGame ocaGame = this.ocaGameService.findGameById(ocaGameId);
+		player.setPoints(player.getPoints()+ocaGame.getReward());
+		this.playerService.savePlayer(player);
+		mav.addObject(ocaGame);
+		mav.addObject(player);
+		return mav;
+	}
+	
+	@GetMapping(path="/delete/{ocaGameId}")
+	public String deleteGame(@PathVariable("ocaGameId") int ocaGameId){
+		OcaGame game =this.ocaGameService.findGameById(ocaGameId);
+		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
+		for(Player p: turn.getPlayers()) {
+			this.ocaPieceService.delete(p.getOcaPiece());
+		}
+		this.ocaGameService.delete(game);
+		this.ocaTurnService.delete(turn);
+		return "redirect:/";
 		
 	}
 	@GetMapping(path="/new")
@@ -56,7 +85,8 @@ public class OcaGameController {
 		
 	}
 	@PostMapping(path="/save")
-	public String saveGame(@Valid OcaGame game,@Valid OcaBoard board,@Valid OcaTurn turn,BindingResult result,ModelMap modelMap){
+	public String saveGame(@Valid OcaGame game,@Valid OcaBoard board,@Valid OcaTurn turn,
+			@Valid OcaPiece piece,BindingResult result,ModelMap modelMap){
 		String view = "ocaGames/gameList";
 		if(result.hasErrors()) {
 			modelMap.addAttribute("game",game);
@@ -101,6 +131,7 @@ public class OcaGameController {
 		ModelAndView mav = new ModelAndView("ocaGames/ocaGameDetails");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
+		
 		if(auth!=null) {
 			if (auth.isAuthenticated()) {
 				String username = auth.getName();
@@ -108,8 +139,15 @@ public class OcaGameController {
 				currentPlayer.setOcaGame(this.ocaGameService.findGameById(ocaGameId));
 				List<Player> players = turn.getPlayers();
 				if(!(players.contains(currentPlayer))) {
+					OcaPiece piece = new OcaPiece();
 					players.add(currentPlayer);
 					currentPlayer.setOcaTurns(turn);
+					if(currentPlayer==turn.getPlayers().get(0)) {
+						turn.setPlayer(currentPlayer);
+						this.ocaTurnService.save(turn);
+					}
+					this.ocaPieceService.save(piece);
+					currentPlayer.setOcaPiece(piece);
 				}
 			}
 		}

@@ -26,6 +26,11 @@ public class OcaTurnService {
 	public void save(OcaTurn turn){
 		ocaTurnRepo.save(turn);
 	}
+	@Transactional
+	public void delete(OcaTurn turn) {
+		ocaTurnRepo.delete(turn);
+		
+	}
 	
 	
 

@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.samples.ocayparchis.model.OcaGame;
+import org.springframework.samples.ocayparchis.pieces.OcaPiece;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,7 +33,11 @@ public class OcaGameService {
 	public void save(OcaGame game){
 		ocaGameRepo.save(game);
 	}
-
+	
+	@Transactional
+	public void delete(OcaGame game){
+		ocaGameRepo.delete(game);
+	}
 
 
 }

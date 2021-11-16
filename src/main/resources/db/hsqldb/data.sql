@@ -10,4 +10,4 @@ INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
 
 INSERT INTO users(username,password,enabled) VALUES ('1','1',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (4,'1','player');
-INSERT INTO players(id,first_name,last_name,description,username) VALUES ('1','1','1','1','1');
+INSERT INTO players(id,first_name,last_name,description,username,points) VALUES ('1','1','1','1','1',1);

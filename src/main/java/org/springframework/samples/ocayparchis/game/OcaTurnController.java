@@ -10,6 +10,8 @@ import org.springframework.samples.ocayparchis.board.OcaBoard;
 import org.springframework.samples.ocayparchis.board.OcaBoardService;
 import org.springframework.samples.ocayparchis.model.OcaGame;
 import org.springframework.samples.ocayparchis.model.OcaTurn;
+import org.springframework.samples.ocayparchis.pieces.OcaPiece;
+import org.springframework.samples.ocayparchis.pieces.OcaPieceService;
 import org.springframework.samples.ocayparchis.player.Player;
 import org.springframework.samples.ocayparchis.player.PlayerService;
 import org.springframework.samples.ocayparchis.user.User;
@@ -33,17 +35,35 @@ public class OcaTurnController {
 	
 	@Autowired
 	private OcaTurnService ocaTurnService;
-	
+	@Autowired
+	private PlayerService playerService;
+	@Autowired
+	private OcaPieceService ocaPieceService;
+	@Autowired
+	private OcaGameService ocaGameService;
 	
 
 	
 	@GetMapping(path="/{ocaGameId}/{playerId}")
 	public String playTurn(@PathVariable("ocaGameId") int ocaGameId,@PathVariable("playerId") int playerId){
 		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
-		
 		turn.throwDice();
 		turn.nextTurn();
+		Integer dice = turn.getDice();
+		OcaPiece piece = this.playerService.findPlayerById(playerId).getOcaPiece();
+		if ((piece.getPosition()+dice)==63) {
+			return "redirect:/ocaGames/winner/"+ocaGameId+"/"+playerId;
+		}else {
+			if (piece.getPosition()+dice>63) {
+				piece.setPosition(63-(piece.getPosition()+dice-63));
+			}else {
+				piece.setPosition(piece.getPosition()+dice);
+			}
+		}
 		
+		
+		
+		this.ocaPieceService.save(piece);
 		this.ocaTurnService.save(turn);
 		
 		return "redirect:/ocaGames/"+ocaGameId;

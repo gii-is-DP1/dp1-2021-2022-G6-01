@@ -3,6 +3,7 @@ package org.springframework.samples.ocayparchis.model;
 import java.util.List;
 import java.util.Random;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -20,7 +21,7 @@ public class OcaTurn extends BaseEntity{
 	private Integer turn;
     private Integer i;//puntero
     
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Player>players;
     @OneToOne
     private Player player;

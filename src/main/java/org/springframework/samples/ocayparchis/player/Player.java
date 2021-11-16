@@ -38,6 +38,7 @@ import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.ocayparchis.model.OcaGame;
 import org.springframework.samples.ocayparchis.model.OcaTurn;
 import org.springframework.samples.ocayparchis.model.Person;
+import org.springframework.samples.ocayparchis.pieces.OcaPiece;
 import org.springframework.samples.ocayparchis.user.User;
 
 /**
@@ -57,20 +58,26 @@ public class Player extends Person {
 	private String description;
 
 	@Column(name = "points")
-	private String points;
+	private Integer points;
 	
 	//
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private OcaGame ocaGame;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private OcaTurn ocaTurn;
+	@OneToOne(cascade = CascadeType.ALL)
+    private OcaPiece piece;
 	//
 	
 
+	public Player() {
+		this.points=1;
+	}
+	
 	public User getUser() {
 		return user;
 	}
@@ -100,6 +107,13 @@ public class Player extends Person {
 		this.ocaTurn = ocaTurn;
 	}
 	
+	public OcaPiece getOcaPiece() {
+		return piece;
+	}
+	
+	public void setOcaPiece(OcaPiece ocaPiece) {
+		this.piece = ocaPiece;
+	}
 	public String getDescription() {
 		return description;
 	}
@@ -108,11 +122,11 @@ public class Player extends Person {
 		this.description = description;
 	}
 
-	public String getPoints() {
+	public Integer getPoints() {
 		return points;
 	}
 
-	public void setPoints(String points) {
+	public void setPoints(Integer points) {
 		this.points = points;
 	}
 
