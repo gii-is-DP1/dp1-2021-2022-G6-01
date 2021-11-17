@@ -45,12 +45,12 @@ public class OcaTurnController {
 
 	
 	@GetMapping(path="/{ocaGameId}/{playerId}")
-	public String playTurn(@PathVariable("ocaGameId") int ocaGameId,@PathVariable("playerId") int playerId){
+	public String playTurn(@PathVariable("ocaGameId") int ocaGameId,@PathVariable("playerId") Integer playerId){
 		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
 		turn.throwDice();
 		turn.nextTurn();
 		Integer dice = turn.getDice();
-		OcaPiece piece = this.playerService.findPlayerById(playerId).getOcaPiece();
+		OcaPiece piece = this.ocaPieceService.findByPlayerId(playerId);
 		if ((piece.getPosition()+dice)==63) {
 			return "redirect:/ocaGames/winner/"+ocaGameId+"/"+playerId;
 		}else {

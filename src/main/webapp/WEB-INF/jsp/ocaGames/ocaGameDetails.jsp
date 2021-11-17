@@ -38,8 +38,7 @@
           </tr>
            <tr>
          <th>Your Position</th>
-            <td><c:out value="${player.ocaPiece.position}"/></td>
-     
+            <td><c:out value="${ocaPiece.position}"/></td>
           </tr>
           
           

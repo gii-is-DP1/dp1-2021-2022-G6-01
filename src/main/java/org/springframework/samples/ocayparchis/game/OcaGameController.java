@@ -69,8 +69,10 @@ public class OcaGameController {
 		OcaGame game =this.ocaGameService.findGameById(ocaGameId);
 		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
 		for(Player p: turn.getPlayers()) {
-			this.ocaPieceService.delete(p.getOcaPiece());
+			this.ocaPieceService.delete(this.ocaPieceService.findByPlayerId(p.getId()));
 		}
+		turn.setPlayer(null);
+		turn.setPlayers(null);
 		this.ocaGameService.delete(game);
 		this.ocaTurnService.delete(turn);
 		return "redirect:/";
@@ -127,30 +129,34 @@ public class OcaGameController {
 //	}
 	
 	@GetMapping("/{ocaGameId}")
-	public ModelAndView showplayer(@PathVariable("ocaGameId") int ocaGameId) {
+	public ModelAndView showGame(@PathVariable("ocaGameId") int ocaGameId) {
 		ModelAndView mav = new ModelAndView("ocaGames/ocaGameDetails");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
-		
+		OcaPiece piece = new OcaPiece();
 		if(auth!=null) {
 			if (auth.isAuthenticated()) {
 				String username = auth.getName();
 				Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
-				currentPlayer.setOcaGame(this.ocaGameService.findGameById(ocaGameId));
 				List<Player> players = turn.getPlayers();
 				if(!(players.contains(currentPlayer))) {
-					OcaPiece piece = new OcaPiece();
+					
 					players.add(currentPlayer);
-					currentPlayer.setOcaTurns(turn);
 					if(currentPlayer==turn.getPlayers().get(0)) {
 						turn.setPlayer(currentPlayer);
 						this.ocaTurnService.save(turn);
 					}
+					piece.setPlayer(currentPlayer);
 					this.ocaPieceService.save(piece);
-					currentPlayer.setOcaPiece(piece);
+					 
+				}
+				OcaPiece piece_2=this.ocaPieceService.findByPlayerId(currentPlayer.getId());
+				if(piece_2!=null) {
+					piece = piece_2;
 				}
 			}
 		}
+		mav.addObject(piece);
 		String username = auth.getName();
 		Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
 		mav.addObject(currentPlayer);

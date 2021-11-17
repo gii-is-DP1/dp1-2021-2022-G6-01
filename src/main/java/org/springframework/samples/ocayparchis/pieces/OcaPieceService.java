@@ -33,4 +33,8 @@ public class OcaPieceService {
 	}
 	
 
+	@Transactional
+	public OcaPiece findByPlayerId(Integer playerId) {
+		return ocaPieceRepo.findByPlayerId(playerId).iterator().next();
+	}
 }

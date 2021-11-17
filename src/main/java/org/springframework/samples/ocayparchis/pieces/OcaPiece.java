@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -12,6 +13,7 @@ import javax.validation.constraints.DecimalMin;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.samples.ocayparchis.board.OcaBoard;
 import org.springframework.samples.ocayparchis.model.BaseEntity;
+import org.springframework.samples.ocayparchis.player.Player;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +32,9 @@ public class OcaPiece extends BaseEntity{
 	
 	@ManyToOne(cascade = CascadeType.ALL)
     OcaBoard board;
+	
+	@OneToOne
+	private Player player;
 	
 	public OcaPiece() {
 		this.position=1;

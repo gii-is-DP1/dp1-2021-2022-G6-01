@@ -64,15 +64,6 @@ public class Player extends Person {
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-	private OcaGame ocaGame;
-	@ManyToOne(cascade = CascadeType.ALL)
-	private OcaTurn ocaTurn;
-	@OneToOne(cascade = CascadeType.ALL)
-    private OcaPiece piece;
-	//
-	
 
 	public Player() {
 		this.points=1;
@@ -91,29 +82,6 @@ public class Player extends Person {
 		this.user = user;
 	}
 	
-	public OcaGame getOcaGame() {
-		return ocaGame;
-	}
-	
-	public void setOcaGame(OcaGame ocaGame) {
-		this.ocaGame = ocaGame;
-	}
-	
-	public OcaTurn getOcaTurn() {
-		return ocaTurn;
-	}
-	
-	public void setOcaTurns(OcaTurn ocaTurn) {
-		this.ocaTurn = ocaTurn;
-	}
-	
-	public OcaPiece getOcaPiece() {
-		return piece;
-	}
-	
-	public void setOcaPiece(OcaPiece ocaPiece) {
-		this.piece = ocaPiece;
-	}
 	public String getDescription() {
 		return description;
 	}
