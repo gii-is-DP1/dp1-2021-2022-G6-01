@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.ocaBusinessRules.OcaRules;
 import org.springframework.samples.ocayparchis.board.OcaBoard;
 import org.springframework.samples.ocayparchis.board.OcaBoardService;
 import org.springframework.samples.ocayparchis.model.OcaGame;
@@ -48,7 +49,6 @@ public class OcaTurnController {
 	public String playTurn(@PathVariable("ocaGameId") int ocaGameId,@PathVariable("playerId") Integer playerId){
 		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
 		turn.throwDice();
-		turn.nextTurn();
 		Integer dice = turn.getDice();
 		OcaPiece piece = this.ocaPieceService.findByPlayerId(playerId);
 		if ((piece.getPosition()+dice)==63) {
@@ -60,8 +60,55 @@ public class OcaTurnController {
 				piece.setPosition(piece.getPosition()+dice);
 			}
 		}
+		Integer position=piece.getPosition();
 		
+		Integer pen=OcaRules.getpen(position);
 		
+	    if(pen>0&&piece.getPenalization()<pen){
+	         piece.setPenalization(piece.getPenalization()+1);
+	         turn.nextTurn();
+	    }
+	    
+	    else if(pen>0&&piece.getPenalization()==pen) {
+	        piece.setPenalization(0);
+	    }
+	    
+	    
+	    
+	    
+		if(OcaRules.isLabyrinth(position)) {
+			piece.setPosition(OcaRules.labyrinth(position));
+		}
+		if(OcaRules.isDeath(position)) {
+			piece.setPosition(OcaRules.death(position));
+		}
+		if(OcaRules.repeatTurn(position)) {
+			if(OcaRules.isOca(position)) {
+				piece.setPosition(OcaRules.oca(position));
+				
+				
+			}
+			if(OcaRules.isDices(position)) {
+				piece.setPosition(OcaRules.dices(position));
+				
+				
+			}
+			if(OcaRules.isBridge(position)) {
+				piece.setPosition(OcaRules.bridge(position));
+				
+				
+			}
+
+			this.ocaPieceService.save(piece);
+			this.ocaTurnService.save(turn);
+			return "redirect:/ocaGames/"+ocaGameId;
+			
+			
+			
+		
+		}
+		
+		turn.nextTurn();
 		
 		this.ocaPieceService.save(piece);
 		this.ocaTurnService.save(turn);

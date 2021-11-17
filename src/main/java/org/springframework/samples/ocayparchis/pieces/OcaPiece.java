@@ -36,6 +36,8 @@ public class OcaPiece extends BaseEntity{
 	@OneToOne
 	private Player player;
 	
+	private Integer penalization;
+	
 	public OcaPiece() {
 		this.position=1;
 	}
