@@ -96,6 +96,7 @@ public class OcaGameController {
 			
 		}else
 		{
+			turn.TurnInit();
 			ocaTurnService.save(turn);
 			ocaBoardService.save(board);
 			ocaGameService.save(game);
@@ -150,6 +151,8 @@ public class OcaGameController {
 					this.ocaPieceService.save(piece);
 					 
 				}
+				piece.setPlayer(currentPlayer);
+				this.ocaPieceService.save(piece);
 				OcaPiece piece_2=this.ocaPieceService.findByPlayerId(currentPlayer.getId());
 				if(piece_2!=null) {
 					piece = piece_2;

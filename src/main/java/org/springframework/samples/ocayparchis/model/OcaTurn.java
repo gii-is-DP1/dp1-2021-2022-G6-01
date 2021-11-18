@@ -18,6 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OcaTurn extends BaseEntity{
+	
 	private Integer turn;
     private Integer i;//puntero
     
@@ -27,9 +28,12 @@ public class OcaTurn extends BaseEntity{
     private Player player;
     private Integer dice;
 
-    public OcaTurn(){
+    public  void TurnInit(){
         this.turn=0;
         this.i=0;
+        this.player=null;
+        this.players=List.of();
+        this.dice=null;
 
     }
     public void throwDice() {
