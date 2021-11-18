@@ -33,10 +33,12 @@ public class OcaPiece extends BaseEntity{
 	@ManyToOne(cascade = CascadeType.ALL)
     OcaBoard board;
 	
+	private Boolean isPenalizada = Boolean.FALSE;
+	
 	@OneToOne
 	private Player player;
 	
-	private Integer penalization;
+	private Integer penalization = 0;
 	
 	public OcaPiece() {
 		this.position=1;

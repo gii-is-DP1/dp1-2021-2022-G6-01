@@ -47,74 +47,108 @@ public class OcaTurnController {
 	
 	@GetMapping(path="/{ocaGameId}/{playerId}")
 	public String playTurn(@PathVariable("ocaGameId") int ocaGameId,@PathVariable("playerId") Integer playerId){
-		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
-		turn.throwDice();
-		Integer dice = turn.getDice();
 		OcaPiece piece = this.ocaPieceService.findByPlayerId(playerId);
-		if ((piece.getPosition()+dice)==63) {
-			return "redirect:/ocaGames/winner/"+ocaGameId+"/"+playerId;
-		}else {
-			if (piece.getPosition()+dice>63) {
-				piece.setPosition(63-(piece.getPosition()+dice-63));
+		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
+		if(piece.getPenalization()<=0) {
+			
+			turn.throwDice();
+			Integer dice = turn.getDice();
+			
+			if ((piece.getPosition()+dice)==63) {
+				return "redirect:/ocaGames/winner/"+ocaGameId+"/"+playerId;
 			}else {
-				piece.setPosition(piece.getPosition()+dice);
+				if (piece.getPosition()+dice>63) {
+					piece.setPosition(63-(piece.getPosition()+dice-63));
+				}else {
+					piece.setPosition(piece.getPosition()+dice);
+				}
 			}
-		}
-		Integer position=piece.getPosition();
-		
-		Integer pen=OcaRules.getpen(position);
-		
-	    if(pen>0&&piece.getPenalization()<pen){
-	         piece.setPenalization(piece.getPenalization()+1);
-	         turn.nextTurn();
-	    }
-	    
-	    else if(pen>0&&piece.getPenalization()==pen) {
-	        piece.setPenalization(0);
-	    }
-	    
-	    
-	    
-	    
-		if(OcaRules.isLabyrinth(position)) {
-			piece.setPosition(OcaRules.labyrinth(position));
-		}
-		if(OcaRules.isDeath(position)) {
-			piece.setPosition(OcaRules.death(position));
-		}
-		if(OcaRules.repeatTurn(position)) {
-			if(OcaRules.isOca(position)) {
-				piece.setPosition(OcaRules.oca(position));
-				
-				
+			Integer position=piece.getPosition();
+			
+//			Integer pen=OcaRules.getpen(position);//comprobar si es casilla penalizada
+//			//condicion para no guardar si esta pen
+//			
+//		    if(pen>0){
+//		    	if(piece.getIsPenalizada()==false) {
+//		    		piece.setIsPenalizada(true);
+//		    		piece.setPenalization(pen);
+//		    		this.ocaPieceService.save(piece);
+//		    	}
+//		    	else {
+//		    		piece.setPenalization(piece.getPenalization()-1);
+//			   
+//			         if(piece.getPenalization()==0) piece.setIsPenalizada(false);
+//			        
+//		    	}
+//		    	 
+//		         OcaRules.x=1;
+//		    }
+			
+			Integer pen=OcaRules.getpen(position);
+			if(pen>0){
+		    		piece.setPenalization(pen);
+		    		
+		    	}
+		    
+		    
+		    
+			if(OcaRules.isLabyrinth(position)) {
+				piece.setPosition(OcaRules.labyrinth(position));
 			}
-			if(OcaRules.isDices(position)) {
-				piece.setPosition(OcaRules.dices(position));
-				
-				
+			if(OcaRules.isDeath(position)) {
+				piece.setPosition(OcaRules.death(position));
 			}
-			if(OcaRules.isBridge(position)) {
-				piece.setPosition(OcaRules.bridge(position));
+			if(OcaRules.repeatTurn(position)) {
+				if(OcaRules.isOca(position)) {
+					piece.setPosition(OcaRules.oca(position));
+					
+					
+				}
+				else if(OcaRules.isDices(position)) {
+					piece.setPosition(OcaRules.dices(position));
+					
+					
+				}
+				else if(OcaRules.isBridge(position)) {
+					piece.setPosition(OcaRules.bridge(position));
+					
+					
+				}
 				
-				
-			}
 
-			this.ocaPieceService.save(piece);
-			this.ocaTurnService.save(turn);
+				this.ocaPieceService.save(piece);
+				this.ocaTurnService.save(turn);
+				return "redirect:/ocaGames/"+ocaGameId;
+				
+				
+				
+			
+			}
+			
+			turn.nextTurn();
+			
+				this.ocaPieceService.save(piece);
+				this.ocaTurnService.save(turn);
+			
+			
 			return "redirect:/ocaGames/"+ocaGameId;
 			
 			
+		}
+		else {
+			piece.setPenalization(piece.getPenalization()-1);
 			
-		
+			this.ocaPieceService.save(piece);
+			turn.nextTurn();
+			
+			
+			this.ocaTurnService.save(turn);
+			
+			return "redirect:/ocaGames/"+ocaGameId;
+			
 		}
 		
-		turn.nextTurn();
-		
-		this.ocaPieceService.save(piece);
-		this.ocaTurnService.save(turn);
-		
-		return "redirect:/ocaGames/"+ocaGameId;
-		
+
 		
 	}
 	
