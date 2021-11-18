@@ -3,6 +3,7 @@ package org.springframework.samples.ocayparchis.game;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,7 +131,8 @@ public class OcaGameController {
 //	}
 	
 	@GetMapping("/{ocaGameId}")
-	public ModelAndView showGame(@PathVariable("ocaGameId") int ocaGameId) {
+	public ModelAndView showGame(@PathVariable("ocaGameId") int ocaGameId, HttpServletResponse response) {
+		response.addHeader("Refresh", "2");
 		ModelAndView mav = new ModelAndView("ocaGames/ocaGameDetails");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
