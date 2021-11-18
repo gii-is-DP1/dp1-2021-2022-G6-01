@@ -54,7 +54,7 @@ public class OcaTurnController {
 			turn.throwDice();
 			Integer dice = turn.getDice();
 			
-			if ((piece.getPosition()+dice)==63) {
+			if ((piece.getPosition()+dice)==63||piece.getPosition()==63) {
 				return "redirect:/ocaGames/winner/"+ocaGameId+"/"+playerId;
 			}else {
 				if (piece.getPosition()+dice>63) {
