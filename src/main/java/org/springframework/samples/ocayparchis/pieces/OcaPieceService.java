@@ -3,8 +3,8 @@ package org.springframework.samples.ocayparchis.pieces;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.ocayparchis.game.OcaTurnRepository;
 import org.springframework.samples.ocayparchis.model.OcaTurn;
+import org.springframework.samples.ocayparchis.ocagame.OcaTurnRepository;
 import org.springframework.stereotype.Service;
 
 @Service

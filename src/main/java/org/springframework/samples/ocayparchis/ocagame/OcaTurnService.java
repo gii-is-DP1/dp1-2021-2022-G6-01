@@ -1,4 +1,4 @@
-package org.springframework.samples.ocayparchis.game;
+package org.springframework.samples.ocayparchis.ocagame;
 
 import javax.transaction.Transactional;
 

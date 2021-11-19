@@ -44,9 +44,8 @@
 
 					<div class="card-body">
 						<h3 class="card-title">¡Hola! Aquí podrás divertirte jugando
-							al mítico juego del Parchís Online. Podrás elegir si jugar contra
-							tus amigos en una partida inidividual o en una partida por
-							equipos en el que ganará el equipo que primero meta todas su
+							al mítico juego del Parchís Online. Podrás  jugar contra
+							tus amigos en una partida en la que ganará el primero que meta todas su
 							fichas.</h3>
 						<a href="/games" class="btn btn-success">¡JUEGA AHORA!</a>
 					</div>
