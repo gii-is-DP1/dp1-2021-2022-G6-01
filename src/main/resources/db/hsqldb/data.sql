@@ -11,3 +11,4 @@ INSERT INTO users(username,password,enabled) VALUES ('pacoJeje','paquito',TRUE);
 INSERT INTO players(id,first_name,last_name,description,username) VALUES ('1','Paco','Lopez','jugador gracioso','pacoJeje');
 INSERT INTO oca_game(id,name,players,reward,in_game) VALUES ('1','LopezGame','2','10',false);
 INSERT INTO oca_turn(id,dice,player_id,turn,i) VALUES ('1','0',NULL,'1','0');
+INSERT INTO oca_piece(id,player_id,board_id,position,penalization) VALUES('1',NULL,NULL,4,0);

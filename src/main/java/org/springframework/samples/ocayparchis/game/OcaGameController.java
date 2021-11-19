@@ -1,4 +1,4 @@
-package org.springframework.samples.ocayparchis.game;
+ package org.springframework.samples.ocayparchis.game;
 
 
 import java.util.List;
