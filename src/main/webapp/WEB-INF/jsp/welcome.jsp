@@ -69,6 +69,7 @@
 							avanzando en las diferentes casillas, que tienen premios o
 							castigos.</h3>
 						<a href="/ocaGames" class="btn btn-success">¡JUEGA AHORA!</a>
+						<br> 
 						<a href="/ocaGames/new" class="btn btn-success">Crear Partida</a>
 					</div>
 				</div>

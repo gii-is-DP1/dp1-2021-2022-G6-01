@@ -34,17 +34,7 @@
 					<span>Find players</span>
 				</petclinic:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'games'}" url="/games"
-					title="find players">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find games</span>
-				</petclinic:menuItem>
-				<petclinic:menuItem active="${name eq 'games2'}" url="/games/new"
-					title="trigger a RuntimeException to see how it is handled">
-					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-					<span>New Game</span>
-				</petclinic:menuItem>
-
+			
 				
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
