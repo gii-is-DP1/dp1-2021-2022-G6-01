@@ -98,7 +98,7 @@ public class PlayerController {
 		Collection<Player> results = playerService.findPlayerByUsername(player.getUser().getUsername());
 		if(results.isEmpty()) {
 			result.rejectValue("username", "notFound", "not found");
-			return "player/findPlayers";
+			return "players/findPlayers";
 		}
 			else if(results.size()==1) {
 			player = results.iterator().next();

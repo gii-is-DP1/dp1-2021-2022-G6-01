@@ -24,6 +24,7 @@ public class OcaGame extends NamedEntity {
 	@DecimalMax(value="4", inclusive=true)
 	@DecimalMin(value="2", inclusive=true)
 	private Integer players;
+
 	
 	
 	

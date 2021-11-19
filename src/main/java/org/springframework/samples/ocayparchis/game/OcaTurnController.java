@@ -65,24 +65,7 @@ public class OcaTurnController {
 			}
 			Integer position=piece.getPosition();
 			
-//			Integer pen=OcaRules.getpen(position);//comprobar si es casilla penalizada
-//			//condicion para no guardar si esta pen
-//			
-//		    if(pen>0){
-//		    	if(piece.getIsPenalizada()==false) {
-//		    		piece.setIsPenalizada(true);
-//		    		piece.setPenalization(pen);
-//		    		this.ocaPieceService.save(piece);
-//		    	}
-//		    	else {
-//		    		piece.setPenalization(piece.getPenalization()-1);
-//			   
-//			         if(piece.getPenalization()==0) piece.setIsPenalizada(false);
-//			        
-//		    	}
-//		    	 
-//		         OcaRules.x=1;
-//		    }
+
 			
 			Integer pen=OcaRules.getpen(position);
 			if(pen>0){

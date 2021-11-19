@@ -9,7 +9,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.ocayparchis.board.OcaBoard;
 import org.springframework.samples.ocayparchis.board.OcaBoardService;
-import org.springframework.samples.ocayparchis.model.Game;
 import org.springframework.samples.ocayparchis.model.OcaGame;
 import org.springframework.samples.ocayparchis.model.OcaTurn;
 import org.springframework.samples.ocayparchis.pieces.OcaPiece;
@@ -110,25 +109,7 @@ public class OcaGameController {
 	}
 	
 	
-//	@GetMapping(value = "/{gameId}/edit")
-//	public String initUpdateGameForm(@PathVariable("gameId") int gameId, Model model) {
-//		OcaGame game = this.gameService.findGameById(gameId);
-//		model.addAttribute(game);
-//		return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
-//	}
-//
-//	@PostMapping(value = "/{gameId}/edit")
-//	public String processUpdateGamerForm(@Valid OcaGame game, BindingResult result,
-//			@PathVariable("gameId") int gameId) {
-//		if (result.hasErrors()) {
-//			return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
-//		}
-//		else {
-//			game.setId(gameId);
-//			this.gameService.save(game);
-//			return "redirect:/ocaGames/{gameId}";
-//		}
-//	}
+
 	
 	@GetMapping("/{ocaGameId}")
 	public ModelAndView showGame(@PathVariable("ocaGameId") int ocaGameId, HttpServletResponse response) {
