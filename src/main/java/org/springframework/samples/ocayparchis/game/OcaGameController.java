@@ -1,6 +1,7 @@
  package org.springframework.samples.ocayparchis.game;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -113,8 +114,9 @@ public class OcaGameController {
 	
 	@GetMapping("/{ocaGameId}")
 	public ModelAndView showGame(@PathVariable("ocaGameId") int ocaGameId, HttpServletResponse response) {
-		response.addHeader("Refresh", "2");
+		//response.addHeader("Refresh","2"); 
 		ModelAndView mav = new ModelAndView("ocaGames/ocaGameDetails");
+		OcaBoard ocaBoard = this.ocaBoardService.findById(ocaGameId).get();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
 		OcaPiece piece = new OcaPiece();
@@ -135,6 +137,7 @@ public class OcaGameController {
 					 
 				}
 				piece.setPlayer(currentPlayer);
+				piece.setBoard(ocaBoard);
 				this.ocaPieceService.save(piece);
 				OcaPiece piece_2=this.ocaPieceService.findByPlayerId(currentPlayer.getId());
 				if(piece_2!=null) {
@@ -142,13 +145,16 @@ public class OcaGameController {
 				}
 			}
 		}
+		
+		
+		
 		mav.addObject(piece);
 		String username = auth.getName();
 		Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
+		mav.addObject("ocaBoard", this.ocaBoardService.findById(ocaGameId).get());
 		mav.addObject(currentPlayer);
 		mav.addObject(turn);
 		mav.addObject(this.ocaGameService.findGameById(ocaGameId));
-		mav.addObject(this.ocaBoardService.findById(ocaGameId));
 		return mav;
 	}
 
