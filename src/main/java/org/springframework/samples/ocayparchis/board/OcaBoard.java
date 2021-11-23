@@ -15,13 +15,13 @@ import org.springframework.samples.ocayparchis.pieces.OcaPiece;
 import lombok.Getter;
 import lombok.Setter;
 
-
+ 
 @Entity
 @Getter
 @Setter
 
-@Table(name = "ocaBoard")
-
+@Table(name = "ocaBoard") 
+  
 public class OcaBoard extends BaseEntity {
     String background;
     @Positive
@@ -31,8 +31,8 @@ public class OcaBoard extends BaseEntity {
 
     public OcaBoard(){
         this.background="/resources/images/tablero_oca.jpg";
-        this.width=800;
-        this.height=800;
+        this.width=1022;
+        this.height=1016; 
     }
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "board",fetch = FetchType.EAGER)

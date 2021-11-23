@@ -10,17 +10,22 @@
     <h2>Player Information</h2>
 
 
+
+            <petclinic:board ocaBoard="${ocaBoard}"/>
+            <c:forEach items="${ocaBoard.pieces}" var="piece">
+            <petclinic:piece size="80" ocaPiece="${piece}"/>
+            </c:forEach>
+            	
+           
+ 
     <table class="table table-striped">
 
         
         <tr>
             <th>Points</th>
-            <td><c:out value="${ocaGame.name}"/></td>
+            <td><c:out value="${ocaGame.reward}"/></td>
         </tr>
         <tr>
-            <th>Tablero</th>
-            <td><img class="card-img-top" src="/resources/images/tablero_oca.jpg"
-							alt="Dubai"></td>
         </tr>
          <tr>
          <th>DICE</th>

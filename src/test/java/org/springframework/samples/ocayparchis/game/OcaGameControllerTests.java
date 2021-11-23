@@ -87,6 +87,7 @@ class OcaGameControllerTests {
 		pato.setReward(100);
 		given(this.ocaGameService.findGameById(TEST_OCAGAME_ID)).willReturn(pato);
 	}
+	
 	@WithMockUser(value = "admin1")
 	@Test
 	void testcreateGames() throws Exception {

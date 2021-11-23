@@ -131,11 +131,14 @@ public class OcaGameController {
 						this.ocaTurnService.save(turn);
 					}
 					piece.setPlayer(currentPlayer);
+//					piece.setBoard(this.ocaBoardService.findById(ocaGameId).get());
 					this.ocaPieceService.save(piece);
+					turn.setPlayers(players);
+					this.ocaTurnService.save(turn);
 					 
 				}
 				piece.setPlayer(currentPlayer);
-				this.ocaPieceService.save(piece);
+//				this.ocaPieceService.save(piece);
 				OcaPiece piece_2=this.ocaPieceService.findByPlayerId(currentPlayer.getId());
 				if(piece_2!=null) {
 					piece = piece_2;
@@ -149,6 +152,7 @@ public class OcaGameController {
 		mav.addObject(turn);
 		mav.addObject(this.ocaGameService.findGameById(ocaGameId));
 		mav.addObject(this.ocaBoardService.findById(ocaGameId));
+		mav.addObject("ocaBoard", this.ocaBoardService.findById(1).get());
 		return mav;
 	}
 
