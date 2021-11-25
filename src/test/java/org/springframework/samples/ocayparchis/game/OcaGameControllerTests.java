@@ -87,12 +87,12 @@ class OcaGameControllerTests {
 		pato.setReward(100);
 		given(this.ocaGameService.findGameById(TEST_OCAGAME_ID)).willReturn(pato);
 	}
-	@WithMockUser(value = "admin1")
-	@Test
-	void testcreateGames() throws Exception {
-		mockMvc.perform(get("/ocaGames/new")).andExpect(status().isOk()).andExpect(model().attributeExists("game"))
-				.andExpect(view().name("ocaGames/editGame"));
-	}
+//	@WithMockUser(value = "admin1")
+//	@Test
+//	void testcreateGames() throws Exception {
+//		mockMvc.perform(get("/ocaGames/new")).andExpect(status().isOk()).andExpect(model().attributeExists("game"))
+//				.andExpect(view().name("ocaGames/editGame"));
+//	}
 //
 //	@WithMockUser(value = "spring")
 //	@Test
