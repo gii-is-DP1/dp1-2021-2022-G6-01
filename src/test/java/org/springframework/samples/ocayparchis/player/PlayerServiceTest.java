@@ -1,6 +1,7 @@
 package org.springframework.samples.ocayparchis.player;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collection;
 
@@ -55,6 +56,12 @@ class PlayerServiceTest {
 
 		players = this.playerService.findPlayerByUsername("pacooJeje");
 		assertThat(players.isEmpty()).isTrue();
+	}
+	
+	@Test
+	void shouldFindAll() {
+		Iterable<Player> players = this.playerService.findAll();
+		assertEquals(1,((Collection<Player>) players).size());
 	}
 
 	@Test

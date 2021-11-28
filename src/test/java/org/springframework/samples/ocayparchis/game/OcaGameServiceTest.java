@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 import org.springframework.samples.ocayparchis.model.OcaGame;
 import org.springframework.samples.ocayparchis.ocagame.OcaGameService;
+import org.springframework.samples.ocayparchis.pieces.OcaPiece;
 import org.springframework.samples.ocayparchis.player.Player;
 import org.springframework.samples.ocayparchis.player.PlayerService;
 import org.springframework.samples.ocayparchis.user.User;
@@ -35,6 +36,12 @@ public class OcaGameServiceTest {
 			assertThat(game.getInGame().equals(Boolean.FALSE));
 		}
 
+		@Test
+		void shouldFindAll() {
+			Iterable<OcaGame> games= this.ocaGameService.findAll();
+			assertEquals(1,((Collection<OcaGame>) games).size());
+		}
+		
 		@Test
 		@Transactional
 		public void shouldInsertGame() {

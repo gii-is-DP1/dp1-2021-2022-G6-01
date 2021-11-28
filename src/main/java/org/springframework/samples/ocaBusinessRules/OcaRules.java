@@ -4,7 +4,7 @@ import java.util.List;
 
 public class OcaRules {
 	  public static Integer x =0;
-	  private static List<Integer>ocas = List.of(5, 9, 14, 18, 23, 27, 32, 36, 41, 45, 50, 54, 59,63);
+	  public static List<Integer>ocas = List.of(5, 9, 14, 18, 23, 27, 32, 36, 41, 45, 50, 54, 59,63);
 	  public static Boolean isOca(Integer position) {
 	       return ocas.contains(position);
 
@@ -31,23 +31,20 @@ public class OcaRules {
 		}
 
     public static Integer oca(Integer position) {
-    	
         Integer newPosition=position;
         if(newPosition!=63) {
             newPosition=ocas.get(ocas.indexOf(position)+1);
-
         }
-
-
-
         return newPosition;
 
     }
+    
 	 public static Integer labyrinth(Integer position) {
 	    	      
 	        return 30;
 	
 	    }
+	 
 	 public static Integer dices(Integer position) {
 	 	
 	     Integer newPosition=position;

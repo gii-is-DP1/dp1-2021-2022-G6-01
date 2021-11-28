@@ -13,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.ocayparchis.model.OcaGame;
 import org.springframework.samples.ocayparchis.model.OcaTurn;
 import org.springframework.samples.ocayparchis.ocagame.OcaTurnService;
+import org.springframework.samples.ocayparchis.pieces.OcaPiece;
 import org.springframework.samples.ocayparchis.player.Player;
 import org.springframework.samples.ocayparchis.player.PlayerService;
 import org.springframework.samples.ocayparchis.user.User;
@@ -33,6 +34,12 @@ public class OcaTurnServiceTest {
 			assertThat(turn.getTurn().equals(1));
 			assertThat(turn.getDice().equals(0));
 			assertThat(turn.getI().equals(0));
+		}
+		
+		@Test
+		void shouldFindAll() {
+			Iterable<OcaTurn> turns = this.ocaTurnService.findAll();
+			assertEquals(1,((Collection<OcaTurn>) turns).size());
 		}
 
 		@Test

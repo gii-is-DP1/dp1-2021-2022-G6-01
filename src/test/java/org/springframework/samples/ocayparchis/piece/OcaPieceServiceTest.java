@@ -36,7 +36,21 @@ public class OcaPieceServiceTest {
 		
 			
 		}
+		
+		@Test
+		void shouldFindPieceByPlayerId() {
+			OcaPiece piece = this.ocaPieceService.findByPlayerId(1);
+			assertThat(piece.getPenalization().equals(0));
+			assertThat(piece.getPosition().equals(4));	
+		}
+		
+		@Test
+		void shouldFindAll() {
+			Iterable<OcaPiece> pieces = this.ocaPieceService.findAll();
+			assertEquals(1,((Collection<OcaPiece>) pieces).size());
+		}
 
+		
 		@Test
 		@Transactional
 		public void shouldInsertPiece() {
