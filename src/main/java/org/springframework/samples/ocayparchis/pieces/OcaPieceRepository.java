@@ -11,5 +11,5 @@ import org.springframework.samples.ocayparchis.player.Player;
 public interface OcaPieceRepository extends CrudRepository<OcaPiece, Integer>{
 	
 	@Query("SELECT DISTINCT piece FROM OcaPiece piece, IN (piece.player) AS player WHERE player.id LIKE :playerId")
-	public Collection<OcaPiece> findByPlayerId(@Param("playerId") Integer playerId);
+	public Collection<OcaPiece> findByPlayerId(@Param("playerId") int playerId);
 }

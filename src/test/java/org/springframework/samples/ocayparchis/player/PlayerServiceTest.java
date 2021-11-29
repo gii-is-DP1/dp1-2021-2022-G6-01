@@ -2,6 +2,7 @@ package org.springframework.samples.ocayparchis.player;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Collection;
 
@@ -50,7 +51,7 @@ class PlayerServiceTest {
 	protected PlayerService playerService;
     
 	@Test
-	void shouldFindPlayerByUserName() {
+	public void shouldFindPlayerByUserName() {
 		Collection<Player> players = this.playerService.findPlayerByUsername("pacoJeje");
 		assertThat(players.size()).isEqualTo(1);
 
@@ -59,17 +60,18 @@ class PlayerServiceTest {
 	}
 	
 	@Test
-	void shouldFindAll() {
+	public void shouldFindAll() {
 		Iterable<Player> players = this.playerService.findAll();
 		assertEquals(1,((Collection<Player>) players).size());
 	}
 
 	@Test
-	void shouldFindPlayerAttributes() {
+	public void shouldFindPieceAtributes() {
 		Player player = this.playerService.findPlayerById(1);
 		assertThat(player.getLastName()).startsWith("Lop");
 		assertThat(player.getDescription()).startsWith("jugador");
 		assertThat(player.getUser().getUsername()).isEqualTo("pacoJeje");
+		assertThat(player.getPoints()).isEqualTo(0);
 	}
 
 	@Test
@@ -82,12 +84,12 @@ class PlayerServiceTest {
 		player.setFirstName("Pepe");
 		player.setDescription("es una descripción");
 		player.setLastName("Lopez");
-                User user=new User();
-                user.setUsername("paco");
-                user.setPassword("supersecretpassword");
-                user.setEnabled(true);
-                player.setUser(user);                
-                
+		User user=new User();
+		user.setUsername("paco");
+		user.setPassword("supersecretpassword");
+		user.setEnabled(true);
+		player.setUser(user);                
+
 		this.playerService.savePlayer(player);
 		assertThat(player.getId().longValue()).isNotEqualTo(0);
 
@@ -97,7 +99,7 @@ class PlayerServiceTest {
 
 	@Test
 	@Transactional
-	void shouldUpdateOwner() {
+	public void shouldUpdateOwner() {
 		Player player = this.playerService.findPlayerById(1);
 		String oldLastName = player.getLastName();
 		String newLastName = oldLastName + "X";
@@ -108,6 +110,85 @@ class PlayerServiceTest {
 		// retrieving new name from database
 		player = this.playerService.findPlayerById(1);
 		assertThat(player.getLastName()).isEqualTo(newLastName);
+	}
+	
+	@Test
+	@Transactional
+	public void shouldThrowExceptionInsertingPlayersWithTheSameUsername() {
+		Player player = new Player();
+		User user = new User();
+		user.setUsername("1");
+		user.setPassword("1");
+		user.setEnabled(true);
+		player.setUser(user);
+		player.setDescription("1");
+		player.setFirstName("1");
+		player.setLastName("1");
+		try {
+			playerService.savePlayer(player);		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		User user2 = new User();
+		user2.setUsername("1");
+		user2.setPassword("1");
+		user2.setEnabled(true);
+		Player anotherPlayerWithTheSameUsername = new Player();	
+		anotherPlayerWithTheSameUsername.setDescription("2");
+		anotherPlayerWithTheSameUsername.setFirstName("2");
+		anotherPlayerWithTheSameUsername.setLastName("2");
+		anotherPlayerWithTheSameUsername.setUser(user2);
+		assertThrows(Exception.class, () ->{
+			playerService.savePlayer(anotherPlayerWithTheSameUsername);
+		});		
+	}
+	
+	@Test
+	@Transactional
+	public void shouldThrowExceptionInsertingPlayerWithEmptyFirstName() {
+		Player player = new Player();
+		User user = new User();
+		user.setUsername("1");
+		user.setPassword("1");
+		user.setEnabled(true);
+		player.setUser(user);
+		player.setLastName("1");
+		player.setDescription("1");
+		assertThrows(Exception.class, () ->{
+			playerService.savePlayer(player);
+		});		
+	}
+
+	@Test
+	@Transactional
+	public void shouldThrowExceptionInsertingPlayerWithEmptyLastName() {
+		Player player = new Player();
+		User user = new User();
+		user.setUsername("1");
+		user.setPassword("1");
+		user.setEnabled(true);
+		player.setUser(user);
+		player.setFirstName("1");
+		player.setDescription("1");
+		assertThrows(Exception.class, () ->{
+			playerService.savePlayer(player);
+		});		
+	}
+
+	@Test
+	@Transactional
+	public void shouldThrowExceptionInsertingPlayerWithEmptyDescription() {
+		Player player = new Player();
+		User user = new User();
+		user.setUsername("1");
+		user.setPassword("1");
+		user.setEnabled(true);
+		player.setUser(user);
+		player.setLastName("1");
+		player.setFirstName("1");
+		assertThrows(Exception.class, () ->{
+			playerService.savePlayer(player);
+		});		
 	}
 
 

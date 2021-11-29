@@ -23,7 +23,6 @@
               <form:option value="parchis" label="parchis"/>
       
             </form:select>
-                
             </div>
 
             <div class="form-group">

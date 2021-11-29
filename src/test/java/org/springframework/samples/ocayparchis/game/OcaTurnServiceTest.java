@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class OcaTurnServiceTest {
 	 @Autowired
 		protected OcaTurnService ocaTurnService;
 	    
+	 @Autowired
+		private PlayerService playerService;
 
 		@Test
 		void shouldFindTurnAttributes() {
@@ -34,6 +37,8 @@ public class OcaTurnServiceTest {
 			assertThat(turn.getTurn().equals(1));
 			assertThat(turn.getDice().equals(0));
 			assertThat(turn.getI().equals(0));
+			assertThat(turn.getPlayer().getId().equals(1));
+			assertEquals(0,turn.getPlayers().size());
 		}
 		
 		@Test
@@ -45,11 +50,13 @@ public class OcaTurnServiceTest {
 		@Test
 		@Transactional
 		public void shouldInsertTurn() {
-
+			Player player = this.playerService.findPlayerById(1);
 			OcaTurn turn= new OcaTurn();
 			turn.setTurn(3);   
 	        turn.setDice(0);
 	        turn.setI(2);
+	        turn.setPlayer(player);
+	        turn.setPlayers(List.of(player));
 			this.ocaTurnService.save(turn);
 			assertThat(turn.getId().longValue()).isNotEqualTo(0);
 		
@@ -59,9 +66,12 @@ public class OcaTurnServiceTest {
 		@Transactional
 		public void shouldDeleteTurn() {
 			OcaTurn turn = new OcaTurn();
+			Player player = this.playerService.findPlayerById(1);
 			turn.setTurn(3);   
 	        turn.setDice(0);
 	        turn.setI(2);
+	        turn.setPlayer(player);
+	        turn.setPlayers(List.of(player));
 			this.ocaTurnService.save(turn);
 			this.ocaTurnService.delete(turn);
 			assertThat(!turn.getI().equals(2));

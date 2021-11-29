@@ -23,4 +23,9 @@ public class OcaBoardService {
 		public void save(OcaBoard game){
 			boardRepo.save(game);
 		}
+
+		public void delete(OcaBoard board) {
+			boardRepo.delete(board);
+			
+		}
 }

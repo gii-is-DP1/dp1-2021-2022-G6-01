@@ -90,7 +90,7 @@ class OcaGameControllerTests {
 //	@WithMockUser(value = "admin1")
 //	@Test
 //	void testcreateGames() throws Exception {
-//		mockMvc.perform(get("/ocaGames/new")).andExpect(status().isOk()).andExpect(model().attributeExists("game"))
+//		mockMvc.perform(get("/ocaGames/new")).andExpect(status().isOk()).andExpect(model().attributeExists("ocaGame"))
 //				.andExpect(view().name("ocaGames/editGame"));
 //	}
 //

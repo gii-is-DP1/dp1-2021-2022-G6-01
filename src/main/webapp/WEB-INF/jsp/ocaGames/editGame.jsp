@@ -10,15 +10,13 @@
     <jsp:body>
         <h2>OcaGames</h2>
  	<h2>
-        <c:if test="${game['new']}">New </c:if> Game
+        <c:if test="${ocaGame['new']}">New </c:if> Game
     </h2>
-        <form:form modelAttribute="game" class="form-horizontal" action="/ocaGames/save">
+        <form:form modelAttribute="ocaGame" class="form-horizontal" action="/ocaGames/save">
             <div class="form-group has-feedback">
          	  <petclinic:inputField label="Name" name="name"/>
                 <petclinic:inputField label="Reward" name="reward"/>
-                <petclinic:inputField label="Players(min 2,max 4)" name="players"/>
-   
-           
+                <petclinic:inputField label="Players(min 2,max 4)" name="players"/>           
                 
             </div>
 

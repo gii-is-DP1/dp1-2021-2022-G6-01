@@ -66,7 +66,7 @@ public class Player extends Person {
 	private User user;
 
 	public Player() {
-		this.points=1;
+		this.points=0;
 	}
 	
 	public User getUser() {

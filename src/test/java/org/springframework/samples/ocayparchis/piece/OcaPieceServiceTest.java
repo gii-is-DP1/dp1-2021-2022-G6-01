@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-
+import org.springframework.samples.ocayparchis.board.OcaBoard;
 import org.springframework.samples.ocayparchis.model.OcaGame;
 import org.springframework.samples.ocayparchis.model.OcaTurn;
 import org.springframework.samples.ocayparchis.pieces.OcaPiece;
@@ -31,6 +31,8 @@ public class OcaPieceServiceTest {
 		@Test
 		void shouldFindPieceAttributes() {
 			OcaPiece piece = this.ocaPieceService.findPieceById(1);
+			assertThat(piece.getBoard().getId().equals(1));
+			assertThat(piece.getPlayer().getId().equals(1));
 			assertThat(piece.getPenalization().equals(0));
 			assertThat(piece.getPosition().equals(4));
 		
@@ -54,10 +56,13 @@ public class OcaPieceServiceTest {
 		@Test
 		@Transactional
 		public void shouldInsertPiece() {
-
 			OcaPiece piece= new OcaPiece();
-			piece.setId(2);;   
-	        piece.setPosition(2);;
+			OcaBoard board = new OcaBoard();
+			Player player = new Player();
+			piece.setId(2);
+	        piece.setPosition(2);
+	        piece.setBoard(board);
+	        piece.setPlayer(player);
 	        piece.setPenalization(0);
 			this.ocaPieceService.save(piece);
 			assertThat(piece.getId().longValue()).isNotEqualTo(0);
@@ -68,8 +73,8 @@ public class OcaPieceServiceTest {
 		@Transactional
 		public void shouldDeletePiece() {
 			OcaPiece piece= new OcaPiece();
-			piece.setId(2);;   
-	        piece.setPosition(2);;
+			piece.setId(2);
+	        piece.setPosition(2);
 	        piece.setPenalization(0);
 			this.ocaPieceService.save(piece);
 			this.ocaPieceService.delete(piece);

@@ -34,16 +34,28 @@ import org.springframework.web.servlet.ModelAndView;
 public class OcaGameController {
 	
 	private static final String VIEWS_GAME_CREATE_OR_UPDATE_FORM = "ocaGames/editGame";
-	@Autowired
+	
 	private OcaGameService ocaGameService;
-	@Autowired
+	
 	private OcaBoardService ocaBoardService;
-	@Autowired
+	
 	private PlayerService playerService;
-	@Autowired
+	
 	private OcaTurnService ocaTurnService;
-	@Autowired
+	
 	private OcaPieceService ocaPieceService;
+	
+	
+	@Autowired
+	public OcaGameController(OcaGameService ocaGameService, OcaBoardService ocaBoardService,
+			PlayerService playerService, OcaTurnService ocaTurnService, OcaPieceService ocaPieceService) {
+		super();
+		this.ocaGameService = ocaGameService;
+		this.ocaBoardService = ocaBoardService;
+		this.playerService = playerService;
+		this.ocaTurnService = ocaTurnService;
+		this.ocaPieceService = ocaPieceService;
+	}
 	@GetMapping()
 	public String gameList(ModelMap modelMap){
 		String vista = "ocaGames/gameList";
@@ -81,21 +93,21 @@ public class OcaGameController {
 	@GetMapping(path="/new")
 	public String createGame(ModelMap modelMap){
 		String view = "ocaGames/editGame";
-		Iterable<OcaGame> games=ocaGameService.findAll();
-		modelMap.addAttribute("game",new OcaGame());
+		modelMap.addAttribute("ocaGame",new OcaGame());
 		return view;
 		
 	}
 	@PostMapping(path="/save")
-	public String saveGame(@Valid OcaGame game,@Valid OcaBoard board,@Valid OcaTurn turn,
-			@Valid OcaPiece piece,BindingResult result,ModelMap modelMap){
+	public String saveGame(@Valid OcaGame game, BindingResult result,ModelMap modelMap){
+		
 		String view = "ocaGames/gameList";
 		if(result.hasErrors()) {
-			modelMap.addAttribute("game",game);
-			return "ocaGames/editGame";
+			modelMap.addAttribute("ocaGame",game);
+			return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
 			
-		}else
-		{
+		}else{
+			OcaTurn turn=new OcaTurn();
+			OcaBoard board=new OcaBoard();
 			turn.TurnInit();
 			ocaTurnService.save(turn);
 			ocaBoardService.save(board);
