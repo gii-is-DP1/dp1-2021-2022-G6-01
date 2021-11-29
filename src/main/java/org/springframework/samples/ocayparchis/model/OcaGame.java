@@ -8,6 +8,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.samples.ocayparchis.player.Player;
+import org.springframework.samples.ocayparchis.validators.OcaGameAnnotation.PlayersNumberConstraint;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,9 +21,8 @@ public class OcaGame extends NamedEntity {
 	private Integer reward;
 	
 	private Boolean inGame;
-	@NotNull
-	@DecimalMax(value="4", inclusive=true)
-	@DecimalMin(value="2", inclusive=true)
+	
+	@PlayersNumberConstraint
 	private Integer players;
 
 	
