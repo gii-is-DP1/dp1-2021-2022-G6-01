@@ -1,5 +1,7 @@
 package org.springframework.samples.ocayparchis.pieces;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,31 +10,31 @@ import org.springframework.stereotype.Service;
 @Service
 public class ParchisPieceService {
 	@Autowired
-	private OcaPieceRepository ocaPieceRepo;
+	private ParchisPieceRepository parchisPieceRepo;
 	
 	
 	@Transactional
-	public Iterable<OcaPiece> findAll(){
-		return ocaPieceRepo.findAll();
+	public Iterable<ParchisPiece> findAll(){
+		return parchisPieceRepo.findAll();
 	}
 	
 	@Transactional
-	public OcaPiece findPieceById(int id){
-		return ocaPieceRepo.findById(id).get();
+	public ParchisPiece findPieceById(int id){
+		return parchisPieceRepo.findById(id).get();
 	}
 	@Transactional
-	public void save(OcaPiece piece){
-		ocaPieceRepo.save(piece);
+	public void save(ParchisPiece piece){
+		parchisPieceRepo.save(piece);
 	}
 	
 	@Transactional
-	public void delete(OcaPiece piece){
-		ocaPieceRepo.delete(piece);
+	public void delete(ParchisPiece piece){
+		parchisPieceRepo.delete(piece);
 	}
 	
 
 	@Transactional
-	public OcaPiece findByPlayerId(Integer playerId) {
-		return ocaPieceRepo.findByPlayerId(playerId).iterator().next();
+	public Collection<ParchisPiece> findByPlayerId(Integer playerId) {
+		return parchisPieceRepo.findByPlayerId(playerId);
 	}
 }

@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.samples.ocayparchis.board.OcaBoard;
+import org.springframework.samples.ocayparchis.board.ParchisBoard;
 import org.springframework.samples.ocayparchis.model.BaseEntity;
 import org.springframework.samples.ocayparchis.player.Player;
 import org.springframework.samples.ocayparchis.squares.Color;
@@ -33,14 +34,14 @@ public class ParchisPiece extends BaseEntity{
 	@ManyToOne(cascade = CascadeType.ALL)
 	Square square;
 
-	@NotNull
+//	@NotNull
 	private Color color;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-    OcaBoard board;
+    ParchisBoard board;
 	
 	
-	@OneToOne
+	@ManyToOne
 	private Player player;
 	
 	

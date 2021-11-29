@@ -39,6 +39,7 @@ import org.springframework.samples.ocayparchis.model.OcaGame;
 import org.springframework.samples.ocayparchis.model.OcaTurn;
 import org.springframework.samples.ocayparchis.model.Person;
 import org.springframework.samples.ocayparchis.pieces.OcaPiece;
+import org.springframework.samples.ocayparchis.pieces.ParchisPiece;
 import org.springframework.samples.ocayparchis.user.User;
 
 /**
@@ -52,7 +53,10 @@ import org.springframework.samples.ocayparchis.user.User;
 @Entity
 @Table(name = "players")
 public class Player extends Person {
-
+	@Column
+	@OneToMany(cascade = CascadeType.ALL)
+    private List<ParchisPiece>pieces;
+	
 	@Column(name = "description")
 	@NotEmpty
 	private String description;

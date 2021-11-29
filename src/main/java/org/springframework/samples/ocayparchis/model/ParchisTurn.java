@@ -36,15 +36,13 @@ public class ParchisTurn extends BaseEntity{
         this.dice1=null;
         this.dice2=null;
     }
-    public void throwDice1() {
+    public void throwDices() {
         Random r = new Random();
         this.dice1=r.nextInt(6)+1;// Entre 0 y 5, más 1
+        Random r2 = new Random();
+        this.dice2=r2.nextInt(6)+1;// Entre 0 y 5, más 1
+    }
 
-    }
-    public void throwDice2() {
-        Random r = new Random();
-        this.dice2=r.nextInt(6)+1;// Entre 0 y 5, más 1
-    }
     
     
     public void nextTurn() {
