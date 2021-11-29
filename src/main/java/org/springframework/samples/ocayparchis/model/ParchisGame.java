@@ -20,6 +20,7 @@ public class ParchisGame extends NamedEntity {
 	private Integer reward;
 	
 	private Boolean inGame;
+	
 	@NotNull
 	@DecimalMax(value="4", inclusive=true)
 	@DecimalMin(value="2", inclusive=true)
