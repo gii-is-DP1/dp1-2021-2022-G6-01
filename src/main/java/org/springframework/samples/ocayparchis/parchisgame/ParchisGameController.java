@@ -1,6 +1,10 @@
 package org.springframework.samples.ocayparchis.parchisgame;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -22,6 +26,7 @@ import org.springframework.samples.ocayparchis.pieces.ParchisPieceService;
 import org.springframework.samples.ocayparchis.pieces.ParchisPiece;
 import org.springframework.samples.ocayparchis.player.Player;
 import org.springframework.samples.ocayparchis.player.PlayerService;
+import org.springframework.samples.ocayparchis.squares.Color;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -76,7 +81,7 @@ public class ParchisGameController {
 		return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
 	}
 	
-	@PostMapping(path="/new")
+	@PostMapping(path="/save")
 	public String saveGame(@Valid ParchisGame game, BindingResult result,ModelMap modelMap){
 		String view = "parchisGames/gameList";
 		if(result.hasErrors()) {
@@ -84,6 +89,7 @@ public class ParchisGameController {
 			return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
 		}else{
 			ParchisTurn turn= new ParchisTurn();
+			turn.TurnInit();
 			this.parchisTurnService.save(turn);
 			parchisGameService.save(game);
 			modelMap.addAttribute("message","game successfully saved");
@@ -101,33 +107,68 @@ public class ParchisGameController {
 	
 	@GetMapping("/{parchisGameId}")
 	public ModelAndView showGame(@PathVariable("parchisGameId") int parchisGameId, HttpServletResponse response,@AuthenticationPrincipal Authentication user) {
+
 		response.addHeader("Refresh", "2");
 		ModelAndView mav = new ModelAndView("parchisGames/parchisGameDetails");
 		String username = user.getName();
 		Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
 		ParchisTurn turn = this.parchisTurnService.findTurnById(parchisGameId);
-		ParchisPiece piece = new ParchisPiece();
 		List<Player> players = turn.getPlayers();
+
 		if(!(players.contains(currentPlayer))) {
 			players.add(currentPlayer);
 			if(currentPlayer==turn.getPlayers().get(0)) {
 				turn.setPlayer(currentPlayer);
-				this.parchisTurnService.save(turn);
+				
+				
 			}
-			piece.setPlayer(currentPlayer);
-			this.parchisPieceService.save(piece);
+			turn.setPlayers(players);
+			this.parchisTurnService.save(turn);
+			createAndAsignPieces(turn, currentPlayer);
+			
 		}
-		piece.setPlayer(currentPlayer);
-		this.parchisPieceService.save(piece);
-		ParchisPiece piece_2=this.parchisPieceService.findByPlayerId(currentPlayer.getId()).iterator().next();
-		if(piece_2!=null) {
-			piece = piece_2;
-		}
-		mav.addObject(piece);
+
+
 		mav.addObject(currentPlayer);
 		mav.addObject(turn);
 		mav.addObject(this.parchisGameService.findGameById(parchisGameId));
+		
 		//		mav.addObject(this.parchisBoardService.findById(parchisGameId));
 		return mav;
+	}
+	public Color nextFreeColor(ParchisTurn turn) {
+		List<Color> colores= Arrays.asList(Color.values());
+		List<Color>	usedColors=new ArrayList<Color>();
+		Color freeColor = Color.BLUE;
+		for(Player p:turn.getPlayers()) {
+			Color c=p.getPieces().get(0).getColor();
+			   usedColors.add(c);
+			}
+		
+	   for(Color c:colores) {
+		   if(!usedColors.contains(c)) {
+			   freeColor=c;
+			   break;
+		   }
+			   
+		   }
+		
+		return freeColor;
+		
+	}
+	public void createAndAsignPieces(ParchisTurn turn, Player player) {
+		for(int i=1;i<5;i++) {
+			ParchisPiece p = new ParchisPiece();
+			p.setPlayer(player);
+			p.setName("Ficha "+i);
+			this.parchisPieceService.save(p);
+		}
+		Color c = nextFreeColor(turn);
+		for(ParchisPiece p :player.getPieces()) {
+			p.setColor(c);
+			this.parchisPieceService.save(p);
+		}
+		
+		
 	}
 }

@@ -47,7 +47,9 @@
 							al mítico juego del Parchís Online. Podrás  jugar contra
 							tus amigos en una partida en la que ganará el primero que meta todas su
 							fichas.</h3>
-						<a href="/games" class="btn btn-success">¡JUEGA AHORA!</a>
+						<a href="/parchisGames" class="btn btn-success">¡JUEGA AHORA!</a>
+						<br> 
+						<a href="/parchisGames/new" class="btn btn-success">Crear Partida</a>
 					</div>
 					</div>
 			</section>

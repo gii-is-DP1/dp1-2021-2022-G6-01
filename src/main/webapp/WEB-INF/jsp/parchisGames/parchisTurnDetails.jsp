@@ -26,6 +26,11 @@
           
     </table>
    
+   <div class="control-group">
+                    <petclinic:selectField name="pieces" label="Pieces " names="${pieces}"
+                        size="4" />
+                </div>
+    
     <div class="col-md-3">
            <c:choose>
                     <c:when test="${player.id==parchisTurn.player.id}">

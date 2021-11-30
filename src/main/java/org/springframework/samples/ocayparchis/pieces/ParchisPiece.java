@@ -41,9 +41,16 @@ public class ParchisPiece extends BaseEntity{
     ParchisBoard board;
 	
 	
+	
 	@ManyToOne
 	private Player player;
 	
+	private String name;
+
+	@Override
+	public String toString() {
+		return name+": Posición "+ square.getPosition();
+	}
 	
 	
 }

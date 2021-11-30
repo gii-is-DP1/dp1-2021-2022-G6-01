@@ -101,5 +101,12 @@ public class Player extends Person {
 	public void setPoints(Integer points) {
 		this.points = points;
 	}
+	public List<ParchisPiece> getPieces() {
+		return pieces;
+	}
+
+	public void setPiece(ParchisPiece piece) {
+		this.pieces.add(piece);
+	}
 
 }
