@@ -11,21 +11,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class OcaBoardService {
 
+	OcaBoardRepository boardRepo;
 
-		@Autowired 
-		OcaBoardRepository boardRepo;
-		
-		public Optional<OcaBoard> findById(Integer id){
-			return boardRepo.findById(id);
+	@Autowired
+	public OcaBoardService(OcaBoardRepository boardRepo) {
+		super();
+		this.boardRepo = boardRepo;
 	}
 
-		@Transactional
-		public void save(OcaBoard game){
-			boardRepo.save(game);
-		}
+	@Transactional
+	public Optional<OcaBoard> findById(Integer id){
+		return boardRepo.findById(id);
+	}
 
-		public void delete(OcaBoard board) {
-			boardRepo.delete(board);
-			
-		}
+	@Transactional
+	public void save(OcaBoard game){
+		boardRepo.save(game);
+	}
+
+	@Transactional
+	public void delete(OcaBoard board) {
+		boardRepo.delete(board);
+
+	}
 }

@@ -9,18 +9,26 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ParchisBoardService {
-	@Autowired 
+
 	ParchisBoardRepository boardRepo;
 	
+	@Autowired
+	public ParchisBoardService(ParchisBoardRepository boardRepo) {
+		super();
+		this.boardRepo = boardRepo;
+	}
+	
+	@Transactional
 	public Optional<ParchisBoard> findById(Integer id){
 		return boardRepo.findById(id);
-}
+	}
 
 	@Transactional
 	public void save(ParchisBoard game){
 		boardRepo.save(game);
 	}
 
+	@Transactional
 	public void delete(ParchisBoard board) {
 		boardRepo.delete(board);
 	}

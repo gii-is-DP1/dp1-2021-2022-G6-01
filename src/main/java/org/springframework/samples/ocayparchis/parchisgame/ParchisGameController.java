@@ -23,6 +23,7 @@ import org.springframework.samples.ocayparchis.pieces.ParchisPiece;
 import org.springframework.samples.ocayparchis.player.Player;
 import org.springframework.samples.ocayparchis.player.PlayerService;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -75,7 +76,7 @@ public class ParchisGameController {
 		return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
 	}
 	
-	@PostMapping(path="/save")
+	@PostMapping(path="/new")
 	public String saveGame(@Valid ParchisGame game, BindingResult result,ModelMap modelMap){
 		String view = "parchisGames/gameList";
 		if(result.hasErrors()) {
@@ -96,47 +97,37 @@ public class ParchisGameController {
 		ParchisGame game =this.parchisGameService.findGameById(parchisGameId);
 		this.parchisGameService.delete(game);
 		return "redirect:/";
-		
 	}
 	
 	@GetMapping("/{parchisGameId}")
-	public ModelAndView showGame(@PathVariable("parchisGameId") int parchisGameId, HttpServletResponse response) {
+	public ModelAndView showGame(@PathVariable("parchisGameId") int parchisGameId, HttpServletResponse response,@AuthenticationPrincipal Authentication user) {
 		response.addHeader("Refresh", "2");
 		ModelAndView mav = new ModelAndView("parchisGames/parchisGameDetails");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = user.getName();
+		Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
 		ParchisTurn turn = this.parchisTurnService.findTurnById(parchisGameId);
 		ParchisPiece piece = new ParchisPiece();
-		if(auth!=null) {
-			if (auth.isAuthenticated()) {
-				String username = auth.getName();
-				Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
-				List<Player> players = turn.getPlayers();
-				if(!(players.contains(currentPlayer))) {
-					
-					players.add(currentPlayer);
-					if(currentPlayer==turn.getPlayers().get(0)) {
-						turn.setPlayer(currentPlayer);
-						this.parchisTurnService.save(turn);
-					}
-					piece.setPlayer(currentPlayer);
-					this.parchisPieceService.save(piece);
-					 
-				}
-				piece.setPlayer(currentPlayer);
-				this.parchisPieceService.save(piece);
-				ParchisPiece piece_2=this.parchisPieceService.findByPlayerId(currentPlayer.getId()).iterator().next();
-				if(piece_2!=null) {
-					piece = piece_2;
-				}
+		List<Player> players = turn.getPlayers();
+		if(!(players.contains(currentPlayer))) {
+			players.add(currentPlayer);
+			if(currentPlayer==turn.getPlayers().get(0)) {
+				turn.setPlayer(currentPlayer);
+				this.parchisTurnService.save(turn);
 			}
+			piece.setPlayer(currentPlayer);
+			this.parchisPieceService.save(piece);
+		}
+		piece.setPlayer(currentPlayer);
+		this.parchisPieceService.save(piece);
+		ParchisPiece piece_2=this.parchisPieceService.findByPlayerId(currentPlayer.getId()).iterator().next();
+		if(piece_2!=null) {
+			piece = piece_2;
 		}
 		mav.addObject(piece);
-		String username = auth.getName();
-		Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
 		mav.addObject(currentPlayer);
 		mav.addObject(turn);
 		mav.addObject(this.parchisGameService.findGameById(parchisGameId));
-//		mav.addObject(this.parchisBoardService.findById(parchisGameId));
+		//		mav.addObject(this.parchisBoardService.findById(parchisGameId));
 		return mav;
 	}
 }

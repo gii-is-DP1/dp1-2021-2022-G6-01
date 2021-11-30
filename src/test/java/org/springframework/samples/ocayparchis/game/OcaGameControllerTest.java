@@ -41,7 +41,7 @@ import org.springframework.test.web.servlet.MockMvc;
  */
 
 @WebMvcTest(controllers = OcaGameController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
-class OcaGameControllerTests {
+class OcaGameControllerTest {
 
 	private static final int TEST_PLAYER_ID = 6;
 
@@ -66,7 +66,6 @@ class OcaGameControllerTests {
 
 	@BeforeEach
 	void setup() {
-
 		mario = new Player();
 		mario.setId(TEST_PLAYER_ID);
 		mario.setFirstName("Mario");

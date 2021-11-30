@@ -17,6 +17,7 @@ import org.springframework.samples.ocayparchis.player.Player;
 import org.springframework.samples.ocayparchis.player.PlayerService;
 import org.springframework.samples.ocayparchis.user.User;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -119,44 +120,32 @@ public class OcaGameController {
 		return view;
 		
 	}
-	
-	
 
-	
 	@GetMapping("/{ocaGameId}")
-	public ModelAndView showGame(@PathVariable("ocaGameId") int ocaGameId, HttpServletResponse response) {
+	public ModelAndView showGame(@PathVariable("ocaGameId") int ocaGameId, HttpServletResponse response,@AuthenticationPrincipal Authentication user) {
 		response.addHeader("Refresh", "2");
 		ModelAndView mav = new ModelAndView("ocaGames/ocaGameDetails");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
 		OcaPiece piece = new OcaPiece();
-		if(auth!=null) {
-			if (auth.isAuthenticated()) {
-				String username = auth.getName();
-				Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
-				List<Player> players = turn.getPlayers();
-				if(!(players.contains(currentPlayer))) {
-					
-					players.add(currentPlayer);
-					if(currentPlayer==turn.getPlayers().get(0)) {
-						turn.setPlayer(currentPlayer);
-						this.ocaTurnService.save(turn);
-					}
-					piece.setPlayer(currentPlayer);
-					this.ocaPieceService.save(piece);
-					 
-				}
-				piece.setPlayer(currentPlayer);
-				this.ocaPieceService.save(piece);
-				OcaPiece piece_2=this.ocaPieceService.findByPlayerId(currentPlayer.getId());
-				if(piece_2!=null) {
-					piece = piece_2;
-				}
+		String username = user.getName();
+		Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
+		List<Player> players = turn.getPlayers();
+		if(!(players.contains(currentPlayer))) {		
+			players.add(currentPlayer);
+			if(currentPlayer==turn.getPlayers().get(0)) {
+				turn.setPlayer(currentPlayer);
+				this.ocaTurnService.save(turn);
 			}
+			piece.setPlayer(currentPlayer);
+			this.ocaPieceService.save(piece);
+		}
+		piece.setPlayer(currentPlayer);
+		this.ocaPieceService.save(piece);
+		OcaPiece piece_2=this.ocaPieceService.findByPlayerId(currentPlayer.getId());
+		if(piece_2!=null) {
+			piece = piece_2;
 		}
 		mav.addObject(piece);
-		String username = auth.getName();
-		Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
 		mav.addObject(currentPlayer);
 		mav.addObject(turn);
 		mav.addObject(this.ocaGameService.findGameById(ocaGameId));

@@ -35,16 +35,19 @@ public class PlayerService {
 
 	private PlayerRepository playerRepository;	
 	
-	@Autowired
 	private UserService userService;
 	
-	@Autowired
 	private AuthoritiesService authoritiesService;
-
+	
 	@Autowired
-	public PlayerService(PlayerRepository playerRepository) {
+	public PlayerService(PlayerRepository playerRepository, UserService userService,
+			AuthoritiesService authoritiesService) {
+		super();
 		this.playerRepository = playerRepository;
+		this.userService = userService;
+		this.authoritiesService = authoritiesService;
 	}
+
 	
 	public Iterable<Player> findAll() {
 		return playerRepository.findAll();

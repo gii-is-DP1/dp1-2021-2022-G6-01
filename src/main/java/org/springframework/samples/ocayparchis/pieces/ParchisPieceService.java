@@ -9,10 +9,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ParchisPieceService {
-	@Autowired
+	
 	private ParchisPieceRepository parchisPieceRepo;
 	
-	
+	@Autowired
+	public ParchisPieceService(ParchisPieceRepository parchisPieceRepo) {
+		super();
+		this.parchisPieceRepo = parchisPieceRepo;
+	}
+
 	@Transactional
 	public Iterable<ParchisPiece> findAll(){
 		return parchisPieceRepo.findAll();

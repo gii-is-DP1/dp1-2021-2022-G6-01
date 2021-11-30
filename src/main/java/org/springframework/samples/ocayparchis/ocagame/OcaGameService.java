@@ -14,11 +14,13 @@ import org.springframework.stereotype.Service;
 
 public class OcaGameService {
 
-	@Autowired
 	private  OcaGameRepository ocaGameRepo;
-	
-	
 
+	@Autowired
+	public OcaGameService(OcaGameRepository ocaGameRepo) {
+		super();
+		this.ocaGameRepo = ocaGameRepo;
+	}
 	
 	@Transactional
 	public Iterable<OcaGame> findAll(){

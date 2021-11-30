@@ -1,5 +1,5 @@
 package org.springframework.samples.parchisBusinessRules;
 
-public class ParchisBusines {
+public class ParchisRules {
 
 }

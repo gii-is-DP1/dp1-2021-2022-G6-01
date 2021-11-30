@@ -33,18 +33,20 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/ocaTurn")
 public class OcaTurnController {
 	
-	
-	@Autowired
 	private OcaTurnService ocaTurnService;
-	@Autowired
-	private PlayerService playerService;
-	@Autowired
+	
 	private OcaPieceService ocaPieceService;
-	@Autowired
-	private OcaGameService ocaGameService;
-	
 
-	
+	@Autowired	
+	public OcaTurnController(OcaTurnService ocaTurnService, OcaPieceService ocaPieceService) {
+		super();
+		this.ocaTurnService = ocaTurnService;
+		this.ocaPieceService = ocaPieceService;
+	}
+
+
+
+
 	@GetMapping(path="/{ocaGameId}/{playerId}")
 	public String playTurn(@PathVariable("ocaGameId") int ocaGameId,@PathVariable("playerId") Integer playerId){
 		OcaPiece piece = this.ocaPieceService.findByPlayerId(playerId);

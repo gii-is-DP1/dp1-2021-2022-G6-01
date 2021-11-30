@@ -8,9 +8,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ParchisTurnService {
-	@Autowired
+	
 	private ParchisTurnRepository parchisTurnRepo;
 	
+	@Autowired
+	public ParchisTurnService(ParchisTurnRepository parchisTurnRepo) {
+		super();
+		this.parchisTurnRepo = parchisTurnRepo;
+	}
 	
 	@Transactional
 	public Iterable<ParchisTurn> findAll(){

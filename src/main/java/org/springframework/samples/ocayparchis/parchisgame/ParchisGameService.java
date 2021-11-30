@@ -9,8 +9,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ParchisGameService {
 	
-	@Autowired
 	private  ParchisGameRepository parchisGameRepo;
+	
+	@Autowired
+	public ParchisGameService(ParchisGameRepository parchisGameRepo) {
+		super();
+		this.parchisGameRepo = parchisGameRepo;
+	}
 	
 	@Transactional
 	public Iterable<ParchisGame> findAll(){

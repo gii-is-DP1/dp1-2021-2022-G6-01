@@ -9,10 +9,15 @@ import org.springframework.samples.ocayparchis.player.Player;
 import org.springframework.stereotype.Service;
 @Service
 public class OcaTurnService {
-	@Autowired
+	
 	private OcaTurnRepository ocaTurnRepo;
 	
-	
+	@Autowired
+	public OcaTurnService(OcaTurnRepository ocaTurnRepo) {
+		super();
+		this.ocaTurnRepo = ocaTurnRepo;
+	}
+
 	@Transactional
 	public Iterable<OcaTurn> findAll(){
 		return ocaTurnRepo.findAll();

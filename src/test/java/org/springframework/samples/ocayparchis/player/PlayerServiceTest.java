@@ -47,14 +47,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class PlayerServiceTest {                
-        @Autowired
+        
+	@Autowired
 	protected PlayerService playerService;
     
 	@Test
 	public void shouldFindPlayerByUserName() {
 		Collection<Player> players = this.playerService.findPlayerByUsername("pacoJeje");
 		assertThat(players.size()).isEqualTo(1);
-
 		players = this.playerService.findPlayerByUsername("pacooJeje");
 		assertThat(players.isEmpty()).isTrue();
 	}
@@ -99,7 +99,7 @@ class PlayerServiceTest {
 
 	@Test
 	@Transactional
-	public void shouldUpdateOwner() {
+	public void shouldUpdatePlayer() {
 		Player player = this.playerService.findPlayerById(1);
 		String oldLastName = player.getLastName();
 		String newLastName = oldLastName + "X";

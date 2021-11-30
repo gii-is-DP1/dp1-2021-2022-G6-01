@@ -9,10 +9,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OcaPieceService {
-	@Autowired
+	
+
+
 	private OcaPieceRepository ocaPieceRepo;
 	
-	
+	@Autowired
+	public OcaPieceService(OcaPieceRepository ocaPieceRepo) {
+		super();
+		this.ocaPieceRepo = ocaPieceRepo;
+	}
+
 	@Transactional
 	public Iterable<OcaPiece> findAll(){
 		return ocaPieceRepo.findAll();
