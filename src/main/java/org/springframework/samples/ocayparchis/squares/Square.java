@@ -76,15 +76,15 @@ public class Square extends BaseEntity{
 	 };
 	 
 	
-	public void generateSquares() {
-		for(int i=1;i<=100;i++) {
-			if()
-			Square s = new Square(null,i,null,null);
-			
-			
-		}
+//	public void generateSquares() {
+//		for(int i=1;i<=100;i++) {
+//			if()
+//			Square s = new Square(null,i,null,null);
+//			
+//			
+//		}
 		
-	}
+//	}
 
 	public Square(@Size(min = 0, max = 2) List<ParchisPiece> pieces, Integer position, Color color, OcaBoard board) {
 		super();
