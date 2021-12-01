@@ -27,6 +27,8 @@ import org.springframework.samples.ocayparchis.pieces.ParchisPiece;
 import org.springframework.samples.ocayparchis.player.Player;
 import org.springframework.samples.ocayparchis.player.PlayerService;
 import org.springframework.samples.ocayparchis.squares.Color;
+import org.springframework.samples.ocayparchis.squares.Square;
+import org.springframework.samples.ocayparchis.squares.SquareService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,6 +50,8 @@ public class ParchisGameController {
 	
 	private ParchisGameService parchisGameService;
 	
+	private SquareService squareService;
+	
 	private ParchisPieceService parchisPieceService;
 	
 	private ParchisTurnService parchisTurnService;
@@ -58,13 +62,14 @@ public class ParchisGameController {
 	
 	@Autowired
 	public ParchisGameController(ParchisGameService parchisGameService, ParchisPieceService parchisPieceService,
-			ParchisTurnService parchisTurnService, PlayerService playerService,ParchisBoardService parchisBoardService) {
+			ParchisTurnService parchisTurnService, PlayerService playerService,ParchisBoardService parchisBoardService,SquareService squareService) {
 		super();
 		this.parchisGameService = parchisGameService;
 		this.parchisPieceService = parchisPieceService;
 		this.parchisTurnService = parchisTurnService;
 		this.playerService = playerService;
 		this.parchisBoardService = parchisBoardService;
+		this.squareService=squareService;
 	}
 
 	@GetMapping()
@@ -90,7 +95,7 @@ public class ParchisGameController {
 		}else{
 			ParchisTurn turn= new ParchisTurn();
 			turn.TurnInit();
-			
+			this.squareService.generateSquares();
 			this.parchisTurnService.save(turn);
 			parchisGameService.save(game);
 			modelMap.addAttribute("message","game successfully saved");
@@ -159,14 +164,51 @@ public class ParchisGameController {
 
 	public void createAndAsignPieces(List<Player> players, Player player) {
 		Color c = nextFreeColor(players);
+		Square s4 = this.squareService.findByPosition(61);
+		List<ParchisPiece> pieces4 = s4.getPieces();
 		for(int i=1;i<5;i++) {
 			ParchisPiece p = new ParchisPiece();
 			p.setPlayer(player);
 			p.setName("Ficha "+i);
 			p.setColor(c);
+//			switch (c) {
+//			case BLUE:
+//				Square s = this.squareService.findByPosition(61);
+//				List<ParchisPiece> pieces = s.getPieces();
+//				pieces.add(p);
+//				p.setSquare(s);
+//				s.setPieces(pieces);
+//				this.squareService.save(s);
+//			case GREEN:
+//				Square s2 = this.squareService.findByPosition(61);
+//				List<ParchisPiece> pieces2 = s2.getPieces();
+//				pieces2.add(p);
+//				p.setSquare(s2);
+//				s2.setPieces(pieces2);
+//				this.squareService.save(s2);
+//			case RED:
+//				Square s3 = this.squareService.findByPosition(61);
+//				List<ParchisPiece> pieces3 = s3.getPieces();
+//				pieces3.add(p);
+//				p.setSquare(s3);
+//				s3.setPieces(pieces3);
+//				this.squareService.save(s3);
+//			case YELLOW:
+//				Square s4 = this.squareService.findByPosition(61);
+//				List<ParchisPiece> pieces4 = s4.getPieces();
+//				pieces4.add(p);
+//				p.setSquare(s4);
+//				s4.setPieces(pieces4);
+//				this.squareService.save(s4);
+//
+//			}
+			p.setSquare(s4);
+			pieces4.add(p);
 			this.parchisPieceService.save(p);
 			player.addPiece(p);;
 			this.playerService.savePlayer(player);
 		}	
+		s4.setPieces(pieces4);
+		this.squareService.save(s4);
 	}
 }

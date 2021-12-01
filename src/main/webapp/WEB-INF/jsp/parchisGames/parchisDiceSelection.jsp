@@ -12,7 +12,7 @@
  	<h2>
         Move Selection
     </h2>
-        <form class="form-horizontal" action="/parchisGames/save">
+        <form class="form-horizontal" action="/parchisTurn/${parchisTurn.id}/${player.id}">
             <div class="form-group has-feedback">        
                 <petclinic:selectField name="pieces" label="Pieces " names="${pieces}"
 			size="4" />

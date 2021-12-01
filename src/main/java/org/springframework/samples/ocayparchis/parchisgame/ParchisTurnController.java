@@ -4,6 +4,8 @@ package org.springframework.samples.ocayparchis.parchisgame;
 import java.util.Collection;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.ocayparchis.model.OcaGame;
 import org.springframework.samples.ocayparchis.model.OcaTurn;
@@ -70,7 +72,7 @@ public class ParchisTurnController {
 	}
 	
 	@GetMapping(path="/{parchisGameId}/{playerId}/{dice}")
-	public  ModelAndView moveSelection (@PathVariable("parchisGameId") int parchisGameId,@PathVariable("playerId") Integer playerId,@PathVariable("dice") Integer diceNumber){
+	public  ModelAndView moveSelection (@PathVariable("parchisGameId") int parchisGameId,@PathVariable("playerId") Integer playerId,@PathVariable("dice") Integer diceNumber,@AuthenticationPrincipal Authentication user){
 		ParchisTurn turn = this.parchisTurnService.findTurnById(parchisGameId);
 		Integer dice = 0;
 		if(diceNumber ==1) {
@@ -80,11 +82,15 @@ public class ParchisTurnController {
 		}
 		ModelAndView mav = new ModelAndView("parchisGames/parchisDiceSelection");
 		mav.addObject("dice", dice);
+		String username = user.getName();
+		Player currentPlayer = this.playerService.findPlayerByUsername(username).iterator().next();
+		mav.addObject(currentPlayer);
+		mav.addObject(turn);
 		return mav;
 	}
 	
 	@PostMapping(path="/{parchisGameId}/{playerId}/{dice}")
-	public ModelAndView assignPosition (@PathVariable("parchisGameId") int parchisGameId,@PathVariable("playerId") Integer playerId,@PathVariable("dice") Integer diceNumber, BindingResult result, @AuthenticationPrincipal Authentication user) {
+	public ModelAndView assignPosition (@Valid ParchisPiece piece,@PathVariable("parchisGameId") int parchisGameId,@PathVariable("playerId") Integer playerId,@PathVariable("dice") Integer diceNumber, BindingResult result) {
 		ParchisTurn turn = this.parchisTurnService.findTurnById(parchisGameId);
 		Integer dice = 0;
 		if(diceNumber ==1) {
@@ -92,7 +98,6 @@ public class ParchisTurnController {
 		}else if(diceNumber==2) {
 			dice = turn.getDice2();
 		}
-		ParchisPiece piece = (ParchisPiece) result.getFieldValue("pieces");
 		Square actual_square = piece.getSquare();
 		List<ParchisPiece> actual_square_pieces = actual_square.getPieces(); //crear servicio de eliminar ficha de square y añadir ficha en square
 		actual_square_pieces.remove(piece);
@@ -105,13 +110,7 @@ public class ParchisTurnController {
 		next_square.setPieces(next_square_pieces);
 		this.squareService.save(next_square);
 		this.parchisPieceService.save(piece);
-		
-		String username = user.getName();
-		Player currentPlayer = this.playerService.findPlayerByUsername(username).iterator().next();
-		
 		ModelAndView mav = new ModelAndView("parchisGames/parchisTurnDetails");
-		mav.addObject(currentPlayer);
-		mav.addObject(turn);
 		return mav;
 	}
 	

@@ -40,17 +40,14 @@ public class ParchisPiece extends BaseEntity{
 	@ManyToOne(cascade = CascadeType.ALL)
     ParchisBoard board;
 	
-	
-	
+
 	@ManyToOne
 	private Player player;
 	
 	private String name;
-
+	
 	@Override
 	public String toString() {
-		return name+": Posición ";//+ square.getPosition();
+		return name+":"+square.getPosition()+" "+ id;
 	}
-	
-	
 }
