@@ -27,6 +27,7 @@ public class ParchisTurn extends BaseEntity{
     private Player player;
     private Integer dice1;
     private Integer dice2;
+    private Boolean isThrowed = false;
     
     public  void TurnInit(){
         this.turn=0;
@@ -41,6 +42,7 @@ public class ParchisTurn extends BaseEntity{
         this.dice1=r.nextInt(6)+1;// Entre 0 y 5, más 1
         Random r2 = new Random();
         this.dice2=r2.nextInt(6)+1;// Entre 0 y 5, más 1
+        this.isThrowed=true;
     }
 
     
@@ -54,7 +56,8 @@ public class ParchisTurn extends BaseEntity{
             this.i++;
         }
         this.player=players.get(i); 
-
+        this.isThrowed=false;
+        
     }
 
 }

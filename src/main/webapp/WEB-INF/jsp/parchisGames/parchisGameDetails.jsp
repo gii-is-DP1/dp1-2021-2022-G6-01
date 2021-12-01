@@ -41,8 +41,6 @@
      
           </tr>
 
-          
-          
     </table>
     <div class="col-md-3">
            <c:choose>
@@ -60,6 +58,7 @@
                     </c:otherwise>
                 </c:choose>
         </div>
-      
+	
+
 
 </petclinic:layout>

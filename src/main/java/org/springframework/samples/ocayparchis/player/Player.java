@@ -108,5 +108,9 @@ public class Player extends Person {
 	public void setPiece(ParchisPiece piece) {
 		this.pieces.add(piece);
 	}
+	
+	public void addPiece(ParchisPiece piece) {
+		this.pieces.add(piece);
+	}
 
 }

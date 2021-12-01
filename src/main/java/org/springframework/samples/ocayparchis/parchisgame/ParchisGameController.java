@@ -90,6 +90,7 @@ public class ParchisGameController {
 		}else{
 			ParchisTurn turn= new ParchisTurn();
 			turn.TurnInit();
+			
 			this.parchisTurnService.save(turn);
 			parchisGameService.save(game);
 			modelMap.addAttribute("message","game successfully saved");
@@ -116,19 +117,18 @@ public class ParchisGameController {
 		List<Player> players = turn.getPlayers();
 
 		if(!(players.contains(currentPlayer))) {
+			
+			createAndAsignPieces(players, currentPlayer);
 			players.add(currentPlayer);
 			if(currentPlayer==turn.getPlayers().get(0)) {
 				turn.setPlayer(currentPlayer);
 				
 				
 			}
+			
 			turn.setPlayers(players);
 			this.parchisTurnService.save(turn);
-			createAndAsignPieces(turn, currentPlayer);
-			
 		}
-
-
 		mav.addObject(currentPlayer);
 		mav.addObject(turn);
 		mav.addObject(this.parchisGameService.findGameById(parchisGameId));
@@ -136,39 +136,37 @@ public class ParchisGameController {
 		//		mav.addObject(this.parchisBoardService.findById(parchisGameId));
 		return mav;
 	}
-	public Color nextFreeColor(ParchisTurn turn) {
+	
+	
+	public Color nextFreeColor(List<Player>players) {
 		List<Color> colores= Arrays.asList(Color.values());
 		List<Color>	usedColors=new ArrayList<Color>();
 		Color freeColor = Color.BLUE;
-		for(Player p:turn.getPlayers()) {
-			Color c=p.getPieces().get(0).getColor();
-			   usedColors.add(c);
+		for(Player p:players) {
+			Color c=p.getPieces().get(1).getColor();
+			usedColors.add(c);
+		}
+		for(Color c:colores) {
+			if(!usedColors.contains(c)) {
+				freeColor=c;
+				break;
 			}
-		
-	   for(Color c:colores) {
-		   if(!usedColors.contains(c)) {
-			   freeColor=c;
-			   break;
-		   }
-			   
-		   }
-		
+		}
+
 		return freeColor;
-		
+
 	}
-	public void createAndAsignPieces(ParchisTurn turn, Player player) {
+
+	public void createAndAsignPieces(List<Player> players, Player player) {
+		Color c = nextFreeColor(players);
 		for(int i=1;i<5;i++) {
 			ParchisPiece p = new ParchisPiece();
 			p.setPlayer(player);
 			p.setName("Ficha "+i);
-			this.parchisPieceService.save(p);
-		}
-		Color c = nextFreeColor(turn);
-		for(ParchisPiece p :player.getPieces()) {
 			p.setColor(c);
 			this.parchisPieceService.save(p);
-		}
-		
-		
+			player.addPiece(p);;
+			this.playerService.savePlayer(player);
+		}	
 	}
 }

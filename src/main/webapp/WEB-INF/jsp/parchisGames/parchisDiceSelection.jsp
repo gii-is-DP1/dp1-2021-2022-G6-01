@@ -5,30 +5,27 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 
-<petclinic:layout pageName="ParchisGames">
+<petclinic:layout pageName="ParchisDices">
    
     <jsp:body>
         <h2>ParchiGames</h2>
  	<h2>
-        <c:if test="${parchisGame['new']}">New </c:if> Game
+        Move Selection
     </h2>
-        <form:form modelAttribute="parchisGame" class="form-horizontal" action="/parchisGames/save">
-            <div class="form-group has-feedback">
-         	  <petclinic:inputField label="Name" name="name"/>
-                <petclinic:inputField label="Reward" name="reward"/>
-                <petclinic:inputField label="Players(min 2,max 4)" name="players"/>           
-                
+        <form class="form-horizontal" action="/parchisGames/save">
+            <div class="form-group has-feedback">        
+                <petclinic:selectField name="pieces" label="Pieces " names="${pieces}"
+			size="4" />
             </div>
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <input type="hidden" name="id" value="${parchisGame.id}"/>
                     <button class="btn btn-default" type="submit">Save Game</button>
                     
                 </div>
             </div>
             
-        </form:form>
+        </form>
 
         </jsp:body>
 

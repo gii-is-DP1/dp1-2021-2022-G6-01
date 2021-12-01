@@ -7,12 +7,21 @@
 
 <petclinic:layout pageName="parchisGames">
 
-    <h2>Player Information</h2>
+        <h2>Player Information</h2>
 
 
     <table class="table table-striped">
 
         
+        <tr>
+            <th>Name</th>
+            <td><c:out value="${parchisGame.name}"/></td>
+        </tr>
+        <tr>
+            <th>Tablero</th>
+            <td><img class="card-img-top" src="/resources/images/tablero_parchis.png"
+							alt="Dubai"></td>
+        </tr>
          <tr>
          <th>DICE 1</th>
             <td><c:out value="${parchisTurn.dice1}"/></td>
@@ -22,31 +31,45 @@
      		<td><c:out value="${parchisTurn.dice2}"/></td>
           </tr>
           
-          
-          
+                 <tr>
+            <th>TURN</th>
+            <td><c:out value="${parchisTurn.turn}"/></td>
+        </tr>
+        <tr>
+         <th>PLAYER</th>
+            <td><c:out value="${parchisTurn.player.user.username}"/></td>
+     
+          </tr>
+
     </table>
-   
-   <div class="control-group">
-                    <petclinic:selectField name="pieces" label="Pieces " names="${pieces}"
-                        size="4" />
-                </div>
     
-    <div class="col-md-3">
-           <c:choose>
-                    <c:when test="${player.id==parchisTurn.player.id}">
-                        <spring:url value="/parchisGame/{gameId}" var="joinUrl">
-                        <spring:param name="gameId" value="${parchisGame.id}"/>
-                    </spring:url>
-				<div class="control-group">
-					
-				</div>
-				<a class="btn btn-primary" href="${fn:escapeXml(joinUrl)}">ROLL IT MOTHER FUCKER</a>
-                    </c:when>
-                    <c:otherwise>
-                        <p> NO ES TU TURNO </p> 
-                    </c:otherwise>
-                </c:choose>
-        </div>
-      
+	<form class="form-horizontal" id="roll-form">
+		<div class="control-group">
+		 <spring:url value="/parchisTurn/{gameId}/{playerId}/1" var="dice1Url">
+                        <spring:param name="gameId" value="${parchisTurn.id}"/>
+                          <spring:param name="playerId" value="${player.id}"/>
+                           </spring:url>
+		<div class="col-md-3">
+		<p>DICE 1</p>
+		
+			
+			<a class="btn btn-primary" href="${fn:escapeXml(dice1Url)}">ROLL IT MOTHER FUCKER</a>
+			</div>
+			
+		
+		<spring:url value="/parchisTurn/{gameId}/{playerId}/2" var="dice2Url">
+                        <spring:param name="gameId" value="${parchisTurn.id}"/>
+                          <spring:param name="playerId" value="${player.id}"/>
+                
+                           </spring:url>
+                           <div class="col-md-3">
+			<p>DICE 2</p>
+
+			
+			<a class="btn btn-primary" href="${fn:escapeXml(dice2Url)}">ROLL IT MOTHER FUCKER</a>
+		
+		</div>
+		</div>
+     </form>
 
 </petclinic:layout>
