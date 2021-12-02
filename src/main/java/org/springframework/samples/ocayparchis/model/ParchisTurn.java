@@ -20,6 +20,7 @@ public class ParchisTurn extends BaseEntity{
 	
 	private Integer turn;
     private Integer i;//puntero
+    private Integer dicesAvailable;
     
     @OneToMany(cascade = CascadeType.ALL)
     private List<Player>players;
@@ -43,6 +44,7 @@ public class ParchisTurn extends BaseEntity{
         Random r2 = new Random();
         this.dice2=r2.nextInt(6)+1;// Entre 0 y 5, más 1
         this.isThrowed=true;
+        this.dicesAvailable=2;
     }
 
     

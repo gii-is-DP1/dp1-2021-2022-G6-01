@@ -164,51 +164,30 @@ public class ParchisGameController {
 
 	public void createAndAsignPieces(List<Player> players, Player player) {
 		Color c = nextFreeColor(players);
-		Square s4 = this.squareService.findByPosition(61);
-		List<ParchisPiece> pieces4 = s4.getPieces();
+		Square s = new Square();
+		if(c==Color.BLUE) {
+			s= this.squareService.findByPosition(0);
+		}else if(c==Color.GREEN) {
+			s= this.squareService.findByPosition(-1);
+		}else if(c==Color.YELLOW) {
+			s= this.squareService.findByPosition(-2);
+		}else {
+			s= this.squareService.findByPosition(-3);
+		}
+		
+		List<ParchisPiece> pieces4 = s.getPieces();
 		for(int i=1;i<5;i++) {
 			ParchisPiece p = new ParchisPiece();
 			p.setPlayer(player);
 			p.setName("Ficha "+i);
 			p.setColor(c);
-//			switch (c) {
-//			case BLUE:
-//				Square s = this.squareService.findByPosition(61);
-//				List<ParchisPiece> pieces = s.getPieces();
-//				pieces.add(p);
-//				p.setSquare(s);
-//				s.setPieces(pieces);
-//				this.squareService.save(s);
-//			case GREEN:
-//				Square s2 = this.squareService.findByPosition(61);
-//				List<ParchisPiece> pieces2 = s2.getPieces();
-//				pieces2.add(p);
-//				p.setSquare(s2);
-//				s2.setPieces(pieces2);
-//				this.squareService.save(s2);
-//			case RED:
-//				Square s3 = this.squareService.findByPosition(61);
-//				List<ParchisPiece> pieces3 = s3.getPieces();
-//				pieces3.add(p);
-//				p.setSquare(s3);
-//				s3.setPieces(pieces3);
-//				this.squareService.save(s3);
-//			case YELLOW:
-//				Square s4 = this.squareService.findByPosition(61);
-//				List<ParchisPiece> pieces4 = s4.getPieces();
-//				pieces4.add(p);
-//				p.setSquare(s4);
-//				s4.setPieces(pieces4);
-//				this.squareService.save(s4);
-//
-//			}
-			p.setSquare(s4);
+			p.setSquare(s);
 			pieces4.add(p);
 			this.parchisPieceService.save(p);
 			player.addPiece(p);;
 			this.playerService.savePlayer(player);
 		}	
-		s4.setPieces(pieces4);
-		this.squareService.save(s4);
+		s.setPieces(pieces4);
+		this.squareService.save(s);
 	}
 }

@@ -62,10 +62,10 @@ public class Square extends BaseEntity{
 		 List<Integer>safe=List.of(12,17,29,34,46,51,63,68);
 		return safe.contains(this.position);
 		 
-	 };
+	 }
 	 
 	 public  Boolean isStart() {
-		 List<Integer>start=List.of(5,22,39,56);
+		 List<Integer>start=List.of(-3,-2,-1,0);
 		return start.contains(this.position);
 		 
 	 };

@@ -15,6 +15,7 @@ import org.springframework.samples.ocayparchis.pieces.ParchisPiece;
 import org.springframework.samples.ocayparchis.pieces.ParchisPieceService;
 import org.springframework.samples.ocayparchis.player.Player;
 import org.springframework.samples.ocayparchis.player.PlayerService;
+import org.springframework.samples.ocayparchis.squares.Color;
 import org.springframework.samples.ocayparchis.squares.Square;
 import org.springframework.samples.ocayparchis.squares.SquareService;
 import org.springframework.security.core.Authentication;
@@ -123,26 +124,69 @@ public class ParchisTurnController {
 //	}
 	
 	@GetMapping(path="/{parchisGameId}/{playerId}/{dice}/{ParchisPieceId}")
-	public ModelAndView assignPosition (@PathVariable("parchisGameId") int parchisGameId,
+	public String assignPosition (@PathVariable("parchisGameId") int parchisGameId,
 			@PathVariable("playerId") Integer playerId,@PathVariable("dice") Integer diceNumber, @PathVariable("ParchisPieceId") int parchisId) {
 		ParchisTurn turn = this.parchisTurnService.findTurnById(parchisGameId);
 		ParchisPiece piece = this.parchisPieceService.findPieceById(parchisId);
+		Square next_square = movePiece(piece, diceNumber);
+		if(diceNumber!=0) {
+			turn.setDicesAvailable(turn.getDicesAvailable()-1);
+		}
+		if(turn.getDice1().equals(diceNumber)) {
+			turn.setDice1(0);
+		}else {
+			turn.setDice2(0);
+		}
+		this.parchisTurnService.save(turn);
+		this.squareService.save(next_square);
+		this.parchisPieceService.save(piece);
+		if(turn.getDicesAvailable()<1) {
+			turn.nextTurn();
+			this.parchisTurnService.save(turn);
+			return "redirect:/parchisGames/"+parchisGameId;
+		}
+
+		return "redirect:/parchisTurn/"+parchisGameId+"/"+playerId;
+	}
+	
+	public Square movePiece(ParchisPiece piece,Integer diceNumber) {
 		Square actual_square = piece.getSquare();
-		List<ParchisPiece> actual_square_pieces = actual_square.getPieces(); //crear servicio de eliminar ficha de square y añadir ficha en square
+		List<ParchisPiece> actual_square_pieces = actual_square.getPieces(); 
 		actual_square_pieces.remove(piece);
 		actual_square.setPieces(actual_square_pieces);
 		this.squareService.save(actual_square);
-		Square next_square= this.squareService.findByPosition(actual_square.getPosition()+diceNumber);
+		Square next_square=new Square();
+		if(diceNumber==5&&actual_square.isStart()) {
+			next_square= takePieceOut(piece,diceNumber,actual_square);
+		}else {
+			next_square = this.squareService.findByPosition(actual_square.getPosition()+diceNumber);
+		}
+		
 		piece.setSquare(next_square);
 		List<ParchisPiece> next_square_pieces = next_square.getPieces();
 		next_square_pieces.add(piece);
 		next_square.setPieces(next_square_pieces);
-		this.squareService.save(next_square);
-		this.parchisPieceService.save(piece);
-		ModelAndView mav = new ModelAndView("parchisGames/parchisTurnDetails");
-		mav.addObject(turn);
-		mav.addObject(this.playerService.findPlayerById(playerId));
-		return mav;
+		return next_square;
+	}
+	
+	public Square takePieceOut(ParchisPiece piece,Integer diceNumber, Square actual_square) {
+		if(actual_square.isStart()&&Color.BLUE==piece.getColor()) {
+			piece.setInStart(false);
+			this.parchisPieceService.save(piece);
+			return this.squareService.findByPosition(22);
+		}else if(actual_square.isStart()&&Color.YELLOW==piece.getColor()) {
+			piece.setInStart(false);
+			this.parchisPieceService.save(piece);
+			return this.squareService.findByPosition(5);
+		}else if(actual_square.isStart()&&Color.GREEN==piece.getColor()) {
+			piece.setInStart(false);
+			this.parchisPieceService.save(piece);
+			return this.squareService.findByPosition(56);
+		}else {
+			piece.setInStart(false);
+			this.parchisPieceService.save(piece);
+			return this.squareService.findByPosition(39);
+		}
 	}
 	
 	@ModelAttribute("pieces")
