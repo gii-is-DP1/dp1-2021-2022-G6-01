@@ -84,26 +84,55 @@ public class ParchisTurnController {
 		mav.addObject("dice", dice);
 		String username = user.getName();
 		Player currentPlayer = this.playerService.findPlayerByUsername(username).iterator().next();
+		
+		List<ParchisPiece> pieces = (List<ParchisPiece>) this.parchisPieceService.findByPlayerId(currentPlayer.getId()); 
+		int i=1;
+		for(ParchisPiece p : pieces) {
+			mav.addObject("piece"+i,p);
+			i++;
+		}
+		
 		mav.addObject(currentPlayer);
 		mav.addObject(turn);
 		return mav;
 	}
+//	
+//	@PostMapping(path="/{parchisGameId}/{playerId}/{dice}")
+//	public ModelAndView assignPosition2 (@Valid ParchisPiece piece,@PathVariable("parchisGameId") int parchisGameId,@PathVariable("playerId") Integer playerId,@PathVariable("dice") Integer diceNumber, BindingResult result) {
+//		ParchisTurn turn = this.parchisTurnService.findTurnById(parchisGameId);
+//		Integer dice = 0;
+//		if(diceNumber ==1) {
+//			dice = turn.getDice1();
+//		}else if(diceNumber==2) {
+//			dice = turn.getDice2();
+//		}
+//		Square actual_square = piece.getSquare();
+//		List<ParchisPiece> actual_square_pieces = actual_square.getPieces(); //crear servicio de eliminar ficha de square y añadir ficha en square
+//		actual_square_pieces.remove(piece);
+//		actual_square.setPieces(actual_square_pieces);
+//		this.squareService.save(actual_square);
+//		Square next_square= this.squareService.findByPosition(actual_square.getPosition()+dice);
+//		piece.setSquare(next_square);
+//		List<ParchisPiece> next_square_pieces = next_square.getPieces();
+//		next_square_pieces.add(piece);
+//		next_square.setPieces(next_square_pieces);
+//		this.squareService.save(next_square);
+//		this.parchisPieceService.save(piece);
+//		ModelAndView mav = new ModelAndView("parchisGames/parchisTurnDetails");
+//		return mav;
+//	}
 	
-	@PostMapping(path="/{parchisGameId}/{playerId}/{dice}")
-	public ModelAndView assignPosition (@Valid ParchisPiece piece,@PathVariable("parchisGameId") int parchisGameId,@PathVariable("playerId") Integer playerId,@PathVariable("dice") Integer diceNumber, BindingResult result) {
+	@GetMapping(path="/{parchisGameId}/{playerId}/{dice}/{ParchisPieceId}")
+	public ModelAndView assignPosition (@PathVariable("parchisGameId") int parchisGameId,
+			@PathVariable("playerId") Integer playerId,@PathVariable("dice") Integer diceNumber, @PathVariable("ParchisPieceId") int parchisId) {
 		ParchisTurn turn = this.parchisTurnService.findTurnById(parchisGameId);
-		Integer dice = 0;
-		if(diceNumber ==1) {
-			dice = turn.getDice1();
-		}else if(diceNumber==2) {
-			dice = turn.getDice2();
-		}
+		ParchisPiece piece = this.parchisPieceService.findPieceById(parchisId);
 		Square actual_square = piece.getSquare();
 		List<ParchisPiece> actual_square_pieces = actual_square.getPieces(); //crear servicio de eliminar ficha de square y añadir ficha en square
 		actual_square_pieces.remove(piece);
 		actual_square.setPieces(actual_square_pieces);
 		this.squareService.save(actual_square);
-		Square next_square= this.squareService.findByPosition(actual_square.getPosition()+dice);
+		Square next_square= this.squareService.findByPosition(actual_square.getPosition()+diceNumber);
 		piece.setSquare(next_square);
 		List<ParchisPiece> next_square_pieces = next_square.getPieces();
 		next_square_pieces.add(piece);
@@ -111,6 +140,8 @@ public class ParchisTurnController {
 		this.squareService.save(next_square);
 		this.parchisPieceService.save(piece);
 		ModelAndView mav = new ModelAndView("parchisGames/parchisTurnDetails");
+		mav.addObject(turn);
+		mav.addObject(this.playerService.findPlayerById(playerId));
 		return mav;
 	}
 	
