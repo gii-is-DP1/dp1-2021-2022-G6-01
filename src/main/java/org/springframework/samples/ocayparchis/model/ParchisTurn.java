@@ -30,6 +30,7 @@ public class ParchisTurn extends BaseEntity{
     private Integer dice2;
     private Boolean isThrowed = false;
     
+    
     public  void TurnInit(){
         this.turn=0;
         this.i=0;

@@ -19,8 +19,8 @@
         </tr>
         <tr>
             <th>Tablero</th>
-            <td><img class="card-img-top" src="/resources/images/tablero_parchis.png"
-							alt="Dubai"></td>
+            <td><img class="card-img-top" src="/resources/images/tablero_cadiz.jpeg"
+							alt="Dubai" height="1600" width="1600"></td>
         </tr>
          <tr>
          <th>DICE 1</th>

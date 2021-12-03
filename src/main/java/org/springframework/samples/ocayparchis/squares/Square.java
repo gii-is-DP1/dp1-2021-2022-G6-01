@@ -39,7 +39,7 @@ public class Square extends BaseEntity{
 
     private Integer position;
 	
-   
+    private Boolean isBloqueo;
     
     Color color;
     

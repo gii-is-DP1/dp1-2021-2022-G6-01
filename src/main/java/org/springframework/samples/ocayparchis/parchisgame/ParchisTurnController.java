@@ -18,6 +18,7 @@ import org.springframework.samples.ocayparchis.player.PlayerService;
 import org.springframework.samples.ocayparchis.squares.Color;
 import org.springframework.samples.ocayparchis.squares.Square;
 import org.springframework.samples.ocayparchis.squares.SquareService;
+import org.springframework.samples.parchisBusinessRules.ParchisRules;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -90,6 +91,7 @@ public class ParchisTurnController {
 		int i=1;
 		for(ParchisPiece p : pieces) {
 			mav.addObject("piece"+i,p);
+			mav.addObject("square"+1,p.getSquare());
 			i++;
 		}
 		
@@ -128,9 +130,10 @@ public class ParchisTurnController {
 			@PathVariable("playerId") Integer playerId,@PathVariable("dice") Integer diceNumber, @PathVariable("ParchisPieceId") int parchisId) {
 		ParchisTurn turn = this.parchisTurnService.findTurnById(parchisGameId);
 		ParchisPiece piece = this.parchisPieceService.findPieceById(parchisId);
-		Square next_square = movePiece(piece, diceNumber);
+		Square next_square = new Square();
 		if(diceNumber!=0) {
 			turn.setDicesAvailable(turn.getDicesAvailable()-1);
+			next_square = movePiece(piece, diceNumber);
 		}
 		if(turn.getDice1().equals(diceNumber)) {
 			turn.setDice1(0);
@@ -158,8 +161,10 @@ public class ParchisTurnController {
 		Square next_square=new Square();
 		if(diceNumber==5&&actual_square.isStart()) {
 			next_square= takePieceOut(piece,diceNumber,actual_square);
-		}else {
+		}else if(!piece.getInStart()){
 			next_square = this.squareService.findByPosition(actual_square.getPosition()+diceNumber);
+		}else {
+			next_square=actual_square;
 		}
 		
 		piece.setSquare(next_square);
