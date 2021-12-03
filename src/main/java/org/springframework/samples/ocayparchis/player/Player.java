@@ -40,6 +40,7 @@ import org.springframework.samples.ocayparchis.model.OcaTurn;
 import org.springframework.samples.ocayparchis.model.Person;
 import org.springframework.samples.ocayparchis.pieces.OcaPiece;
 import org.springframework.samples.ocayparchis.pieces.ParchisPiece;
+import org.springframework.samples.ocayparchis.squares.Color;
 import org.springframework.samples.ocayparchis.user.User;
 
 /**
@@ -68,6 +69,7 @@ public class Player extends Person {
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
+	
 
 	public Player() {
 		this.points=0;
@@ -112,5 +114,6 @@ public class Player extends Person {
 	public void addPiece(ParchisPiece piece) {
 		this.pieces.add(piece);
 	}
+
 
 }

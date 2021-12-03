@@ -21,6 +21,7 @@ public class ParchisTurn extends BaseEntity{
 	private Integer turn;
     private Integer i;//puntero
     private Integer dicesAvailable;
+    private Boolean tiroOtraVez;
     
     @OneToMany(cascade = CascadeType.ALL)
     private List<Player>players;
@@ -47,7 +48,9 @@ public class ParchisTurn extends BaseEntity{
         this.dicesAvailable=2;
     }
 
-    
+    public Boolean repiteTurno() {
+    	return dice1==dice2;
+    }
     
     public void nextTurn() {
         this.turn++;

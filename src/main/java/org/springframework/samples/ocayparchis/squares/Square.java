@@ -39,7 +39,6 @@ public class Square extends BaseEntity{
 
     private Integer position;
 	
-   
     
     Color color;
     
@@ -56,7 +55,7 @@ public class Square extends BaseEntity{
 	
 	public Square() {
 		super();
-	};
+	}
 	
 	 public  Boolean isSafe() {
 		 List<Integer>safe=List.of(12,17,29,34,46,51,63,68);
@@ -64,11 +63,21 @@ public class Square extends BaseEntity{
 		 
 	 }
 	 
-	 public  Boolean isStart() {
-		 List<Integer>start=List.of(-3,-2,-1,0);
-		return start.contains(this.position);
+	 public  Boolean isHouse() {
+		 List<Integer>house=List.of(-3,-2,-1,0);
+		return house.contains(this.position);
 		 
-	 };
+	 }
+	 
+	 public Boolean isStart() {
+		 List<Integer>start=List.of(5,22,39,56);
+			return start.contains(this.position);
+	 }
+	 
+	 public  Boolean isBloqueo() {
+		 return pieces.size()==2;
+	 }
+	 
 	 public  Boolean isStair() {
 		 List<Integer>stair=List.of();
 		 if(this.color.equals(Color.YELLOW)) {
@@ -86,13 +95,14 @@ public class Square extends BaseEntity{
 		return stair.contains(this.position);
 		 
 	 }
-
-	
 	 
-
-
-	
-
-	
+	 public void colocarFicha(ParchisPiece piece) {
+		 pieces.add(piece);
+	 }
+	 
+	 public void quitarFicha(ParchisPiece piece) {
+		 pieces.remove(piece);
+	 }
+	 
 	
 }

@@ -36,7 +36,7 @@ public class SquareService {
 	
 	@Transactional
 	public void generateSquares() {
-		for(int i=-3;i<=100;i++) {
+		for(int i=1;i<=104;i++) {
 			if(69<=i&&i<=76){
 				Square s = new Square(null,i,Color.YELLOW,null);
 				squareRepo.save(s);

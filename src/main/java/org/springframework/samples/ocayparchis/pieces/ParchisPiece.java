@@ -47,6 +47,42 @@ public class ParchisPiece extends BaseEntity{
 	
 	private String name;
 	
+	
+	
+	public Integer casillaActual() {
+		return square.getPosition();
+	}
+	
+	public Integer casillaCasa() {
+		Integer s;
+		if(color==Color.BLUE) {
+			s= 101;
+		}else if(color==Color.GREEN) {
+			s= 102;
+		}else if(color==Color.YELLOW) {
+			s= 103;
+		}else {
+			s= 104;
+		}
+		return s;
+	}
+	
+	public Integer casillaSalida() {
+		Integer s;
+		if(color==Color.BLUE) {
+			s= 22;
+		}else if(color==Color.GREEN) {
+			s= 56;
+		}else if(color==Color.YELLOW) {
+			s= 5;
+		}else {
+			s= 39;
+		}
+		return s;
+	}
+	
+	
+	
 	@Override
 	public String toString() {
 		return name+":"+square.getPosition()+" "+ id;
