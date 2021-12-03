@@ -136,6 +136,12 @@ public class ParchisGameController {
 		}
 		mav.addObject(currentPlayer);
 		mav.addObject(turn);
+		List<ParchisPiece> pieces = (List<ParchisPiece>) this.parchisPieceService.findByPlayerId(currentPlayer.getId()); 
+		Integer i=1;
+		for(ParchisPiece p : pieces) {
+			mav.addObject("piece"+i,p);
+			i++;
+		}
 		mav.addObject(this.parchisGameService.findGameById(parchisGameId));
 		
 		//		mav.addObject(this.parchisBoardService.findById(parchisGameId));

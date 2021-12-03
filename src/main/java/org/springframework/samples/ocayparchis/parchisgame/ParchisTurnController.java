@@ -70,6 +70,12 @@ public class ParchisTurnController {
 		this.parchisTurnService.save(turn);
 		mav.addObject(turn);
 		mav.addObject(currentPlayer);
+		List<ParchisPiece> pieces = (List<ParchisPiece>) this.parchisPieceService.findByPlayerId(currentPlayer.getId()); 
+		int i=1;
+		for(ParchisPiece p : pieces) {
+			mav.addObject("piece"+i,p);
+			i++;
+		}
 		return mav;		
 	}
 	
@@ -91,7 +97,6 @@ public class ParchisTurnController {
 		int i=1;
 		for(ParchisPiece p : pieces) {
 			mav.addObject("piece"+i,p);
-			mav.addObject("square"+1,p.getSquare());
 			i++;
 		}
 		

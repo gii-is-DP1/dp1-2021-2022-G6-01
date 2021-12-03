@@ -40,6 +40,19 @@
             <td><c:out value="${parchisTurn.player.user.username}"/></td>
      
           </tr>
+           <tr>
+            <th>FICHA 1</th>
+            <td><c:out value="${piece1.square.position}"/></td>
+        </tr>  <tr>
+            <th>FICHA 2</th>
+            <td><c:out value="${piece2.square.position}"/></td>
+        </tr>  <tr>
+            <th>FICHA 3</th>
+            <td><c:out value="${piece3.square.position}"/></td>
+        </tr>  <tr>
+            <th>FICHA 4</th>
+            <td><c:out value="${piece4.square.position}"/></td>
+        </tr>
 
     </table>
     <div class="col-md-3">

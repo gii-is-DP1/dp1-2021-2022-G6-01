@@ -40,6 +40,19 @@
             <td><c:out value="${parchisTurn.player.user.username}"/></td>
      
           </tr>
+           <tr>
+            <th>FICHA 1</th>
+            <td><c:out value="${piece1.square.position}"/></td>
+        </tr>  <tr>
+            <th>FICHA 2</th>
+            <td><c:out value="${piece2.square.position}"/></td>
+        </tr>  <tr>
+            <th>FICHA 3</th>
+            <td><c:out value="${piece3.square.position}"/></td>
+        </tr>  <tr>
+            <th>FICHA 4</th>
+            <td><c:out value="${piece4.square.position}"/></td>
+        </tr>
 
     </table>
     
@@ -53,7 +66,7 @@
 		<p>DICE 1</p>
 		
 			
-			<a class="btn btn-primary" href="${fn:escapeXml(dice1Url)}">ROLL IT MOTHER FUCKER</a>
+			<a class="btn btn-primary" href="${fn:escapeXml(dice1Url)}">ELEGIR DADO 1</a>
 			</div>
 			
 		
@@ -66,7 +79,7 @@
 			<p>DICE 2</p>
 
 			
-			<a class="btn btn-primary" href="${fn:escapeXml(dice2Url)}">ROLL IT MOTHER FUCKER</a>
+			<a class="btn btn-primary" href="${fn:escapeXml(dice2Url)}">ELEGIR DADO 2</a>
 		
 		</div>
 		</div>

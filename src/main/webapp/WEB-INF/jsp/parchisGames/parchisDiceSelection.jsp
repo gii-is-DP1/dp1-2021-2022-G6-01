@@ -10,6 +10,53 @@
    
     <jsp:body>
         <h2>ParchiGames</h2>
+        <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <td><c:out value="${parchisGame.name}"/></td>
+        </tr>
+        <tr>
+            <th>Tablero</th>
+            <td><img class="card-img-top" src="/resources/images/tablero_cadiz.jpeg"
+							alt="Dubai" height="1000" width="1000"></td>
+        </tr>
+         <tr>
+         <th>DICE 1</th>
+            <td><c:out value="${parchisTurn.dice1}"/></td>
+          </tr>
+          <tr>
+          <th>DICE 2</th>
+     		<td><c:out value="${parchisTurn.dice2}"/></td>
+          </tr>
+          <tr>
+           <th>PLAYER</th>
+            <td><c:out value="${parchisTurn.player.user.username}"/></td>
+     
+          </tr>
+                 <tr>
+            <th>TURN</th>
+            <td><c:out value="${parchisTurn.turn}"/></td>
+        </tr>
+          <tr>
+            <th>FICHA 1</th>
+            <td><c:out value="${piece1.square.position}"/></td>
+        </tr>  <tr>
+            <th>FICHA 2</th>
+            <td><c:out value="${piece2.square.position}"/></td>
+        </tr>  <tr>
+            <th>FICHA 3</th>
+            <td><c:out value="${piece3.square.position}"/></td>
+        </tr>  <tr>
+            <th>FICHA 4</th>
+            <td><c:out value="${piece4.square.position}"/></td>
+        </tr>
+        <tr>
+         <th>PLAYER</th>
+            <td><c:out value="${parchisTurn.player.user.username}"/></td>
+     
+          </tr>
+
+    </table>
  	<h2>
         Move Selection 
     </h2>
