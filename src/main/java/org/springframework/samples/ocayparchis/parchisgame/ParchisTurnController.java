@@ -91,12 +91,10 @@ public class ParchisTurnController {
 		String username = user.getName();
 		Player currentPlayer = this.playerService.findPlayerByUsername(username).iterator().next();
 		for(ParchisPiece p:currentPlayer.getPieces()) {
-			
 			p.setCanMove(true);
 			if(!this.squareService.findByPosition(p.posicionActual()).isHouse()) {
 				canMove(dice,p);
 			}
-			
 			this.parchisPieceService.save(p);
 		}
 		
