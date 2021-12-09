@@ -172,13 +172,13 @@ public class ParchisGameController {
 		Color c = nextFreeColor(players);
 		Square s = new Square();
 		if(c==Color.BLUE) {
-			s= this.squareService.findByPosition(0);
+			s= this.squareService.findByPosition(101);
 		}else if(c==Color.GREEN) {
-			s= this.squareService.findByPosition(-1);
+			s= this.squareService.findByPosition(102);
 		}else if(c==Color.YELLOW) {
-			s= this.squareService.findByPosition(-2);
+			s= this.squareService.findByPosition(103);
 		}else {
-			s= this.squareService.findByPosition(-3);
+			s= this.squareService.findByPosition(104);
 		}
 		
 		List<ParchisPiece> pieces4 = s.getPieces();

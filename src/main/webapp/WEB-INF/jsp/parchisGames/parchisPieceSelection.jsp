@@ -60,50 +60,77 @@
  	<h2>
         Move Selection 
     </h2>
+    <br>
      <div class="col-md-3">
           
-                   
-                        <spring:url value="/parchisTurn/{parchisGameId}/{playerId}/{dice}/{pieceId}" var="ficha1">
+            <c:choose>
+                    <c:when test="${piece1.canMove}">
+                    <spring:url value="/parchisTurn/{parchisGameId}/{playerId}/{dice}/{pieceId}" var="ficha1">
                         <spring:param name="parchisGameId" value="${parchisTurn.id}"/>
                           <spring:param name="playerId" value="${player.id}"/>
                           <spring:param name="pieceId" value="${piece1.id}"/>
                           <spring:param name="dice" value="${dice}"/>
                     </spring:url>
-                    <br>
+                    
                     <a class="btn btn-primary" href="${fn:escapeXml(ficha1)}">FICHA 1</a>
-                   
-                     
-                     <spring:url value="/parchisTurn/{parchisGameId}/{playerId}/{dice}/{pieceId}" var="ficha2">
+                    </c:when>
+                    <c:otherwise>
+                        <p> NO PUEDES MOVER LA FICHA 1 </p> 
+                    </c:otherwise>
+                </c:choose>
+                   <br>
+                        
+                    <c:choose>
+                    <c:when test="${piece2.canMove}">
+                    <spring:url value="/parchisTurn/{parchisGameId}/{playerId}/{dice}/{pieceId}" var="ficha2">
                         <spring:param name="parchisGameId" value="${parchisTurn.id}"/>
                           <spring:param name="playerId" value="${player.id}"/>
                           <spring:param name="pieceId" value="${piece2.id}"/>
                           <spring:param name="dice" value="${dice}"/>
                     </spring:url>
-                    <br>
-                    <a class="btn btn-primary" href="${fn:escapeXml(ficha2)}">FICHA 2</a>
-                   
                     
-                     
-                     <spring:url value="/parchisTurn/{parchisGameId}/{playerId}/{dice}/{pieceId}" var="ficha3">
+                    <a class="btn btn-primary" href="${fn:escapeXml(ficha2)}">FICHA 2</a>
+                    </c:when>
+                    <c:otherwise>
+                        <p> NO PUEDES MOVER LA FICHA 2 </p> 
+                    </c:otherwise>
+                </c:choose>
+                   <br>
+                   
+                    <c:choose>
+                    <c:when test="${piece3.canMove}">
+                    <spring:url value="/parchisTurn/{parchisGameId}/{playerId}/{dice}/{pieceId}" var="ficha3">
                         <spring:param name="parchisGameId" value="${parchisTurn.id}"/>
                           <spring:param name="playerId" value="${player.id}"/>
                           <spring:param name="pieceId" value="${piece3.id}"/>
                           <spring:param name="dice" value="${dice}"/>
                     </spring:url>
-                    <br>
-                    <a class="btn btn-primary" href="${fn:escapeXml(ficha3)}">FICHA 3</a>
-                   
                     
-                     <spring:url value="/parchisTurn/{parchisGameId}/{playerId}/{dice}/{pieceId}" var="ficha4">
+                    <a class="btn btn-primary" href="${fn:escapeXml(ficha3)}">FICHA 3</a>
+                    </c:when>
+                    <c:otherwise>
+                        <p> NO PUEDES MOVER LA FICHA 3 </p> 
+                    </c:otherwise>
+                </c:choose>
+                   <br>
+                   
+                    <c:choose>
+                    <c:when test="${piece4.canMove}">
+                    <spring:url value="/parchisTurn/{parchisGameId}/{playerId}/{dice}/{pieceId}" var="ficha4">
                         <spring:param name="parchisGameId" value="${parchisTurn.id}"/>
                           <spring:param name="playerId" value="${player.id}"/>
                           <spring:param name="pieceId" value="${piece4.id}"/>
                           <spring:param name="dice" value="${dice}"/>
                     </spring:url>
-                    <br>
-                    <a class="btn btn-primary" href="${fn:escapeXml(ficha4)}">FICHA 4</a>
                     
- 
+                    <a class="btn btn-primary" href="${fn:escapeXml(ficha4)}">FICHA 4</a>
+                    </c:when>
+                    <c:otherwise>
+                        <p> NO PUEDES MOVER LA FICHA 4 </p> 
+                    </c:otherwise>
+                </c:choose>
+                   <br>
+                     
         </div>
         </jsp:body>
 

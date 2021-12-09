@@ -88,10 +88,20 @@ public class ParchisTurnController {
 		}else if(diceNumber==2) {
 			dice = turn.getDice2();
 		}
-		ModelAndView mav = new ModelAndView("parchisGames/parchisDiceSelection");
-		mav.addObject("dice", dice);
 		String username = user.getName();
 		Player currentPlayer = this.playerService.findPlayerByUsername(username).iterator().next();
+		for(ParchisPiece p:currentPlayer.getPieces()) {
+			
+			p.setCanMove(true);
+			if(!this.squareService.findByPosition(p.posicionActual()).isHouse()) {
+				canMove(dice,p);
+			}
+			
+			this.parchisPieceService.save(p);
+		}
+		
+		ModelAndView mav = new ModelAndView("parchisGames/parchisPieceSelection");
+		mav.addObject("dice", dice);
 		
 		List<ParchisPiece> pieces = (List<ParchisPiece>) this.parchisPieceService.findByPlayerId(currentPlayer.getId()); 
 		int i=1;
@@ -104,31 +114,6 @@ public class ParchisTurnController {
 		mav.addObject(turn);
 		return mav;
 	}
-//	
-//	@PostMapping(path="/{parchisGameId}/{playerId}/{dice}")
-//	public ModelAndView assignPosition2 (@Valid ParchisPiece piece,@PathVariable("parchisGameId") int parchisGameId,@PathVariable("playerId") Integer playerId,@PathVariable("dice") Integer diceNumber, BindingResult result) {
-//		ParchisTurn turn = this.parchisTurnService.findTurnById(parchisGameId);
-//		Integer dice = 0;
-//		if(diceNumber ==1) {
-//			dice = turn.getDice1();
-//		}else if(diceNumber==2) {
-//			dice = turn.getDice2();
-//		}
-//		Square actual_square = piece.getSquare();
-//		List<ParchisPiece> actual_square_pieces = actual_square.getPieces(); //crear servicio de eliminar ficha de square y añadir ficha en square
-//		actual_square_pieces.remove(piece);
-//		actual_square.setPieces(actual_square_pieces);
-//		this.squareService.save(actual_square);
-//		Square next_square= this.squareService.findByPosition(actual_square.getPosition()+dice);
-//		piece.setSquare(next_square);
-//		List<ParchisPiece> next_square_pieces = next_square.getPieces();
-//		next_square_pieces.add(piece);
-//		next_square.setPieces(next_square_pieces);
-//		this.squareService.save(next_square);
-//		this.parchisPieceService.save(piece);
-//		ModelAndView mav = new ModelAndView("parchisGames/parchisTurnDetails");
-//		return mav;
-//	}
 	
 	@GetMapping(path="/{parchisGameId}/{playerId}/{dice}/{ParchisPieceId}")
 	public String assignPosition (@PathVariable("parchisGameId") int parchisGameId,
@@ -153,7 +138,13 @@ public class ParchisTurnController {
 			this.parchisTurnService.save(turn);
 			return "redirect:/parchisGames/"+parchisGameId;
 		}
-
+		if(piece.getColor().equals(Color.BLUE)){//para probar canmove
+			piece.setSquare(this.squareService.findByPosition(40));
+			this.parchisTurnService.save(turn);
+			this.squareService.save(next_square);
+			this.parchisPieceService.save(piece); 
+		}
+			
 		return "redirect:/parchisTurn/"+parchisGameId+"/"+playerId;
 	}
 	
@@ -164,7 +155,7 @@ public class ParchisTurnController {
 		actual_square.setPieces(actual_square_pieces);
 		this.squareService.save(actual_square);
 		Square next_square=new Square();
-		if(diceNumber==5&&actual_square.isStart()) {
+		if(diceNumber==5&&actual_square.isHouse()) {
 			next_square= takePieceOut(piece,diceNumber,actual_square);
 		}else if(!piece.getInStart()){
 			next_square = this.squareService.findByPosition(actual_square.getPosition()+diceNumber);
@@ -180,15 +171,15 @@ public class ParchisTurnController {
 	}
 	
 	public Square takePieceOut(ParchisPiece piece,Integer diceNumber, Square actual_square) {
-		if(actual_square.isStart()&&Color.BLUE==piece.getColor()) {
+		if(actual_square.isHouse()&&Color.BLUE==piece.getColor()) {
 			piece.setInStart(false);
 			this.parchisPieceService.save(piece);
 			return this.squareService.findByPosition(22);
-		}else if(actual_square.isStart()&&Color.YELLOW==piece.getColor()) {
+		}else if(actual_square.isHouse()&&Color.YELLOW==piece.getColor()) {
 			piece.setInStart(false);
 			this.parchisPieceService.save(piece);
 			return this.squareService.findByPosition(5);
-		}else if(actual_square.isStart()&&Color.GREEN==piece.getColor()) {
+		}else if(actual_square.isHouse()&&Color.GREEN==piece.getColor()) {
 			piece.setInStart(false);
 			this.parchisPieceService.save(piece);
 			return this.squareService.findByPosition(56);
@@ -197,6 +188,42 @@ public class ParchisTurnController {
 			this.parchisPieceService.save(piece);
 			return this.squareService.findByPosition(39);
 		}
+	}
+	public void canMove(Integer dice,ParchisPiece p) {
+		
+		 Integer pos=p.posicionActual();
+		 Integer a=pos+1;
+		int nextPos=pos+dice;
+		for(int i =a;i<=nextPos;i++) {
+			Square s=this.squareService.findByPosition(pos);
+			if(s.isBloqueo()) { 
+				p.setCanMove(false);
+				break;
+			}
+		if(p.getSquare().isStair()) {
+			if(p.getColor().equals(Color.BLUE)&&nextPos>84) { 
+				p.setCanMove(false);
+			}
+			else if(p.getColor().equals(Color.YELLOW)&&nextPos>76) {
+				p.setCanMove(false);
+			}
+			else if(p.getColor().equals(Color.RED)&&nextPos>92) {
+				p.setCanMove(false);
+			}
+			else if(p.getColor().equals(Color.GREEN)&&nextPos>100) {
+				p.setCanMove(false);
+			}
+		}
+				
+			}
+		
+		
+		 
+			
+	
+	
+		
+		
 	}
 	
 	@ModelAttribute("pieces")

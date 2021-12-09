@@ -34,60 +34,62 @@ public class Square extends BaseEntity{
 	
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@Size(min=0, max=2)
+    @Size(min=0, max=2)
     List<ParchisPiece> pieces;
 
     private Integer position;
-	
-    private Boolean isBloqueo;
-    
-    Color color;
-    
-	@ManyToOne(cascade = CascadeType.ALL)
-    OcaBoard board;
-	
-	public Square(@Size(min = 0, max = 2) List<ParchisPiece> pieces, Integer position, Color color, OcaBoard board) {
-		super();
-		this.pieces = pieces;
-		this.position = position;
-		this.color = color;
-		this.board = board;
-	}
-	
-	public Square() {
-		super();
-	};
-	
-	 public  Boolean isSafe() {
-		 List<Integer>safe=List.of(12,17,29,34,46,51,63,68);
-		return safe.contains(this.position);
-		 
-	 }
-	 
-	 public  Boolean isStart() {
-		 List<Integer>start=List.of(-3,-2,-1,0);
-		return start.contains(this.position);
-		 
-	 };
-	 public  Boolean isStair() {
-		 List<Integer>stair=List.of();
-		 if(this.color.equals(Color.YELLOW)) {
-			 stair=IntStream.rangeClosed(69, 76).boxed().collect(Collectors.toList());
-		 }
-		 else if(this.color.equals(Color.BLUE)){
-			 stair=IntStream.rangeClosed(77, 84).boxed().collect(Collectors.toList());
-		 }
-		 else if(this.color.equals(Color.RED)){
-			 stair=IntStream.rangeClosed(85, 92).boxed().collect(Collectors.toList());
-		 }
-		 else if(this.color.equals(Color.GREEN)){
-			 stair=IntStream.rangeClosed(93, 100).boxed().collect(Collectors.toList());
-		 }
-		return stair.contains(this.position);
-		 
-	 }
 
-	
+
+    Color color;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    OcaBoard board;
+
+    public Square(@Size(min = 0, max = 2) List<ParchisPiece> pieces, Integer position, Color color, OcaBoard board) {
+        super();
+        this.pieces = pieces;
+        this.position = position;
+        this.color = color;
+        this.board = board;
+    }
+
+    public Square() {
+        super();
+    }
+
+     public  Boolean isSafe() {
+         List<Integer>safe=List.of(12,17,29,34,46,51,63,68);
+        return safe.contains(this.position);
+
+     }
+
+     public  Boolean isHouse() {
+         List<Integer>house=List.of(101,102,103,104);
+        return house.contains(this.position);
+
+     }
+
+     public Boolean isStart() {
+         List<Integer>start=List.of(5,22,39,56);
+            return start.contains(this.position);
+     }
+
+     public  Boolean isBloqueo() {
+         return pieces.size()==2;
+     }
+
+     public  Boolean isStair() {
+         List<Integer>stair=IntStream.rangeClosed(69, 100).boxed().collect(Collectors.toList()); 
+        return stair.contains(this.position);
+     }
+
+     public void colocarFicha(ParchisPiece piece) {
+         pieces.add(piece);
+     }
+
+     public void quitarFicha(ParchisPiece piece) {
+         pieces.remove(piece);
+     }
 	 
 
 
