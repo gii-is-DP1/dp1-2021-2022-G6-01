@@ -149,9 +149,7 @@ public class ParchisTurnController {
 	
 	public Square movePiece(ParchisPiece piece,Integer diceNumber) {
 		Square actual_square = piece.getSquare();
-		List<ParchisPiece> actual_square_pieces = actual_square.getPieces(); 
-		actual_square_pieces.remove(piece);
-		actual_square.setPieces(actual_square_pieces);
+		actual_square.quitarFicha(piece);
 		this.squareService.save(actual_square);
 		
 		Square next_square=new Square();
@@ -162,7 +160,12 @@ public class ParchisTurnController {
 			
 			if(actual_square==bifurcationSquare||!bifurcationSquare.isBifurcacion()) {
 				next_square = this.squareService.findByPosition(actual_square.getPosition()+diceNumber);
-			}			
+				if(next_square.getPieces().size()==1) {
+					next_square = eatPiece(next_square, piece);
+				}
+				
+			}	
+			
 			else {	
 				Integer distancia= bifurcationSquare.getPosition()-actual_square.getPosition()+1;
 	
@@ -189,69 +192,79 @@ public class ParchisTurnController {
 		}
 		
 		piece.setSquare(next_square);
-		List<ParchisPiece> next_square_pieces = next_square.getPieces();
-		next_square_pieces.add(piece);
-		next_square.setPieces(next_square_pieces);
+		next_square.colocarFicha(piece);
 		return next_square;
 	}
+	public Square eatPiece(Square s,ParchisPiece p) {
+		List<ParchisPiece> pieces = s.getPieces();
+		ParchisPiece pieceInSquare = pieces.iterator().next();
+		Square next_square=this.squareService.findByPosition(s.getPosition()+20);
+		if(!(p.getColor().equals(pieceInSquare.getColor()))&&!(s.isSafe())) {
+			Square house = this.squareService.findByPosition(pieceInSquare.casillaCasa());
+			s.quitarFicha(pieceInSquare);
+			this.squareService.save(s);
+			pieceInSquare.setSquare(house);
+			pieceInSquare.setInStart(true);
+			house.colocarFicha(pieceInSquare);
+			this.parchisPieceService.save(pieceInSquare);
+			this.squareService.save(house);
+			
+			Square bif = bifurcacionWithSquare(20, p,s);
+			if(s==bif||!bif.isBifurcacion()) {
+				if(next_square.getPieces().size()==1) {
+					next_square = eatPiece(next_square, p);
+				}
+				
+			}	
+			
+			else {	
+				Integer distancia= bif.getPosition()-s.getPosition()+1;
 	
-	public Square takePieceOut(ParchisPiece piece,Integer diceNumber, Square actual_square) {
-		if(actual_square.isHouse()&&Color.BLUE==piece.getColor()) {
-			piece.setInStart(false);
-			this.parchisPieceService.save(piece);
-			return this.squareService.findByPosition(22);
-		}else if(actual_square.isHouse()&&Color.YELLOW==piece.getColor()) {
-			piece.setInStart(false);
-			this.parchisPieceService.save(piece);
-			return this.squareService.findByPosition(5);
-		}else if(actual_square.isHouse()&&Color.GREEN==piece.getColor()) {
-			piece.setInStart(false);
-			this.parchisPieceService.save(piece);
-			return this.squareService.findByPosition(56);
-		}else {
-			piece.setInStart(false);
-			this.parchisPieceService.save(piece);
-			return this.squareService.findByPosition(39);
+				if(p.getColor().equals(Color.BLUE)) { 
+					next_square=this.squareService.findByPosition(69);
+				}
+				else if(p.getColor().equals(Color.YELLOW)) {
+					next_square=this.squareService.findByPosition(77);
+				}
+				else if(p.getColor().equals(Color.RED)) {
+					next_square=this.squareService.findByPosition(85);
+				}
+				else if(p.getColor().equals(Color.GREEN)) {
+					next_square=this.squareService.findByPosition(93);
+				}
+				
+				
+				Integer newDiceNumber=20-distancia;
+				next_square = this.squareService.findByPosition(next_square.getPosition()+newDiceNumber);
+			}
+			
 		}
+		return next_square;
+	
 	}
-	public void canMove(Integer dice,ParchisPiece p) {
-		
-		 Integer pos=p.posicionActual();
-		 Integer a=pos+1;
+	public Square bifurcacionWithSquare(Integer dice,ParchisPiece p, Square actualSquare) {
+		Integer pos=actualSquare.getPosition();
+		Integer a=pos+1;
 		int nextPos=pos+dice;
 		for(int i =a;i<=nextPos;i++) {
 			Square s=this.squareService.findByPosition(i);
-			if(s.isBloqueo()) { 
-				p.setCanMove(false);
-				break;
+
+			if(p.getColor().equals(Color.BLUE)&&s.getPosition()==17) { 
+				return s;
 			}
-		if(p.getSquare().isStair()) {
-			if(p.getColor().equals(Color.BLUE)&&nextPos>84) { 
-				p.setCanMove(false);
+			else if(p.getColor().equals(Color.YELLOW)&&s.getPosition()==68) {
+				return s;
 			}
-			else if(p.getColor().equals(Color.YELLOW)&&nextPos>76) {
-				p.setCanMove(false);
+			else if(p.getColor().equals(Color.RED)&&s.getPosition()==34) {
+				return s;
 			}
-			else if(p.getColor().equals(Color.RED)&&nextPos>92) {
-				p.setCanMove(false);
+			else if(p.getColor().equals(Color.GREEN)&&s.getPosition()==51) {
+				return s;
 			}
-			else if(p.getColor().equals(Color.GREEN)&&nextPos>100) {
-				p.setCanMove(false);
-			}
+
 		}
-				
-			}
-		
-		
-		 
-			
-	
-	
-		
-		
+		return this.squareService.findByPosition(pos);
 	}
-	
-	
 	public Square bifurcacion(Integer dice,ParchisPiece p) {
 		Integer pos=p.posicionActual();
 		Integer a=pos+1;
@@ -275,6 +288,59 @@ public class ParchisTurnController {
 		}
 		return this.squareService.findByPosition(pos);
 	}
+	
+	public Square takePieceOut(ParchisPiece piece,Integer diceNumber, Square actual_square) {
+		if(actual_square.isHouse()&&Color.BLUE==piece.getColor()) {
+			piece.setInStart(false);
+			this.parchisPieceService.save(piece);
+			return this.squareService.findByPosition(22);
+		}else if(actual_square.isHouse()&&Color.YELLOW==piece.getColor()) {
+			piece.setInStart(false);
+			this.parchisPieceService.save(piece);
+			return this.squareService.findByPosition(5);
+		}else if(actual_square.isHouse()&&Color.GREEN==piece.getColor()) {
+			piece.setInStart(false);
+			this.parchisPieceService.save(piece);
+			return this.squareService.findByPosition(56);
+		}else {
+			piece.setInStart(false);
+			this.parchisPieceService.save(piece);
+			return this.squareService.findByPosition(39);
+		}
+	}
+	public void canMove(Integer dice,ParchisPiece p) {
+
+		Integer pos=p.posicionActual();
+		Integer a=pos+1;
+		int nextPos=pos+dice;
+		for(int i =a;i<=nextPos;i++) {
+			Square s=this.squareService.findByPosition(i);
+			if(s.isBloqueo()) { 
+				p.setCanMove(false);
+				break;
+			}
+			if(p.getSquare().isStair()) {
+				if(p.getColor().equals(Color.BLUE)&&nextPos>84) { 
+					p.setCanMove(false);
+				}
+				else if(p.getColor().equals(Color.YELLOW)&&nextPos>76) {
+					p.setCanMove(false);
+				}
+				else if(p.getColor().equals(Color.RED)&&nextPos>92) {
+					p.setCanMove(false);
+				}
+				else if(p.getColor().equals(Color.GREEN)&&nextPos>100) {
+					p.setCanMove(false);
+				}
+			}
+
+		}
+
+
+	}
+	
+	
+	
 		
 		
 		 

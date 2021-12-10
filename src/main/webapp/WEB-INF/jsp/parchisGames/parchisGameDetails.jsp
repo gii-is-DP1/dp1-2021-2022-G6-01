@@ -24,7 +24,7 @@
         </tr>
          <tr>
          <th>DICE 1</th>
-            <td><c:out value="${parchisTurn.dice1}"/></td>
+           <td><c:out value="${parchisTurn.dice1}"/></td>
           </tr>
           <tr>
           <th>DICE 2</th>
@@ -42,16 +42,45 @@
           </tr>
            <tr>
             <th>FICHA 1</th>
-            <td><c:out value="${piece1.square.position}"/></td>
+            <c:choose>
+         <c:when test="${piece1.inStart}">
+         <td>EN CASA</td>
+         </c:when>
+         <c:otherwise>
+         <td><c:out value="${piece1.square.position}"/></td>
+         </c:otherwise>
+         </c:choose>
+
         </tr>  <tr>
             <th>FICHA 2</th>
-            <td><c:out value="${piece2.square.position}"/></td>
+            <c:choose>
+         <c:when test="${piece2.inStart}">
+         <td>EN CASA</td>
+         </c:when>
+         <c:otherwise>
+         <td><c:out value="${piece2.square.position}"/></td>
+         </c:otherwise>
+         </c:choose>
         </tr>  <tr>
             <th>FICHA 3</th>
-            <td><c:out value="${piece3.square.position}"/></td>
+            <c:choose>
+         <c:when test="${piece3.inStart}">
+         <td>EN CASA</td>
+         </c:when>
+         <c:otherwise>
+         <td><c:out value="${piece3.square.position}"/></td>
+         </c:otherwise>
+         </c:choose>
         </tr>  <tr>
             <th>FICHA 4</th>
-            <td><c:out value="${piece4.square.position}"/></td>
+            <c:choose>
+         <c:when test="${piece4.inStart}">
+         <td>EN CASA</td>
+         </c:when>
+         <c:otherwise>
+         <td><c:out value="${piece4.square.position}"/></td>
+         </c:otherwise>
+         </c:choose>
         </tr>
 
     </table>

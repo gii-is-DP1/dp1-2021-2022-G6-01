@@ -96,7 +96,11 @@ public class Square extends BaseEntity{
 		return this.position==68||this.position==17||this.position==34||this.position==51;
     	 
      }
-	 
+     public Boolean isFinalSquare() {
+    	 List<Integer>finalSquare=List.of(76,84,92,100);
+         return finalSquare.contains(this.position);
+     }
+
 
 
 	
