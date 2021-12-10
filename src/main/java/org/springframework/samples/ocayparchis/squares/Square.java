@@ -90,6 +90,12 @@ public class Square extends BaseEntity{
      public void quitarFicha(ParchisPiece piece) {
          pieces.remove(piece);
      }
+     public Boolean isBifurcacion() {
+    	 
+    	 
+		return this.position==68||this.position==17||this.position==34||this.position==51;
+    	 
+     }
 	 
 
 

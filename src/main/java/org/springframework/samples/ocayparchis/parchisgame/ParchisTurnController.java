@@ -153,11 +153,37 @@ public class ParchisTurnController {
 		actual_square_pieces.remove(piece);
 		actual_square.setPieces(actual_square_pieces);
 		this.squareService.save(actual_square);
+		
 		Square next_square=new Square();
 		if(diceNumber==5&&actual_square.isHouse()) {
 			next_square= takePieceOut(piece,diceNumber,actual_square);
 		}else if(!piece.getInStart()){
-			next_square = this.squareService.findByPosition(actual_square.getPosition()+diceNumber);
+			Square bifurcationSquare =bifurcacion(diceNumber,piece);
+			
+			if(actual_square==bifurcationSquare||!bifurcationSquare.isBifurcacion()) {
+				next_square = this.squareService.findByPosition(actual_square.getPosition()+diceNumber);
+			}			
+			else {	
+				Integer distancia= bifurcationSquare.getPosition()-actual_square.getPosition()+1;
+	
+				if(piece.getColor().equals(Color.BLUE)) { 
+					next_square=this.squareService.findByPosition(69);
+				}
+				else if(piece.getColor().equals(Color.YELLOW)) {
+					next_square=this.squareService.findByPosition(77);
+				}
+				else if(piece.getColor().equals(Color.RED)) {
+					next_square=this.squareService.findByPosition(85);
+				}
+				else if(piece.getColor().equals(Color.GREEN)) {
+					next_square=this.squareService.findByPosition(93);
+				}
+				
+				
+				Integer newDiceNumber=diceNumber-distancia;
+				next_square = this.squareService.findByPosition(next_square.getPosition()+newDiceNumber);
+			}
+			
 		}else {
 			next_square=actual_square;
 		}
@@ -224,6 +250,38 @@ public class ParchisTurnController {
 		
 		
 	}
+	
+	
+	public Square bifurcacion(Integer dice,ParchisPiece p) {
+		Integer pos=p.posicionActual();
+		Integer a=pos+1;
+		int nextPos=pos+dice;
+		for(int i =a;i<=nextPos;i++) {
+			Square s=this.squareService.findByPosition(i);
+
+			if(p.getColor().equals(Color.BLUE)&&s.getPosition()==17) { 
+				return s;
+			}
+			else if(p.getColor().equals(Color.YELLOW)&&s.getPosition()==68) {
+				return s;
+			}
+			else if(p.getColor().equals(Color.RED)&&s.getPosition()==34) {
+				return s;
+			}
+			else if(p.getColor().equals(Color.GREEN)&&s.getPosition()==51) {
+				return s;
+			}
+
+		}
+		return this.squareService.findByPosition(pos);
+	}
+		
+		
+		 
+			
+		
+		
+	
 	
 	@ModelAttribute("pieces")
 	public Collection<ParchisPiece> populateParchisPieces(@AuthenticationPrincipal Authentication user){
