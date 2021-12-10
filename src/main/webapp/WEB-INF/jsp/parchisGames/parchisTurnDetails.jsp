@@ -58,30 +58,41 @@
     
 	<form class="form-horizontal" id="roll-form">
 		<div class="control-group">
-		 <spring:url value="/parchisTurn/{gameId}/{playerId}/1" var="dice1Url">
+         <c:choose>
+                    <c:when test="${parchisTurn.dice1!=0}">
+                         <spring:url value="/parchisTurn/{gameId}/{playerId}/1" var="dice1Url">
                         <spring:param name="gameId" value="${parchisTurn.id}"/>
                           <spring:param name="playerId" value="${player.id}"/>
                            </spring:url>
-		<div class="col-md-3">
-		<p>DICE 1</p>
-		
-			
-			<a class="btn btn-primary" href="${fn:escapeXml(dice1Url)}">ELEGIR DADO 1</a>
-			</div>
-			
-		
-		<spring:url value="/parchisTurn/{gameId}/{playerId}/2" var="dice2Url">
+        <div class="col-md-3">
+        <p>DICE 1</p>
+
+
+            <a class="btn btn-primary" href="${fn:escapeXml(dice1Url)}">ELEGIR DADO 1</a>
+            </div>
+                    </c:when>
+                    <c:otherwise>
+                    </c:otherwise>
+                </c:choose>
+        <c:choose>
+                    <c:when test="${parchisTurn.dice2!=0}">
+                         <spring:url value="/parchisTurn/{gameId}/{playerId}/2" var="dice2Url">
                         <spring:param name="gameId" value="${parchisTurn.id}"/>
                           <spring:param name="playerId" value="${player.id}"/>
-                
+
                            </spring:url>
                            <div class="col-md-3">
-			<p>DICE 2</p>
+            <p>DICE 2</p>
 
-			
-			<a class="btn btn-primary" href="${fn:escapeXml(dice2Url)}">ELEGIR DADO 2</a>
+
+            <a class="btn btn-primary" href="${fn:escapeXml(dice2Url)}">ELEGIR DADO 2</a>
+
+        </div>
+                    </c:when>
+                    <c:otherwise>
+                    </c:otherwise>
+                </c:choose>
 		
-		</div>
 		</div>
      </form>
 
