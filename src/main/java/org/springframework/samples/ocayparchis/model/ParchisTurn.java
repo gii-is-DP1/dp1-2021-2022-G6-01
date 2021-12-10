@@ -29,7 +29,7 @@ public class ParchisTurn extends BaseEntity{
     private Integer dice1;
     private Integer dice2;
     private Boolean isThrowed = false;
-    
+    private Boolean repeatTurn = false;
     
     public  void TurnInit(){
         this.turn=0;

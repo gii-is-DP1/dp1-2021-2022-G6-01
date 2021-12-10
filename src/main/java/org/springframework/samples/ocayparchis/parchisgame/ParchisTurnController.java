@@ -64,7 +64,9 @@ public class ParchisTurnController {
 		ParchisTurn turn = this.parchisTurnService.findTurnById(parchisGameId);
 		if(!turn.getIsThrowed()){
 			turn.throwDices();
+			turn.setRepeatTurn(turn.getDice1()==turn.getDice2());
 		}
+		
 		String username = user.getName();
 		Player currentPlayer = this.playerService.findPlayerByUsername(username).iterator().next();
 		this.parchisTurnService.save(turn);
@@ -132,6 +134,10 @@ public class ParchisTurnController {
 		this.squareService.save(next_square);
 		this.parchisPieceService.save(piece);
 		if(turn.getDicesAvailable()<1) {
+			if(turn.getRepeatTurn()) {	
+				turn.nextTurn();
+			}
+			
 			turn.nextTurn();
 			this.parchisTurnService.save(turn);
 			return "redirect:/parchisGames/"+parchisGameId;
