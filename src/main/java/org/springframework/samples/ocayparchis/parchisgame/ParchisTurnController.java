@@ -136,12 +136,7 @@ public class ParchisTurnController {
 			this.parchisTurnService.save(turn);
 			return "redirect:/parchisGames/"+parchisGameId;
 		}
-		if(piece.getColor().equals(Color.BLUE)){//para probar canmove
-			piece.setSquare(this.squareService.findByPosition(40));
-			this.parchisTurnService.save(turn);
-			this.squareService.save(next_square);
-			this.parchisPieceService.save(piece); 
-		}
+		
 			
 		return "redirect:/parchisTurn/"+parchisGameId+"/"+playerId;
 	}
@@ -193,7 +188,7 @@ public class ParchisTurnController {
 		 Integer a=pos+1;
 		int nextPos=pos+dice;
 		for(int i =a;i<=nextPos;i++) {
-			Square s=this.squareService.findByPosition(pos);
+			Square s=this.squareService.findByPosition(i);
 			if(s.isBloqueo()) { 
 				p.setCanMove(false);
 				break;
