@@ -148,6 +148,7 @@ public class OcaGameController {
 		mav.addObject(piece);
 		mav.addObject(currentPlayer);
 		mav.addObject(turn);
+		mav.addObject("ocaBoard", this.ocaBoardService.findById(ocaGameId).get());
 		mav.addObject(this.ocaGameService.findGameById(ocaGameId));
 		mav.addObject(this.ocaBoardService.findById(ocaGameId));
 		return mav;

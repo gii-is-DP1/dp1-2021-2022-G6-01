@@ -1,6 +1,13 @@
 package org.springframework.samples.ocayparchis.pieces;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -30,7 +37,6 @@ import lombok.Setter;
 
 public class ParchisPiece extends BaseEntity{
 	
-	
 	@ManyToOne(cascade = CascadeType.ALL)
 	Square square;
 
@@ -49,10 +55,118 @@ public class ParchisPiece extends BaseEntity{
 	
 	private Boolean canMove=true;
 	
+	static final List<Integer> listPositionX = getListX();
+	static final List<Integer> listPositionY = getListY();
+	
+	public static Integer getPositionX(ParchisPiece piece){
+		
+		List<Integer> multiPosition = List.of(101,102,103,104);
+		
+		Integer pixels = listPositionX.get(piece.posicionActual());
+		
+		//Casillas especiales en las que hay más de 2 fichas
+		if(multiPosition.contains(piece.posicionActual())) {
+			
+			if(piece.getName().equals("Ficha 1")) {
+				pixels = pixels - 46;
+			} else if(piece.getName().equals("Ficha 2")) {
+				pixels = pixels - 46;
+			} else if(piece.getName().equals("Ficha 3")) {
+				pixels = pixels + 46;
+			} else {
+				pixels = pixels + 46;
+			}
+		
+		//Si hay un bloqueo, mostrar las dos fichas, se comprueba la si la casilla está en horizontal
+		} else if (piece.getSquare().isBloqueo() && ((1 <= piece.posicionActual() && piece.posicionActual() <= 8) || (26 <= piece.posicionActual() && piece.posicionActual() <= 42) || (60 <= piece.posicionActual() && piece.posicionActual() <= 68))) {
+	
+			//Para darle mover una de las fichas del bloqueo
+			if(piece.getSquare().getPieces().get(0).getId() == piece.getId()) {
+				pixels = pixels + 23;
+			} else {
+				pixels = pixels - 23;
+			}
+		}
+		
+		
+		return pixels;
+	}
+
+	public static Integer getPositionY(ParchisPiece piece){
+		
+		List<Integer> multiPosition = List.of(101,102,103,104);
+		
+		Integer pixels = listPositionY.get(piece.posicionActual());
+		
+		//Casillas especiales en las que hay más de 2 fichas
+		if(multiPosition.contains(piece.posicionActual())) {
+			
+			if(piece.getName().equals("Ficha 1")) {
+				pixels = pixels - 46;
+			} else if(piece.getName().equals("Ficha 2")) {
+				pixels = pixels + 46;
+			} else if(piece.getName().equals("Ficha 3")) {
+				pixels = pixels - 46;
+			} else {
+				pixels = pixels + 46;
+			}
+		
+		//Si hay un bloqueo, mostrar las dos fichas, se comprueba la si la casilla está en vertical
+		} else if (piece.getSquare().isBloqueo() && ((9 <= piece.posicionActual() && piece.posicionActual() <= 25) || ((43 <= piece.posicionActual() && piece.posicionActual() <= 59)))) {
+	
+			//Para darle mover una de las fichas del bloqueo
+			if(piece.getSquare().getPieces().get(0).getId() == piece.getId()) {
+				pixels = pixels + 23;
+			} else {
+				pixels = pixels - 23;
+			}
+		}
+		
+		
+		return pixels;
+	}
+
+	
+	public static List<Integer> getListX() {
+
+		List<Integer> list = new ArrayList<Integer>();
+        String fileName = "src/main/resources/static/resources/txt/getPositionX.txt";
+        
+        try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                Integer position = Integer.valueOf(line.trim());
+                list.add(position);
+            }
+        } 
+        catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+		return list;
+	}
 	
 	
-	
-	
+	public static List<Integer> getListY(){
+		
+		List<Integer> list = new ArrayList<Integer>();
+        String fileName = "src/main/resources/static/resources/txt/getPositionY.txt";
+        
+        try(BufferedReader br = new BufferedReader(new FileReader(fileName))) 
+        {
+            String line;
+            while ((line = br.readLine()) != null) {
+                Integer position = Integer.valueOf(line.trim());
+                list.add(position);
+            }
+        }
+        catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+		
+		return list;
+	}
 	
 
 	public Integer posicionActual() {
@@ -90,5 +204,7 @@ public class ParchisPiece extends BaseEntity{
 	public String toString() {
 		return name+":"+square.getPosition()+" "+ id;
 	}
+
+	
 	
 }

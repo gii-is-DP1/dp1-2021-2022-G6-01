@@ -13,6 +13,7 @@ import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.ocayparchis.board.OcaBoard;
 import org.springframework.samples.ocayparchis.board.OcaBoardService;
+import org.springframework.samples.ocayparchis.board.ParchisBoard;
 import org.springframework.samples.ocayparchis.board.ParchisBoardService;
 import org.springframework.samples.ocayparchis.model.OcaGame;
 import org.springframework.samples.ocayparchis.model.OcaTurn;
@@ -83,6 +84,7 @@ public class ParchisGameController {
 	@GetMapping(path="/new")
 	public String createGame(ModelMap modelMap){
 		modelMap.addAttribute("parchisGame",new ParchisGame());
+		this.parchisBoardService.save(new ParchisBoard());
 		return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
 	}
 	
@@ -114,6 +116,8 @@ public class ParchisGameController {
 	@GetMapping("/{parchisGameId}")
 	public ModelAndView showGame(@PathVariable("parchisGameId") int parchisGameId, HttpServletResponse response,@AuthenticationPrincipal Authentication user) {
 
+		ParchisBoard parchisBoard = this.parchisBoardService.findById(parchisGameId).get();
+		
 		response.addHeader("Refresh", "2");
 		ModelAndView mav = new ModelAndView("parchisGames/parchisGameDetails");
 		String username = user.getName();
@@ -123,7 +127,7 @@ public class ParchisGameController {
 
 		if(!(players.contains(currentPlayer))) {
 			
-			createAndAsignPieces(players, currentPlayer);
+			createAndAsignPieces(players, currentPlayer, parchisBoard);
 			players.add(currentPlayer);
 			if(currentPlayer==turn.getPlayers().get(0)) {
 				turn.setPlayer(currentPlayer);
@@ -144,7 +148,7 @@ public class ParchisGameController {
 		}
 		mav.addObject(this.parchisGameService.findGameById(parchisGameId));
 		
-		//		mav.addObject(this.parchisBoardService.findById(parchisGameId));
+		mav.addObject("parchisBoard", parchisBoard);
 		return mav;
 	}
 	
@@ -168,7 +172,7 @@ public class ParchisGameController {
 
 	}
 
-	public void createAndAsignPieces(List<Player> players, Player player) {
+	public void createAndAsignPieces(List<Player> players, Player player, ParchisBoard parchisBoard) {
 		Color c = nextFreeColor(players);
 		Square s = new Square();
 		if(c==Color.BLUE) {
@@ -188,9 +192,10 @@ public class ParchisGameController {
 			p.setName("Ficha "+i);
 			p.setColor(c);
 			p.setSquare(s);
+			p.setBoard(parchisBoard);
 			pieces4.add(p);
 			this.parchisPieceService.save(p);
-			player.addPiece(p);;
+			player.addPiece(p);
 			this.playerService.savePlayer(player);
 		}	
 		s.setPieces(pieces4);

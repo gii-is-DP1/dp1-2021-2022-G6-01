@@ -29,9 +29,9 @@ public class ParchisBoard extends BaseEntity{
     int height;
 
     public ParchisBoard(){
-        this.background="/resources/images/tablero_parchis.png";
-        this.width=800;
-        this.height=800;
+        this.background="/resources/images/tablero_cadiz.png"; //
+        this.width=1280; // 
+        this.height=1280; // 
     }
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "board",fetch = FetchType.EAGER)

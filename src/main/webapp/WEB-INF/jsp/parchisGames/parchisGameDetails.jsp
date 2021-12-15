@@ -9,6 +9,13 @@
 
     <h2>Player Information</h2>
 
+            <petclinic:parchisBoard parchisBoard="${parchisBoard}"/>
+            <c:forEach items="${parchisBoard.pieces}" var="parchisPiece">
+            	<petclinic:parchisPiece size="45" parchisPiece="${parchisPiece}"/>
+            	
+            </c:forEach> 
+
+
 
     <table class="table table-striped">
 
@@ -16,11 +23,6 @@
         <tr>
             <th>Name</th>
             <td><c:out value="${parchisGame.name}"/></td>
-        </tr>
-        <tr>
-            <th>Tablero</th>
-            <td><img class="card-img-top" src="/resources/images/tablero_cadiz.jpeg"
-							alt="Dubai" height="1600" width="1600"></td>
         </tr>
          <tr>
          <th>DICE 1</th>

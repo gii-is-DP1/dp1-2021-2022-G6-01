@@ -9,6 +9,14 @@
 <petclinic:layout pageName="ParchisDices">
    
     <jsp:body>
+    
+                <petclinic:parchisBoard parchisBoard="${parchisBoard}"/>
+            <c:forEach items="${parchisBoard.pieces}" var="parchisPiece">
+            	<petclinic:parchisPiece size="45" parchisPiece="${parchisPiece}"/>
+            	
+            </c:forEach> 
+    
+    
         <h2>ParchiGames</h2>
         <table class="table table-striped">
         <tr>
@@ -16,11 +24,6 @@
             <td><c:out value="${parchisGame.name}"/></td>
         </tr>
         <tr>
-            <th>Tablero</th>
-            <td><img class="card-img-top" src="/resources/images/tablero_cadiz.jpeg"
-							alt="Dubai" height="1000" width="1000"></td>
-        </tr>
-         <tr>
          <th>DICE 1</th>
             <td><c:out value="${parchisTurn.dice1}"/></td>
           </tr>
