@@ -18,9 +18,9 @@
             <th>Tus Puntos Ahora son:</th>
             <td><b><c:out value="${player.points}"/></b></td>
         </tr>
-        
+
     </table>
-    <spring:url value="/parchis/delete/{parchisGameId}" var="deleteUrl">
+    <spring:url value="/parchisGames/delete/{parchisGameId}" var="deleteUrl">
         <spring:param name="parchisGameId" value="${parchisGame.id}"/>
     </spring:url>
     <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Volver al Inicio</a>

@@ -21,7 +21,7 @@ public class ParchisTurn extends BaseEntity{
 	private Integer turn;
     private Integer i;//puntero
     private Integer dicesAvailable;
-    
+    private Integer doubleCount = 0;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Player>players;
     @OneToOne

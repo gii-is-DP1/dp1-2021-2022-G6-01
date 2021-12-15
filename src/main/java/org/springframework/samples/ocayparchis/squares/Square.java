@@ -70,7 +70,7 @@ public class Square extends BaseEntity{
      }
 
      public Boolean isStart() {
-         List<Integer>start=List.of(5,22,39,56);
+         List<Integer>start=List.of(5,22,39,56);//5 amarillo 22 azul 39 rojo 56 verde
             return start.contains(this.position);
      }
 

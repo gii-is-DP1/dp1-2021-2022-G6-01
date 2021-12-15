@@ -13,6 +13,7 @@ import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.ocayparchis.board.OcaBoard;
 import org.springframework.samples.ocayparchis.board.OcaBoardService;
+import org.springframework.samples.ocayparchis.board.ParchisBoard;
 import org.springframework.samples.ocayparchis.board.ParchisBoardService;
 import org.springframework.samples.ocayparchis.model.OcaGame;
 import org.springframework.samples.ocayparchis.model.OcaTurn;
@@ -104,12 +105,7 @@ public class ParchisGameController {
 		return view;
 	}
 	
-	@GetMapping(path="/delete/{parchisGameId}")
-	public String deleteGame(@PathVariable("parchisGameId") int parchisGameId){
-		ParchisGame game =this.parchisGameService.findGameById(parchisGameId);
-		this.parchisGameService.delete(game);
-		return "redirect:/";
-	}
+	
 	
 	@GetMapping("/{parchisGameId}")
 	public ModelAndView showGame(@PathVariable("parchisGameId") int parchisGameId, HttpServletResponse response,@AuthenticationPrincipal Authentication user) {
@@ -196,4 +192,32 @@ public class ParchisGameController {
 		s.setPieces(pieces4);
 		this.squareService.save(s);
 	}
+	
+	 @GetMapping(path="/winner/{parchisGameId}/{playerId}")
+	    public ModelAndView showWinner(@PathVariable("playerId") int playerId,@PathVariable("parchisGameId") int parchisGameId) {
+	        ModelAndView mav = new ModelAndView("parchisGames/winner");
+	        Player player = this.playerService.findPlayerById(playerId);
+	        ParchisGame parchisGame = this.parchisGameService.findGameById(parchisGameId);
+	        player.setPoints(player.getPoints()+parchisGame.getReward());
+	        this.playerService.savePlayer(player);
+	        mav.addObject(parchisGame);
+	        mav.addObject(player);
+	        return mav;
+	    }
+	 @GetMapping(path="/delete/{parchisGameId}")
+	    public String deleteGame(@PathVariable("parchisGameId") int parchisGameId){
+	        ParchisGame game =this.parchisGameService.findGameById(parchisGameId);
+	        ParchisTurn turn = this.parchisTurnService.findTurnById(parchisGameId);
+//	        ParchisBoard board = this.parchisBoardService.findById(parchisGameId).get();
+	        for(Player p:turn.getPlayers()) {
+	            p.setPieces(null);
+	        }
+	        turn.setPlayer(null);
+	        turn.setPlayers(null);
+	      //  this.parchisBoardService.delete(board);
+	        this.parchisTurnService.delete(turn);
+	        this.parchisGameService.delete(game);
+	        return "redirect:/";
+	    }
+	 
 }
