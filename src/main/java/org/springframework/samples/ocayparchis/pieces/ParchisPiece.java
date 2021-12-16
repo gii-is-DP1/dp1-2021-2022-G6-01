@@ -130,7 +130,7 @@ public class ParchisPiece extends BaseEntity{
 	public static List<Integer> getListX() {
 
 		List<Integer> list = new ArrayList<Integer>();
-        String fileName = "src/main/resources/static/resources/txt/getPositionX.txt";
+        String fileName = "src/main/resources/static/resources/txt/getParchisPositionX.txt";
         
         try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
@@ -150,7 +150,7 @@ public class ParchisPiece extends BaseEntity{
 	public static List<Integer> getListY(){
 		
 		List<Integer> list = new ArrayList<Integer>();
-        String fileName = "src/main/resources/static/resources/txt/getPositionY.txt";
+        String fileName = "src/main/resources/static/resources/txt/getParchisPositionY.txt";
         
         try(BufferedReader br = new BufferedReader(new FileReader(fileName))) 
         {

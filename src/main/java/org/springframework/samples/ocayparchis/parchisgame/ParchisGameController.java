@@ -197,7 +197,7 @@ public class ParchisGameController {
 			this.parchisPieceService.save(p);
 			player.addPiece(p);
 			this.playerService.savePlayer(player);
-		}	
+		}	 
 		s.setPieces(pieces4);
 		this.squareService.save(s);
 	}
