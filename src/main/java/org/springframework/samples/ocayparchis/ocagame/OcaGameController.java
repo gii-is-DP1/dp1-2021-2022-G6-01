@@ -1,6 +1,7 @@
  package org.springframework.samples.ocayparchis.ocagame;
 
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -81,34 +82,50 @@ public class OcaGameController {
 	public String deleteGame(@PathVariable("ocaGameId") int ocaGameId){
 		OcaGame game =this.ocaGameService.findGameById(ocaGameId);
 		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
-		for(Player p: turn.getPlayers()) {
-			this.ocaPieceService.delete(this.ocaPieceService.findByPlayerId(p.getId()));
+
+		Iterator<Player> it = turn.getPlayers().iterator();
+		
+		this.ocaBoardService.findById(ocaGameId).get().getPieces();
+		
+		
+		while(it.hasNext()) {
+			Player player = it.next();
+			System.out.println("----------------PLAYER 1---------------" + player);
+			OcaPiece piece = this.ocaPieceService.findByPlayerId(player.getId());
+			System.out.println("----------------PIECE 1----------------" + piece);
+			this.ocaPieceService.delete(piece);
+			System.out.println("----------------PLAYER 2---------------" + player);
 		}
+		System.out.println("FINAL --------------------------------------------------");
 		turn.setPlayer(null);
 		turn.setPlayers(null);
 		this.ocaGameService.delete(game);
 		this.ocaTurnService.delete(turn);
 		return "redirect:/";
-		
 	}
+	
 	@GetMapping(path="/new")
 	public String createGame(ModelMap modelMap){
 		String view = "ocaGames/editGame";
-		modelMap.addAttribute("ocaGame",new OcaGame());
-		return view;
 		
+		OcaGame ocaGame = new OcaGame();
+		ocaGame.setFinished(false);
+		ocaGame.setInGame(false);
+		
+		modelMap.addAttribute("ocaGame", ocaGame);
+		return view;
 	}
+	
 	@PostMapping(path="/save")
-	public String saveGame(@Valid OcaGame game, BindingResult result,ModelMap modelMap){
+	public String saveGame(@Valid OcaGame game, @Valid OcaBoard board, BindingResult result,ModelMap modelMap){
 		
 		String view = "ocaGames/gameList";
+		
 		if(result.hasErrors()) {
 			modelMap.addAttribute("ocaGame",game);
 			return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
-			
 		}else{
-			OcaTurn turn=new OcaTurn();
-			OcaBoard board=new OcaBoard();
+			OcaTurn turn = new OcaTurn();
 			turn.TurnInit();
 			ocaTurnService.save(turn);
 			ocaBoardService.save(board);
@@ -125,30 +142,33 @@ public class OcaGameController {
 	public ModelAndView showGame(@PathVariable("ocaGameId") int ocaGameId, HttpServletResponse response,@AuthenticationPrincipal Authentication user) {
 		response.addHeader("Refresh", "2");
 		ModelAndView mav = new ModelAndView("ocaGames/ocaGameDetails");
+		OcaBoard ocaBoard = this.ocaBoardService.findById(ocaGameId).get();
 		OcaTurn turn = this.ocaTurnService.findTurnById(ocaGameId);
-		OcaPiece piece = new OcaPiece();
+		OcaPiece piece = null;
 		String username = user.getName();
 		Player currentPlayer = playerService.findPlayerByUsername(username).iterator().next();
+		
 		List<Player> players = turn.getPlayers();
 		if(!(players.contains(currentPlayer))) {		
 			players.add(currentPlayer);
+			piece = new OcaPiece();
 			if(currentPlayer==turn.getPlayers().get(0)) {
 				turn.setPlayer(currentPlayer);
 				this.ocaTurnService.save(turn);
 			}
 			piece.setPlayer(currentPlayer);
+			piece.setBoard(ocaBoard);
 			this.ocaPieceService.save(piece);
-		}
-		piece.setPlayer(currentPlayer);
+		} else {
+			piece = this.ocaPieceService.findByPlayerId(currentPlayer.getId());
+		} 
+		
 		this.ocaPieceService.save(piece);
-		OcaPiece piece_2=this.ocaPieceService.findByPlayerId(currentPlayer.getId());
-		if(piece_2!=null) {
-			piece = piece_2;
-		}
+
 		mav.addObject(piece);
 		mav.addObject(currentPlayer);
 		mav.addObject(turn);
-		mav.addObject("ocaBoard", this.ocaBoardService.findById(ocaGameId).get());
+		mav.addObject("ocaBoard", ocaBoard);
 		mav.addObject(this.ocaGameService.findGameById(ocaGameId));
 		mav.addObject(this.ocaBoardService.findById(ocaGameId));
 		return mav;

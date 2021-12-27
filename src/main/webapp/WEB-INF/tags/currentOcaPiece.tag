@@ -5,6 +5,6 @@
  <script>
  var canvas = document.getElementById("canvas");
  var ctx = canvas.getContext("2d");
- var image = document.getElementById('green-ParchisPiece');
+ var image = document.getElementById('redPiece');
  ctx.drawImage(image,${piece.getPositionX(piece)},${piece.getPositionY(piece)},${size},${size}+20);
  </script>

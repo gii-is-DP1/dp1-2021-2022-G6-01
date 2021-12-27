@@ -36,5 +36,14 @@ public class OcaBoard extends BaseEntity {
     }
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "board",fetch = FetchType.EAGER)
-    List<OcaPiece> pieces; 
+    List<OcaPiece> pieces;
+
+	@Override
+	public String toString() {
+		return "OcaBoard [background=" + background + ", width=" + width + ", height=" + height + ", pieces=" + pieces
+				+ ", id=" + id + "]";
+	} 
+    
+    
+    
 }

@@ -77,15 +77,16 @@ public class Player extends Person {
 		return user;
 	}
 
-	@Override
-	public String toString() {
-		return "Player [description=" + description + ", points=" + points + ", user=" + user + "]";
-	}
-
 	public void setUser(User user) {
 		this.user = user;
 	}
 	
+	@Override
+	public String toString() {
+		return "Player [pieces=" + pieces + ", description=" + description + ", points=" + points + ", user=" + user
+				+ ", id=" + id + "]";
+	}
+
 	public String getDescription() {
 		return description;
 	}

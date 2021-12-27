@@ -5,7 +5,7 @@
  <script>
  var canvas = document.getElementById("canvas");
  var ctx = canvas.getContext("2d");
- var image = document.getElementById('redPiece');
+ var image = document.getElementById('${parchisPiece.getColorName(parchisPiece)}-ParchisPiece');
  
  var posX = ${parchisPiece.getPositionX(parchisPiece)};
  var posY = ${parchisPiece.getPositionY(parchisPiece)};

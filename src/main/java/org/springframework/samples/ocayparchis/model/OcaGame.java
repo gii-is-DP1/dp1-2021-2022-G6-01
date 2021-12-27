@@ -22,6 +22,8 @@ public class OcaGame extends NamedEntity {
 	
 	private Boolean inGame;
 	
+	private Boolean finished;
+	
 	@PlayersNumberConstraint
 	private Integer players;
 

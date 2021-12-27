@@ -169,6 +169,24 @@ public class ParchisPiece extends BaseEntity{
 	}
 	
 
+	public static String getColorName(ParchisPiece piece) {
+		
+		String colorName = "";
+		
+        if(piece.getColor()==Color.BLUE) {
+            colorName = "blue";
+        }else if(piece.getColor()==Color.GREEN) {
+        	colorName = "green";
+        }else if(piece.getColor()==Color.YELLOW) {
+        	colorName = "yellow";
+        }else {
+        	colorName = "red";
+        }
+		
+        return colorName;
+	}
+	
+	
 	public Integer posicionActual() {
         return square.getPosition();
     }

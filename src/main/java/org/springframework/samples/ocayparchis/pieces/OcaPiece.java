@@ -48,6 +48,9 @@ public class OcaPiece extends BaseEntity{
 	}
 	
 	
+	
+	
+	
 	static final List<Integer> listPositionX = getListX();
 	static final List<Integer> listPositionY = getListY();	
 	
@@ -103,6 +106,12 @@ public class OcaPiece extends BaseEntity{
         }
 		
 		return list;
+	}
+
+	@Override
+	public String toString() {
+		return "OcaPiece [id=" + id + ", position=" + position + ", board=" + board + ", player=" + player + ", penalization="
+				+ penalization + "]";
 	}
 
 	
