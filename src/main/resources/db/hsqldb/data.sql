@@ -13,3 +13,9 @@ INSERT INTO oca_game(id,name,players,reward,in_game) VALUES ('1','LopezGame','2'
 INSERT INTO oca_board(id,background,width,height) VALUES ('1','',800,800);
 INSERT INTO oca_turn(id,dice,player_id,turn,i) VALUES ('1','0',1,'1','0');
 INSERT INTO oca_piece(id,player_id,board_id,position,penalization) VALUES('1',1,1,4,0);
+
+INSERT INTO parchis_board(id,background,width,height) VALUES ('1','',800,800);
+INSERT INTO square(id,color,position,board_id) VALUES (104,0,104,1);
+INSERT INTO parchis_piece(id,color,player_id,can_move,board_id,in_start,square_id) VALUES (1,0,1,true,1,true,104);
+INSERT INTO parchis_game(id,name,players,reward,in_game) VALUES ('1','LopezGame','2','10',false);
+INSERT INTO parchis_turn(id,dice1,dice2,dices_available,is_throwed,player_id,turn,i,repeat_turn) VALUES (1,0,0,0,true,1,0,1,false);

@@ -30,8 +30,8 @@ public class OcaPieceService {
 		return ocaPieceRepo.findById(id).get();
 	}
 	@Transactional
-	public void save(OcaPiece piece){
-		ocaPieceRepo.save(piece);
+	public OcaPiece save(OcaPiece piece){
+		return ocaPieceRepo.save(piece);
 	}
 	
 	@Transactional

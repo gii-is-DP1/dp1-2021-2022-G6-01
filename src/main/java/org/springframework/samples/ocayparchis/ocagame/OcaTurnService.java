@@ -28,8 +28,8 @@ public class OcaTurnService {
 		return ocaTurnRepo.findById(id).get();
 	}
 	@Transactional
-	public void save(OcaTurn turn){
-		ocaTurnRepo.save(turn);
+	public OcaTurn save(OcaTurn turn){
+		return ocaTurnRepo.save(turn);
 	}
 	@Transactional
 	public void delete(OcaTurn turn) {

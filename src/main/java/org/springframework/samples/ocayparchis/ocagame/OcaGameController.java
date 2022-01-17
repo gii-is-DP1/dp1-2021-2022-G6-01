@@ -57,6 +57,7 @@ public class OcaGameController {
 		this.ocaTurnService = ocaTurnService;
 		this.ocaPieceService = ocaPieceService;
 	}
+	
 	@GetMapping()
 	public String gameList(ModelMap modelMap){
 		String vista = "ocaGames/gameList";
@@ -89,8 +90,8 @@ public class OcaGameController {
 		this.ocaGameService.delete(game);
 		this.ocaTurnService.delete(turn);
 		return "redirect:/";
-		
 	}
+	
 	@GetMapping(path="/new")
 	public String createGame(ModelMap modelMap){
 		String view = "ocaGames/editGame";
@@ -98,6 +99,7 @@ public class OcaGameController {
 		return view;
 		
 	}
+	
 	@PostMapping(path="/save")
 	public String saveGame(@Valid OcaGame game, BindingResult result,ModelMap modelMap){
 		
