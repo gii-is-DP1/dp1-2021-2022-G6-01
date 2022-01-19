@@ -88,7 +88,7 @@ public class ParchisPiece extends BaseEntity{
     }
 	@Override
 	public String toString() {
-		return name+":"+square.getPosition()+" "+ id;
+		return name;
 	}
 	
 }

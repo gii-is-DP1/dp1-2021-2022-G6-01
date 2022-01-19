@@ -141,14 +141,5 @@ class OcaTurnControllerTests {
 
 			}
 
-//	@Test
-//	void shouldModifyTurnAttributes() {
-//		mockMvc.perform(get("/ocaTurn"+"/"+TEST_GAME_ID+"/"+TEST_PLAYER_ID));
-//		OcaTurn turn = this.ocaTurnService.findTurnById(TEST_TURN_ID);
-//		assertThat(!turn.getDice().equals(0));
-//		assertThat(turn.getTurn().equals(4));
-//		assertThat(turn.getI().equals(1));
-//	}
-
 
 }

@@ -180,26 +180,6 @@ class OcaGameControllerTest {
 	    	.andExpect(status().isOk())
 	    	.andExpect(model().attributeHasErrors("ocaGame"))
 	    	.andExpect(view().name("ocaGames/editGame"));
-	    }
-	
-//	    @WithMockUser(value = "spring", authorities = {"admin"})
-//	    @Test
-//		void testShowGame() throws Exception {
-//			mockMvc.perform(get("/ocaGames/{ocaGameId}",1)).andExpect(status().isOk())
-//					.andExpect(view().name("ocaGames/ocaGameDetails"))
-//	                .andExpect(model().attributeExists("ocaGame"));
-//		}
-//	    
-	    
-
-//	    @WithMockUser(value = "spring", authorities = {"admin"})
-//	    @Test
-//		void testDeleteGame() throws Exception {
-//			mockMvc.perform(get("/ocaGames/delete/1").with(csrf())).andExpect(status().isOk())
-//					.andExpect(view().name("redirect:/"));
-//			assertNull(this.ocaGameService.findGameById(1));
-//		}
-//	    
-	    
+	    } 
 }
 

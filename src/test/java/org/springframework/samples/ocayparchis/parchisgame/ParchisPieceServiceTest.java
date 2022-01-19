@@ -35,6 +35,7 @@ public class ParchisPieceServiceTest {
 		void shouldFindPieceAttributes() {
 			ParchisPiece piece = this.parchisPieceService.findPieceById(1);
 			assertThat(piece.getBoard().getId().equals(1));
+			assertThat(piece.getName().equals("Ficha 1"));
 			assertThat(piece.getPlayer().getId().equals(1));
 			assertThat(piece.getCanMove().equals(true));
 			assertThat(piece.getColor().equals(Color.RED));
@@ -55,6 +56,14 @@ public class ParchisPieceServiceTest {
 			assertEquals(1,((Collection<ParchisPiece>) pieces).size());
 		}
 
+		@Test
+		void shouldFindPlayerById() {
+			Collection<ParchisPiece> piece = this.parchisPieceService.findByPlayerId(1);
+			ParchisPiece p = piece.iterator().next();
+			assertThat(p.getInStart().equals(true));
+		}
+
+		
 		
 		@Test
 		@Transactional
@@ -62,12 +71,15 @@ public class ParchisPieceServiceTest {
 			ParchisPiece piece= new ParchisPiece();
 			ParchisBoard board = new ParchisBoard();
 			Player player = new Player();
+			Square square = new Square();
+			square.setId(108);
 			piece.setId(2);
 	        piece.setCanMove(true);
 	        piece.setName("prueba");
 	        piece.setBoard(board);
 	        piece.setPlayer(player);
-			this.parchisPieceService.save(piece);
+	        piece.setSquare(square);      
+	        this.parchisPieceService.save(piece);
 			assertThat(piece.getId().longValue()).isNotEqualTo(0);
 		
 		}
@@ -85,5 +97,51 @@ public class ParchisPieceServiceTest {
 		}
 
 	
-	
+		@Test
+		@Transactional
+		public void shouldTestToString() {
+			ParchisPiece piece= new ParchisPiece();
+			Square square = new Square();
+			square.setId(108);
+			square.setPosition(108);
+			piece.setId(2);
+	        piece.setCanMove(true);
+	        piece.setName("prueba");
+	        piece.setSquare(square);      
+			
+	        assertThat(piece.posicionActual().equals(square.getPosition()));
+			assertThat(piece.toString().equals("prueba:108 108"));
+
+		}
+
+		
+		@Test
+		@Transactional
+		public void shouldTestCasillaCasaAndCasillaSalida() {
+			ParchisPiece piece= new ParchisPiece();
+			Square square = new Square();
+			square.setId(108);
+			square.setPosition(108);
+			piece.setId(2);
+	        piece.setCanMove(true);
+	        piece.setName("prueba");
+	        piece.setSquare(square);      
+			
+			piece.setColor(Color.BLUE);
+			assertThat(piece.casillaCasa().equals(101));
+			assertThat(piece.casillaSalida().equals(22));
+			piece.setColor(Color.GREEN);
+			assertThat(piece.casillaCasa().equals(101));
+			assertThat(piece.casillaSalida().equals(56));
+			piece.setColor(Color.YELLOW);
+			assertThat(piece.casillaCasa().equals(101));
+			assertThat(piece.casillaSalida().equals(5));
+			piece.setColor(Color.RED);
+			assertThat(piece.casillaCasa().equals(101));
+			assertThat(piece.casillaSalida().equals(39));
+		
+			
+		}
+
+		
 }

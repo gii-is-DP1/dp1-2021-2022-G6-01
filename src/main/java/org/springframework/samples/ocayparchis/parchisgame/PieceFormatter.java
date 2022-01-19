@@ -23,7 +23,7 @@ public class PieceFormatter implements Formatter<ParchisPiece> {
 
 	@Override
 	public String print(ParchisPiece piece, Locale locale) {
-		return piece.getName()+":"+piece.getSquare().getPosition()+" "+piece.getId();
+		return piece.getName();
 	}
 
 	@Override

@@ -32,8 +32,8 @@ public class OcaGameService {
 		return ocaGameRepo.findById(id).get();
 	}
 	@Transactional
-	public OcaGame save(OcaGame game){
-		return ocaGameRepo.save(game);
+	public void save(OcaGame game){
+		ocaGameRepo.save(game);
 	}
 	
 	@Transactional

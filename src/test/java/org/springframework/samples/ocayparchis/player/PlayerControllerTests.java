@@ -123,5 +123,4 @@ class PlayerControllerTests {
         mockMvc.perform(get("/players/6")).andExpect(status().isOk()).andExpect(view().name("players/playerDetails"));
     }
 
-
 }

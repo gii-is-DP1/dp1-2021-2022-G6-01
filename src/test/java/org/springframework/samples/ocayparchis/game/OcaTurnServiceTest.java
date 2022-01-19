@@ -2,6 +2,7 @@ package org.springframework.samples.ocayparchis.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,7 +35,7 @@ public class OcaTurnServiceTest {
 		@Test
 		void shouldFindTurnAttributes() {
 			OcaTurn turn = this.ocaTurnService.findTurnById(1);
-			assertThat(turn.getTurn().equals(1));
+			assertThat(turn.getTurn().equals(0));
 			assertThat(turn.getDice().equals(0));
 			assertThat(turn.getI().equals(0));
 			assertThat(turn.getPlayer().getId().equals(1));
@@ -77,6 +78,38 @@ public class OcaTurnServiceTest {
 			assertThat(!turn.getI().equals(2));
 		}
 
+		@Test
+		@Transactional
+		public void nextTurn() {
+			OcaTurn turn = this.ocaTurnService.findTurnById(1);
+			Player player1 = new Player();
+			player1.setId(2);
+			turn.getPlayers().add(this.playerService.findPlayerById(1));
+			turn.getPlayers().add(player1);
+			for(int i = 0; i<=turn.getPlayers().size();i++) {
+				assertEquals(i, turn.getTurn());
+				if(i==2) {
+					assertEquals(0, turn.getI());
+					assertEquals(turn.getPlayers().get(0), turn.getPlayer());
+				}else {
+					assertEquals(i,turn.getI());
+					assertEquals(turn.getPlayers().get(i), turn.getPlayer());
+				}
+				
+				turn.nextTurn();
+				}
+		}
+		
+		@Test
+		@Transactional
+		public void throwDice() {
+			OcaTurn turn = this.ocaTurnService.findTurnById(1);
+			Integer notValidDiceNumber = 8;
+			turn.setDice(notValidDiceNumber);
+			turn.throwDice();
+			assertNotEquals(notValidDiceNumber, turn.getDice());
+			assertThat(turn.getDice()<=6&&turn.getDice()>=1);
+		}
 	
 	
 }
