@@ -89,7 +89,7 @@ class PlayerControllerTests {
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/players/new").param("first_name", "Mario").param("last_name", "Rey").with(csrf())
 				.param("description", "me gusta mucho el cadiz"))
-				.andExpect(status().is2xxSuccessful());
+				.andExpect(status().isOk());
 	}
 //
 	@WithMockUser(value = "spring")

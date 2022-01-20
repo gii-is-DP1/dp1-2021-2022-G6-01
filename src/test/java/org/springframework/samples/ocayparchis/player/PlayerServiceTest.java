@@ -2,14 +2,18 @@ package org.springframework.samples.ocayparchis.player;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.ocayparchis.pieces.ParchisPiece;
 import org.springframework.samples.ocayparchis.user.User;
 import org.springframework.samples.ocayparchis.user.UserService;
 import org.springframework.stereotype.Service;
@@ -190,6 +194,26 @@ class PlayerServiceTest {
 			playerService.savePlayer(player);
 		});		
 	}
-
+	
+	@Test
+	@Transactional
+	public void PiecesTest() {
+		ParchisPiece piece = new ParchisPiece();
+		Player player = new Player();
+		User user = new User();
+		user.setUsername("1");
+		user.setPassword("1");
+		user.setEnabled(true);
+		player.setUser(user);
+		player.setLastName("1");
+		player.setFirstName("1");
+		player.setPieces(new ArrayList<ParchisPiece>());
+		assertEquals(0,player.getPieces().size());
+		player.addPiece(piece);
+		assertEquals(1, player.getPieces().size());
+		List<ParchisPiece> pieces = new ArrayList<ParchisPiece>();
+		player.setPieces(pieces);
+		assertEquals(0, player.getPieces().size());
+	}
 
 }

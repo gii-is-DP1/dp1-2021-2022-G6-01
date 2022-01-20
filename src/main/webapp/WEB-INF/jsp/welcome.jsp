@@ -38,7 +38,7 @@
 				<div class="card">
 
 					<div class="inner">
-						<a href="/games"><img class="card-img-top"
+						<a href="/parchisGames"><img class="card-img-top"
 							src="resources/images/tablero_parchis.png" alt="Dubai"></a>
 					</div>
 

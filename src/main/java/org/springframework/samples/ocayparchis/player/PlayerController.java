@@ -77,7 +77,7 @@ public class PlayerController {
 			//creating player, user and authorities
 			this.playerService.savePlayer(player);
 			
-			return "redirect:/players/" + player.getId();
+			return "redirect:/";
 		}
 	}
 
